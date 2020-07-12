@@ -24,9 +24,9 @@ private import abagames.util.sdl.sdlexception;
 public class Screen3D: Screen {
  public:
   static float brightness = 1;
-  static int width = 640;
-  static int height = 480;
-  static bool windowMode = false;
+  static int width = 800;
+  static int height = 600;
+  static bool windowMode = true;
   static float nearPlane = 0.1;
   static float farPlane = 1000;
  private:

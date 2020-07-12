@@ -8,6 +8,8 @@ tt.dylib
 tt.dll
 tt.a
 tt.lib
+tt.prf
+replay/
 tt-test-*
 *.exe
 *.o

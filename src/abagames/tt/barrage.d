@@ -107,7 +107,7 @@ public class BarrageManager {
   }
 
   public static BulletMLParserTinyXML* getInstance(string dirName, string fileName) {
-    if (!parser[dirName][fileName]) {
+    if (!(dirName in parser) || !(fileName in parser[dirName])) {
       string barrageName = dirName ~ "/" ~ fileName;
       Logger.info("Load BulletML: " ~ barrageName);
       parser[dirName][fileName] = 
@@ -119,8 +119,10 @@ public class BarrageManager {
 
   public static BulletMLParserTinyXML*[] getInstanceList(string dirName) {
     BulletMLParserTinyXML*[] pl;
-    foreach (BulletMLParserTinyXML *p; parser[dirName]) {
-      pl ~= p;
+    if (dirName in parser) {
+      foreach (BulletMLParserTinyXML *p; parser[dirName]) {
+        pl ~= p;
+      }
     }
     return pl;
   }
