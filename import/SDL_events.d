@@ -271,7 +271,7 @@ int SDL_PushEvent(SDL_Event *event);
 
   The filter is protypted as:
 */
-alias int (*SDL_EventFilter)(SDL_Event *event);
+alias int function(SDL_Event *event) SDL_EventFilter;
 /*
   If the filter returns 1, then the event will be added to the internal queue.
   If it returns 0, then the event will be dropped from the queue, but the 

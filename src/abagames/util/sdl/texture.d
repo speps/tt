@@ -8,6 +8,7 @@ module abagames.util.sdl.texture;
 private import std.string;
 private import opengl;
 private import SDL;
+private import SDL_video;
 private import abagames.util.sdl.sdlexception;
 
 /**
@@ -15,12 +16,12 @@ private import abagames.util.sdl.sdlexception;
  */
 public class Texture {
  public:
-  static char[] imagesDir = "images/";
+  static string imagesDir = "images/";
  private:
   GLuint num;
 
-  public this(char[] name) {
-    char[] fileName = imagesDir ~ name;
+  public this(string name) {
+    string fileName = imagesDir ~ name;
     SDL_Surface *surface;
     surface = SDL_LoadBMP(std.string.toStringz(fileName));
     if (!surface)

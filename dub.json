@@ -1,0 +1,28 @@
+{
+	"authors": [
+		"Kenta Cho",
+		"Remi Gillig"
+	],
+	"copyright": "Copyright © 2004 - Kenta Cho, 2020 - Remi Gillig",
+	"dependencies": {
+		"undead": "~>1.1.1"
+	},
+	"description": "Torus Trooper (Reboot)",
+	"license": "BSD 2-clause",
+	"name": "tt",
+	"targetType": "executable",
+	"sourcePaths": [
+		"src",
+		"import"
+	],
+	"importPaths": [
+		"lib"
+	],
+	"libs": [
+		"lib/bulletml",
+		"lib/opengl32",
+		"lib/glu32",
+		"lib/SDL",
+		"lib/SDL_mixer"
+	]
+}

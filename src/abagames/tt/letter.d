@@ -94,7 +94,7 @@ public class Letter {
     return idx;
   }
 
-  public static void drawString(char[] str, float lx, float y, float s,
+  public static void drawString(string str, float lx, float y, float s,
                                 int d = Direction.TO_RIGHT, int cl = 0,
                                 bool rev = false, float od = 0) {
     lx += LETTER_WIDTH * s / 2;
@@ -102,7 +102,7 @@ public class Letter {
     float x = lx;
     int idx;
     float ld;
-    switch (d) {
+    final switch (d) {
     case Direction.TO_RIGHT:
       ld = 0;
       break;
@@ -126,7 +126,7 @@ public class Letter {
           drawLetter(idx, x, y, s, ld, cl);
       }
       if (od == 0) {
-        switch(d) {
+        final switch(d) {
         case Direction.TO_RIGHT:
           x += s * LETTER_WIDTH;
           break;
@@ -154,7 +154,7 @@ public class Letter {
     int n = num;
     float x = lx;
     float ld;
-    switch (d) {
+    final switch (d) {
     case Direction.TO_RIGHT:
       ld = 0;
       break;
@@ -171,7 +171,7 @@ public class Letter {
     int digit = dg;
     for (;;) {
       drawLetter(n % 10, x, y, s, ld, cl);
-      switch(d) {
+      final switch(d) {
       case Direction.TO_RIGHT:
         x -= s * LETTER_WIDTH;
         break;

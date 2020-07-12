@@ -16,7 +16,7 @@ private import abagames.util.sdl.luminous;
  */
 public class Screen: Screen3D {
  public:
-  static const char[] CAPTION = "Torus Trooper";
+  static const string CAPTION = "Torus Trooper";
   static float luminous = 0;
  private:
   LuminousScreen luminousScreen;
@@ -65,7 +65,7 @@ public class Screen: Screen3D {
       luminousScreen.draw();
   }
 
-  public void resized(int width, int height) {
+  public override void resized(int width, int height) {
     if (luminousScreen)
       luminousScreen.resized(width, height);
     super.resized(width, height);

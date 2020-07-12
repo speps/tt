@@ -8,6 +8,9 @@ module abagames.tt.gamemanager;
 private import std.math;
 private import opengl;
 private import SDL;
+private import SDL_events;
+private import SDL_Keysym;
+private import SDL_types;
 private import bulletml;
 private import abagames.util.vector;
 private import abagames.util.rand;
@@ -156,13 +159,13 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
   private void saveLastReplay() {
     try {
       inGameState.saveReplay("last.rpl");
-    } catch (Object o) {}
+    } catch (Throwable) {}
   }
 
   private void loadLastReplay() {
     try {
       inGameState.loadReplay("last.rpl");
-    } catch (Object o) {
+    } catch (Throwable) {
       inGameState.resetReplay();
     }
   }
@@ -268,13 +271,13 @@ public class InGameState: GameState {
   static const int DEFAULT_TIME = 120000;
   static const int MAX_TIME = 120000;
   static const int SHIP_DESTROYED_PENALTY_TIME = -15000;
-  static const char[] SHIP_DESTROYED_PENALTY_TIME_MSG = "-15 SEC.";
+  static const string SHIP_DESTROYED_PENALTY_TIME_MSG = "-15 SEC.";
   static const int EXTEND_TIME = 15000;
-  static const char[] EXTEND_TIME_MSG = "+15 SEC.";
+  static const string EXTEND_TIME_MSG = "+15 SEC.";
   static const int NEXT_ZONE_ADDITION_TIME = 30000;
-  static const char[] NEXT_ZONE_ADDITION_TIME_MSG = "+30 SEC.";
+  static const string NEXT_ZONE_ADDITION_TIME_MSG = "+30 SEC.";
   static const int NEXT_LEVEL_ADDITION_TIME = 45000;
-  static const char[] NEXT_LEVEL_ADDITION_TIME_MSG = "+45 SEC.";
+  static const string NEXT_LEVEL_ADDITION_TIME_MSG = "+45 SEC.";
   static const int BEEP_START_TIME = 15000;
   Pad pad;
   PrefManager prefManager;
@@ -284,7 +287,7 @@ public class InGameState: GameState {
   int time;
   int nextBeepTime;
   int startBgmCnt;
-  char[] timeChangedMsg;
+  string timeChangedMsg;
   int timeChangedShowCnt;
   int gameOverCnt;
   bool btnPressed;
@@ -486,7 +489,7 @@ public class InGameState: GameState {
   }
 
   private void setNextExtend() {
-    float es = (cast(int) (stageManager.level * 0.5) + 10) * DEFAULT_EXTEND_SCORE / 10;
+    int es = (cast(int) (stageManager.level * 0.5) + 10) * DEFAULT_EXTEND_SCORE / 10;
     if (es > MAX_EXTEND_SCORE)
       es = MAX_EXTEND_SCORE;
     nextExtend += es;
@@ -497,7 +500,7 @@ public class InGameState: GameState {
     SoundManager.playSe("extend.wav");
   }
 
-  private void changeTime(int ct, char[] msg) {
+  private void changeTime(int ct, string msg) {
     time += ct;
     if (time > MAX_TIME)
       time = MAX_TIME;
@@ -508,11 +511,11 @@ public class InGameState: GameState {
     timeChangedMsg = msg;
   }
 
-  public void saveReplay(char[] fileName) {
+  public void saveReplay(string fileName) {
     _replayData.save(fileName);
   }
 
-  public void loadReplay(char[] fileName) {
+  public void loadReplay(string fileName) {
     _replayData = new ReplayData;
     _replayData.load(fileName);
   }

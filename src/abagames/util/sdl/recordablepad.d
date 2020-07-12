@@ -5,7 +5,7 @@
  */
 module abagames.util.sdl.recordablepad;
 
-private import std.stream;
+private import undead.stream;
 private import abagames.util.iterator;
 private import abagames.util.sdl.pad;
 

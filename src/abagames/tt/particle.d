@@ -42,11 +42,10 @@ public class Particle: LuminousActor {
   float d1, d2, md1, md2;
   float width, height;
 
-  public static this() {
-    rand = new Rand;
-  }
-
   public static void setRandSeed(long seed) {
+    if (!rand) {
+      rand = new Rand;
+    }
     rand.setSeed(seed);
   }
 
@@ -166,7 +165,7 @@ public class Particle: LuminousActor {
   }
 
   public override void draw() {
-    switch (type) {
+    final switch (type) {
     case PType.SPARK:
     case PType.JET:
       drawSpark();

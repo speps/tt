@@ -6,6 +6,7 @@
 module abagames.util.sdl.input;
 
 private import SDL;
+private import SDL_events;
 
 /**
  * Input device interface.

@@ -21,7 +21,6 @@
 */
 
 import SDL_types;
-import SDL_getenv;
 import SDL_error;
 import SDL_rwops;
 import SDL_timer;

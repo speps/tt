@@ -5,6 +5,7 @@
  */
 module abagames.util.vector;
 
+private import std.conv;
 private import std.math;
 private import std.string;
 
@@ -25,7 +26,7 @@ public class Vector {
     this.y = y;
   }
 
-  public float opMul(Vector v) {
+  public float opBinary(string op)(Vector v) if (op == "*") {
     return x * v.x + y * v.y;
   }
 
@@ -42,24 +43,14 @@ public class Vector {
     return rsl;
   }
 
-  public void opAddAssign(Vector v) {
-    x += v.x;
-    y += v.y;
+  public void opOpAssign(string op)(Vector v) if (op == "+" || op == "-") {
+    mixin("x" ~ op ~ "=v.x;");
+    mixin("y" ~ op ~ "=v.y;");
   }
 
-  public void opSubAssign(Vector v) {
-    x -= v.x;
-    y -= v.y;
-  }
-
-  public void opMulAssign(float a) {	
-    x *= a;
-    y *= a;
-  }
-
-  public void opDivAssign(float a) {	
-    x /= a;
-    y /= a;
+  public void opOpAssign(string op)(float a) if (op == "*" || op == "/") {
+    mixin("x" ~ op ~ "=a;");
+    mixin("y" ~ op ~ "=a;");
   }
 
   public float checkSide(Vector pos1, Vector pos2) {
@@ -197,8 +188,8 @@ public class Vector {
       return false;
   }*/
 
-  public char[] toString() {
-    return "(" ~ std.string.toString(x) ~ ", " ~ std.string.toString(y) ~ ")";
+  public override string toString() {
+    return "(" ~ to!string(x) ~ ", " ~ to!string(y) ~ ")";
   }
 }
 
@@ -240,27 +231,15 @@ public class Vector3 {
     z = v1.z * ratio + v2.z * (1 - ratio);
   }
 
-  public void opAddAssign(Vector3 v) {
-    x += v.x;
-    y += v.y;
-    z += v.z;
+  public void opOpAssign(string op)(Vector3 v) if (op == "+" || op == "-") {
+    mixin("x" ~ op ~ "=v.x;");
+    mixin("y" ~ op ~ "=v.y;");
+    mixin("z" ~ op ~ "=v.z;");
   }
 
-  public void opSubAssign(Vector3 v) {
-    x -= v.x;
-    y -= v.y;
-    z -= v.z;
-  }
-
-  public void opMulAssign(float a) {	
-    x *= a;
-    y *= a;
-    z *= a;
-  }
-
-  public void opDivAssign(float a) {	
-    x /= a;
-    y /= a;
-    z /= a;
+  public void opOpAssign(string op)(float a) if (op == "*" || op == "/") {
+    mixin("x" ~ op ~ "=a;");
+    mixin("y" ~ op ~ "=a;");
+    mixin("z" ~ op ~ "=a;");
   }
 }

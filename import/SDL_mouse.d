@@ -32,7 +32,7 @@ struct SDL_Cursor {
 	Sint16 hot_x, hot_y;		/* The "tip" of the cursor */
 	Uint8 *data;			/* B/W cursor data */
 	Uint8 *mask;			/* B/W cursor mask */
-	Uint8 *save[2];			/* Place to save cursor area */
+	Uint8 *[2]save;			/* Place to save cursor area */
 	void /*WMcursor*/ *wm_cursor;		/* Window-manager cursor */
 }
 

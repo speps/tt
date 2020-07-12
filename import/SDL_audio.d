@@ -20,6 +20,7 @@
     slouken@devolution.com
 */
 
+import std.string;
 import SDL_types;
 import SDL_error;
 import SDL_rwops;
@@ -42,7 +43,7 @@ struct SDL_AudioSpec {
 	   Once the callback returns, the buffer will no longer be valid.
 	   Stereo samples are stored in a LRLRLR ordering.
 	*/
-	void (*callback)(void *userdata, Uint8 *stream, int len);
+	void function(void *userdata, Uint8 *stream, int len) callback;
 	void  *userdata;
 }
 
@@ -74,7 +75,7 @@ struct SDL_AudioCVT {
 	int    len_cvt;			/* Length of converted audio buffer */
 	int    len_mult;		/* buffer must be len*len_mult big */
 	double len_ratio; 	/* Given len, final size is len*len_ratio */
-	void (*filters[10])(SDL_AudioCVT *cvt, Uint16 format);
+	void function(SDL_AudioCVT *cvt, Uint16 format)[10] filters;
 	int filter_index;		/* Current audio conversion function */
 }
 
@@ -181,7 +182,7 @@ SDL_AudioSpec *SDL_LoadWAV_RW(SDL_RWops *src, int freesrc,
 SDL_AudioSpec *SDL_LoadWAV(char* file, SDL_AudioSpec* spec,
 		Uint8 **audio_buf, Uint32 *audio_len)
 {		
-	return SDL_LoadWAV_RW(SDL_RWFromFile(file, "rb"), 1, spec,
+	return SDL_LoadWAV_RW(SDL_RWFromFile(file, std.string.toStringz("rb")), 1, spec,
 		audio_buf, audio_len);
 }
 

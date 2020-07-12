@@ -36,8 +36,8 @@ public class Ship: BulletTarget {
     NORMAL, HARD, EXTREME,
   };
   static const int GRADE_NUM = 3;
-  static const char[][] GRADE_LETTER = ["N", "H", "E"];
-  static const char[][] GRADE_STR = ["NORMAL", "HARD", "EXTREME"];
+  static const string[] GRADE_LETTER = ["N", "H", "E"];
+  static const string[] GRADE_STR = ["NORMAL", "HARD", "EXTREME"];
   static bool replayMode, cameraMode, drawFrontMode;
   bool isGameOver;
  private:
@@ -114,8 +114,8 @@ public class Ship: BulletTarget {
     starPos = new Vector;
     pos3 = new Vector3;
     epos = new Vector3;
-    _shape = new ShipShape(1);
-    shape.create(ShipShape.Type.SMALL);
+    _shape = new ShipShape();
+    shape.create(1, ShipShape.Type.SMALL);
     gunpointPos = new Vector;
     camera = new Camera(this);
     drawFrontMode = true;
@@ -134,7 +134,7 @@ public class Ship: BulletTarget {
     this.gameState = gameState;
   }
 
-  public void start(int grd, int seed) {
+  public void start(int grd, long seed) {
     rand.setSeed(seed);
     grade = grd;
     tunnelOfs = 0;

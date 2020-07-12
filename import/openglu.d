@@ -1,11 +1,6 @@
 import opengl;
 
-version (Win32) {
-	extern(Windows):
-}
-version (linux) {
-	extern(C):
-}
+extern(Windows):
 
 GLubyte* gluErrorString (
     GLenum   errCode);
@@ -162,7 +157,7 @@ void gluSphere (
 void gluQuadricCallback (
     GLUquadric          *qobj, 
     GLenum              which, 
-    void                (* fn)());
+    void                function() fn);
 
 GLUtesselator*  gluNewTess(          
     );
@@ -202,7 +197,7 @@ void  gluTessNormal(
 void  gluTessCallback(     
     GLUtesselator       *tess,
     GLenum              which, 
-    void                ( *fn)());
+    void                function() fn);
 
 void  gluGetTessProperty(  
     GLUtesselator       *tess,
@@ -285,37 +280,37 @@ void
 gluNurbsCallback (
     GLUnurbs            *nobj, 
     GLenum              which, 
-    void                (* fn)() );
+    void                function() fn );
 
 
 /****            function prototypes    ****/
 
 /* gluQuadricCallback */
-typedef void (* GLUquadricErrorProc) (GLenum);
+alias void function (GLenum) GLUquadricErrorProc;
 
 /* gluTessCallback */
-typedef void (* GLUtessBeginProc)        (GLenum);
-typedef void (* GLUtessEdgeFlagProc)     (GLboolean);
-typedef void (* GLUtessVertexProc)       (void *);
-typedef void (* GLUtessEndProc)          ();
-typedef void (* GLUtessErrorProc)        (GLenum);
-typedef void (* GLUtessCombineProc)      (GLdouble[3],
+alias void function        (GLenum) GLUtessBeginProc;
+alias void function     (GLboolean) GLUtessEdgeFlagProc;
+alias void function       (void *) GLUtessVertexProc;
+alias void function          () GLUtessEndProc;
+alias void function        (GLenum) GLUtessErrorProc;
+alias void function      (GLdouble[3],
                                                   void*[4], 
                                                   GLfloat[4],
-                                                  void** );
-typedef void (* GLUtessBeginDataProc)    (GLenum, void *);
-typedef void (* GLUtessEdgeFlagDataProc) (GLboolean, void *);
-typedef void (* GLUtessVertexDataProc)   (void *, void *);
-typedef void (* GLUtessEndDataProc)      (void *);
-typedef void (* GLUtessErrorDataProc)    (GLenum, void *);
-typedef void (* GLUtessCombineDataProc)  (GLdouble[3],
+                                                  void** ) GLUtessCombineProc;
+alias void function    (GLenum, void *) GLUtessBeginDataProc;
+alias void function (GLboolean, void *) GLUtessEdgeFlagDataProc;
+alias void function   (void *, void *) GLUtessVertexDataProc;
+alias void function      (void *) GLUtessEndDataProc;
+alias void function    (GLenum, void *) GLUtessErrorDataProc;
+alias void function  (GLdouble[3],
                                                   void*[4], 
                                                   GLfloat[4],
                                                   void**,
-                                                  void* );
+                                                  void* ) GLUtessCombineDataProc;
 
 /* gluNurbsCallback */
-typedef void (* GLUnurbsErrorProc)   (GLenum);
+alias void function   (GLenum) GLUnurbsErrorProc;
 
 
 /****           Generic constants               ****/

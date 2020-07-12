@@ -273,7 +273,7 @@ public class TitleManager {
     drawCursorRing(cx, cy, 18 + sin(cnt * 0.1f) * 3);
   }
 
-  private void calcCursorPos(inout float x, inout float y, int gd, int lv) {
+  private void calcCursorPos(ref float x, ref float y, int gd, int lv) {
     x = 460 + gd * 70;
     y = 90;
     if (lv > 1) {

@@ -24,7 +24,13 @@
 
 /* $Id: SDL_mixer.d,v 1.1.1.1 2004/11/10 13:45:22 kenta Exp $ */
 
+import std.string;
 import SDL;
+import SDL_audio;
+import SDL_error;
+import SDL_rwops;
+import SDL_types;
+import SDL_Version;
 
 extern (C) {
 
@@ -104,10 +110,10 @@ extern (C) {
 
 /* Load a wave file or a music (.mod .s3m .it .xm) file */
 	Mix_Chunk * Mix_LoadWAV_RW(SDL_RWops *src, int freesrc);
-	Mix_Chunk * Mix_LoadWAV(char *file) {
-		return Mix_LoadWAV_RW(SDL_RWFromFile(file, "rb"), 1);
+	Mix_Chunk * Mix_LoadWAV(const char *file) {
+		return Mix_LoadWAV_RW(SDL_RWFromFile(file, std.string.toStringz("rb")), 1);
 	}
-	Mix_Music * Mix_LoadMUS(char *file);
+	Mix_Music * Mix_LoadMUS(const char *file);
 
 /* Load a wave file of the mixer format from a memory buffer */
 	Mix_Chunk * Mix_QuickLoad_WAV(Uint8 *mem);
@@ -128,19 +134,19 @@ extern (C) {
    This can be used to provide real-time visual display of the audio stream
    or add a custom mixer filter for the stream data.
 */
-	void Mix_SetPostMix(void (*mix_func)
-						(void *udata, Uint8 *stream, int len), void *arg);
+	void Mix_SetPostMix(void function
+						(void *udata, Uint8 *stream, int len) mix_func, void *arg);
 
 /* Add your own music player or additional mixer function.
    If 'mix_func' is NULL, the default music player is re-enabled.
 */
-	void Mix_HookMusic(void (*mix_func)
-					   (void *udata, Uint8 *stream, int len), void *arg);
+	void Mix_HookMusic(void function
+					   (void *udata, Uint8 *stream, int len) mix_func, void *arg);
 
 /* Add your own callback when the music has finished playing.
    This callback is only called if the music finishes naturally.
 */
-	void Mix_HookMusicFinished(void (*music_finished)());
+	void Mix_HookMusicFinished(void function() music_finished);
 
 /* Get a pointer to the user data for the current music hook */
 	void * Mix_GetMusicHookData();
@@ -153,7 +159,7 @@ extern (C) {
  *  inside the audio callback, or SDL_mixer will explicitly lock the audio
  *  before calling your callback.
  */
-	void Mix_ChannelFinished(void (*channel_finished)(int channel));
+	void Mix_ChannelFinished(void function(int channel) channel_finished);
 
 
 /* Special Effects API by ryan c. gordon. (icculus@linuxgames.com) */
@@ -177,7 +183,7 @@ extern (C) {
  *
  * DO NOT EVER call SDL_LockAudio() from your callback function!
  */
-	typedef void (*Mix_EffectFunc_t)(int chan, void *stream, int len, void *udata);
+	alias void function(int chan, void *stream, int len, void *udata) Mix_EffectFunc_t;
 
 /*
  * This is a callback that signifies that a channel has finished all its
@@ -188,7 +194,7 @@ extern (C) {
  *
  * DO NOT EVER call SDL_LockAudio() from your callback function!
  */
-	typedef void (*Mix_EffectDone_t)(int chan, void *udata);
+	alias void function(int chan, void *udata) Mix_EffectDone_t;
 
 
 /* Register a special effect function. At mixing time, the channel data is

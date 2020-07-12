@@ -28,10 +28,10 @@ import SDL_types;
 
 extern(C):
 
-typedef int (*_seek_func_t)(SDL_RWops *context, int offset, int whence);
-typedef int (*_read_func_t)(SDL_RWops *context, void *ptr, int size, int maxnum);
-typedef int (*_write_func_t)(SDL_RWops *context, void *ptr, int size, int num);
-typedef int (*_close_func_t)(SDL_RWops *context);
+alias int function(SDL_RWops *context, int offset, int whence) _seek_func_t;
+alias int function(SDL_RWops *context, void *ptr, int size, int maxnum) _read_func_t;
+alias int function(SDL_RWops *context, void *ptr, int size, int num) _write_func_t;
+alias int function(SDL_RWops *context) _close_func_t;
 
 /* This is the read/write operation structure -- very basic */
 
@@ -81,7 +81,7 @@ struct SDL_RWops {
 
 /* Functions to create SDL_RWops structures from various data sources */
 
-SDL_RWops * SDL_RWFromFile(char *file, char *mode);
+SDL_RWops * SDL_RWFromFile(const char *file, const char *mode);
 
 SDL_RWops * SDL_RWFromFP(void *fp, int autoclose);
 

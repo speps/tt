@@ -18,7 +18,6 @@ private import abagames.tt.bullettarget;
 private import abagames.tt.tunnel;
 private import abagames.tt.ship;
 private import abagames.tt.shot;
-private import abagames.tt.enemy;
 private import abagames.tt.shape;
 
 /**
@@ -112,7 +111,7 @@ public class BulletActorPool: ActorPool!(BulletActor), BulletsManager {
     cnt++;
   }
 
-  public void draw() {
+  public override void draw() {
     foreach (BulletActor ba; actor)
       if (ba.exists)
         ba.draw();

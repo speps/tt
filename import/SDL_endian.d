@@ -47,7 +47,7 @@ extern(C):
 */
 
 Uint16 SDL_Swap16(Uint16 D) {
-	return((D<<8)|(D>>8));
+	return cast(Uint16)((D<<8)|(D>>8));
 }
 
 Uint32 SDL_Swap32(Uint32 D) {

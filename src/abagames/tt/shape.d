@@ -66,32 +66,29 @@ public class ShipShape: Collidable, Drawable {
   Vector rocketPos, fragmentPos;
   int color;
 
-  static this() {
-    rand = new Rand;
-  }
-  
-  public this(long randSeed) {
-    rand.setSeed(randSeed);
-  }
-
   public void close() {
     displayList.close();
   }
 
-  public void setSeed(long n) {
+  public void setRandSeed(long n) {
+    if (!rand) {
+      rand = new Rand;
+    }
     rand.setSeed(n);
   }
 
-  public void create(int type, bool damaged = false) {
-    switch (type) {
+  public void create(long seed, Type type, bool damaged = false) {
+    auto localRand = new Rand;
+    localRand.setSeed(seed);
+    final switch (type) {
     case Type.SMALL:
-      createSmallType(damaged);
+      createSmallType(localRand, damaged);
       break;
     case Type.MIDDLE:
-      createMiddleType(damaged);
+      createMiddleType(localRand, damaged);
       break;
     case Type.LARGE:
-      createLargeType(damaged);
+      createLargeType(localRand, damaged);
       break;
     }
     createDisplayList();
@@ -108,64 +105,65 @@ public class ShipShape: Collidable, Drawable {
     displayList.endNewList();
   }
 
-  private void createSmallType(bool damaged = false) {
+  private void createSmallType(Rand localRand, bool damaged = false) {
     _collision = new Vector;
-    int shaftNum = 1 + rand.nextInt(2);
-    float sx = 0.25 + rand.nextFloat(0.1);
-    float so = 0.5 + rand.nextFloat(0.3);
-    float sl = 0.7 + rand.nextFloat(0.9);
-    float sw = 1.5 + rand.nextFloat(0.7);
+    int shaftNum = 1 + localRand.nextInt(2);
+    float sx = 0.25 + localRand.nextFloat(0.1);
+    float so = 0.5 + localRand.nextFloat(0.3);
+    float sl = 0.7 + localRand.nextFloat(0.9);
+    float sw = 1.5 + localRand.nextFloat(0.7);
     sx *= 1.5f;
     so *= 1.5f;
     sl *= 1.5f;
     sw *= 1.5f;
-    float sd1 = rand.nextFloat(1) * PI / 3 + PI / 4;
-    float sd2 = rand.nextFloat(1) * PI / 10;
-    int cl = rand.nextInt(Structure.COLOR_RGB.length - 2) + 2;
+    float sd1 = localRand.nextFloat(1) * PI / 3 + PI / 4;
+    float sd2 = localRand.nextFloat(1) * PI / 10;
+    int cl = localRand.nextInt(cast(int)Structure.COLOR_RGB.length - 2) + 2;
     color = cl;
-    int shp = rand.nextInt(Structure.Shape.ROCKET);
+    int shp = localRand.nextInt(Structure.Shape.ROCKET);
     switch (shaftNum) {
     case 1:
-      structure ~= createShaft(0, 0, so, sd1, sl, 2, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
+      structure ~= createShaft(localRand, 0, 0, so, sd1, sl, 2, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
       _collision.x = so / 2 + sw;
       _collision.y = sl / 2;
       rocketX ~= 0;
       break;
     case 2:
-      structure ~= createShaft(sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
-      structure ~= createShaft(sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
       _collision.x = sx + so / 2 + sw;
       _collision.y = sl / 2;
       rocketX ~= sx * 0.05;
       rocketX ~= -sx * 0.05;
       break;
+    default: break;
     }
     _collision.x *= 0.1;
     _collision.y *= 1.2;
   }
 
-  private void createMiddleType(bool damaged = false) {
+  private void createMiddleType(Rand localRand, bool damaged = false) {
     _collision = new Vector;
-    int shaftNum = 3 + rand.nextInt(2);
-    float sx = 1.0 + rand.nextFloat(0.7);
-    float so = 0.9 + rand.nextFloat(0.6);
-    float sl = 1.5 + rand.nextFloat(2.0);
-    float sw = 2.5 + rand.nextFloat(1.4);
+    int shaftNum = 3 + localRand.nextInt(2);
+    float sx = 1.0 + localRand.nextFloat(0.7);
+    float so = 0.9 + localRand.nextFloat(0.6);
+    float sl = 1.5 + localRand.nextFloat(2.0);
+    float sw = 2.5 + localRand.nextFloat(1.4);
     sx *= 1.6f;
     so *= 1.6f;
     sl *= 1.6f;
     sw *= 1.6f;
-    float sd1 = rand.nextFloat(1) * PI / 3 + PI / 4;
-    float sd2 = rand.nextFloat(1) * PI / 10;
-    int cl = rand.nextInt(Structure.COLOR_RGB.length - 2) + 2;
+    float sd1 = localRand.nextFloat(1) * PI / 3 + PI / 4;
+    float sd2 = localRand.nextFloat(1) * PI / 10;
+    int cl = localRand.nextInt(cast(int)Structure.COLOR_RGB.length - 2) + 2;
     color = cl;
-    int shp = rand.nextInt(Structure.Shape.ROCKET);
+    int shp = localRand.nextInt(Structure.Shape.ROCKET);
     switch (shaftNum) {
     case 3:
-      int cshp = rand.nextInt(Structure.Shape.ROCKET);
-      structure ~= createShaft(0, 0, so * 0.5, sd1, sl, 2, sw, sd1, sd2, cl, cshp, 8, 1, damaged);
-      structure ~= createShaft(sx, 0, so, sd1, sl * 0.8, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
-      structure ~= createShaft(sx, 0, so, sd1, sl * 0.8, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
+      int cshp = localRand.nextInt(Structure.Shape.ROCKET);
+      structure ~= createShaft(localRand, 0, 0, so * 0.5, sd1, sl, 2, sw, sd1, sd2, cl, cshp, 8, 1, damaged);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl * 0.8, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl * 0.8, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
       _collision.x = sx + so / 2 + sw;
       _collision.y = sl / 2;
       rocketX ~= 0;
@@ -173,10 +171,10 @@ public class ShipShape: Collidable, Drawable {
       rocketX ~= -sx * 0.05;
       break;
     case 4:
-      structure ~= createShaft(sx / 3, -sx / 2, so, sd1, sl * 0.7, 1, sw * 0.6, sd1 / 3, sd2 / 2, cl, shp, 5, 1);
-      structure ~= createShaft(sx / 3, -sx / 2, so, sd1, sl * 0.7, 1, sw * 0.6, sd1 / 3, sd2 / 2, cl, shp, 5, -1);
-      structure ~= createShaft(sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
-      structure ~= createShaft(sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
+      structure ~= createShaft(localRand, sx / 3, -sx / 2, so, sd1, sl * 0.7, 1, sw * 0.6, sd1 / 3, sd2 / 2, cl, shp, 5, 1);
+      structure ~= createShaft(localRand, sx / 3, -sx / 2, so, sd1, sl * 0.7, 1, sw * 0.6, sd1 / 3, sd2 / 2, cl, shp, 5, -1);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
       _collision.x = sx + so / 2 + sw;
       _collision.y = sl / 2;
       rocketX ~= sx * 0.025;
@@ -184,35 +182,36 @@ public class ShipShape: Collidable, Drawable {
       rocketX ~= sx * 0.05;
       rocketX ~= -sx * 0.05;
       break;
+    default: break;
     }
     _collision.x *= 0.1;
     _collision.y *= 1.2;
   }
 
-  private void createLargeType(bool damaged = false) {
+  private void createLargeType(Rand localRand, bool damaged = false) {
     _collision = new Vector;
-    int shaftNum = 5 + rand.nextInt(2);
-    float sx = 3.0 + rand.nextFloat(2.2);
-    float so = 1.5 + rand.nextFloat(1.0);
-    float sl = 3.0 + rand.nextFloat(4.0);
-    float sw = 5.0 + rand.nextFloat(2.5);
+    int shaftNum = 5 + localRand.nextInt(2);
+    float sx = 3.0 + localRand.nextFloat(2.2);
+    float so = 1.5 + localRand.nextFloat(1.0);
+    float sl = 3.0 + localRand.nextFloat(4.0);
+    float sw = 5.0 + localRand.nextFloat(2.5);
     sx *= 1.6f;
     so *= 1.6f;
     sl *= 1.6f;
     sw *= 1.6f;
-    float sd1 = rand.nextFloat(1) * PI / 3 + PI / 4;
-    float sd2 = rand.nextFloat(1) * PI / 10;
-    int cl = rand.nextInt(Structure.COLOR_RGB.length - 2) + 2;
+    float sd1 = localRand.nextFloat(1) * PI / 3 + PI / 4;
+    float sd2 = localRand.nextFloat(1) * PI / 10;
+    int cl = localRand.nextInt(cast(int)Structure.COLOR_RGB.length - 2) + 2;
     color = cl;
-    int shp = rand.nextInt(Structure.Shape.ROCKET);
+    int shp = localRand.nextInt(Structure.Shape.ROCKET);
     switch (shaftNum) {
     case 5:
-      int cshp = rand.nextInt(Structure.Shape.ROCKET);
-      structure ~= createShaft(0, 0, so * 0.5, sd1, sl, 2, sw, sd1, sd2, cl, cshp, 8, 1, damaged);
-      structure ~= createShaft(sx * 0.6, 0, so, sd1, sl * 0.6, 1, sw, sd1 / 3, sd2 / 2, cl, shp, 5, 1, damaged);
-      structure ~= createShaft(sx * 0.6, 0, so, sd1, sl * 0.6, 1, sw, sd1 / 3, sd2 / 2, cl, shp, 5, -1, damaged);
-      structure ~= createShaft(sx, 0, so, sd1, sl * 0.9, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
-      structure ~= createShaft(sx, 0, so, sd1, sl * 0.9, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
+      int cshp = localRand.nextInt(Structure.Shape.ROCKET);
+      structure ~= createShaft(localRand, 0, 0, so * 0.5, sd1, sl, 2, sw, sd1, sd2, cl, cshp, 8, 1, damaged);
+      structure ~= createShaft(localRand, sx * 0.6, 0, so, sd1, sl * 0.6, 1, sw, sd1 / 3, sd2 / 2, cl, shp, 5, 1, damaged);
+      structure ~= createShaft(localRand, sx * 0.6, 0, so, sd1, sl * 0.6, 1, sw, sd1 / 3, sd2 / 2, cl, shp, 5, -1, damaged);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl * 0.9, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl * 0.9, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
       _collision.x = sx + so / 2 + sw;
       _collision.y = sl / 2;
       rocketX ~= 0;
@@ -222,12 +221,12 @@ public class ShipShape: Collidable, Drawable {
       rocketX ~= -sx * 0.05;
       break;
     case 6:
-      structure ~= createShaft(sx / 4, -sx / 2, so, sd1, sl * 0.6, 1, sw * 0.6, sd1 / 3, sd2 / 2, cl, shp, 5, 1);
-      structure ~= createShaft(sx / 4, -sx / 2, so, sd1, sl * 0.6, 1, sw * 0.6, sd1 / 3, sd2 / 2, cl, shp, 5, -1);
-      structure ~= createShaft(sx / 2, -sx / 3 * 2, so, sd1, sl * 0.8, 1, sw * 0.8, sd1 / 3, sd2 / 3 * 2, cl, shp, 5, 1);
-      structure ~= createShaft(sx / 2, -sx / 3 * 2, so, sd1, sl * 0.8, 1, sw * 0.8, sd1 / 3, sd2 / 3 * 2, cl, shp, 5, -1);
-      structure ~= createShaft(sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
-      structure ~= createShaft(sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
+      structure ~= createShaft(localRand, sx / 4, -sx / 2, so, sd1, sl * 0.6, 1, sw * 0.6, sd1 / 3, sd2 / 2, cl, shp, 5, 1);
+      structure ~= createShaft(localRand, sx / 4, -sx / 2, so, sd1, sl * 0.6, 1, sw * 0.6, sd1 / 3, sd2 / 2, cl, shp, 5, -1);
+      structure ~= createShaft(localRand, sx / 2, -sx / 3 * 2, so, sd1, sl * 0.8, 1, sw * 0.8, sd1 / 3, sd2 / 3 * 2, cl, shp, 5, 1);
+      structure ~= createShaft(localRand, sx / 2, -sx / 3 * 2, so, sd1, sl * 0.8, 1, sw * 0.8, sd1 / 3, sd2 / 3 * 2, cl, shp, 5, -1);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, 1, damaged);
+      structure ~= createShaft(localRand, sx, 0, so, sd1, sl, 1, sw, sd1 / 2, sd2, cl, shp, 5, -1, damaged);
       _collision.x = sx + so / 2 + sw;
       _collision.y = sl / 2;
       rocketX ~= sx * 0.0125;
@@ -237,12 +236,13 @@ public class ShipShape: Collidable, Drawable {
       rocketX ~= sx * 0.05;
       rocketX ~= -sx * 0.05;
       break;
+    default: break;
     }
     _collision.x *= 0.1;
     _collision.y *= 1.2;
   }
 
-  private Structure[] createShaft(float ox, float oy, float offset,
+  private Structure[] createShaft(Rand localRand, float ox, float oy, float offset,
                                   float od1, float rocketLength,
                                   int wingNum, float wingWidth,
                                   float wingD1, float wingD2, int color, int shp, int divNum,
@@ -264,16 +264,16 @@ public class ShipShape: Collidable, Drawable {
       st.pos.x *= -1;
     sts ~= st;
     float wofs = offset;
-    float whgt = rocketLength * (rand.nextFloat(0.5) + 1.5);
+    float whgt = rocketLength * (localRand.nextFloat(0.5) + 1.5);
     for (int i = 0; i < wingNum; i++) {
-      Structure st = new Structure;
+      st = new Structure;
       st.d1 = wingD1 * 180 / PI;
       st.d2 = wingD2 * 180 / PI;
       st.pos.x = ox + sin(od1) * wofs;
       st.pos.y = oy + cos(od1) * wofs;
       st.width = wingWidth;
       st.height = whgt;
-      st.shape = shp;
+      st.shape = cast(Structure.Shape)shp;
       st.divNum = divNum;
       st.shapeXReverse = 1;
       if (!damaged)
@@ -354,7 +354,7 @@ public class Structure {
     SQUARE, WING, TRIANGLE, ROCKET,
   };
   float width, height;
-  int shape;
+  Shape shape;
   float shapeXReverse;
   int color;
   int divNum;
@@ -378,7 +378,7 @@ public class Structure {
     if (color == 0)
       alp = 1;
     Screen.setColor(COLOR_RGB[color][0], COLOR_RGB[color][1], COLOR_RGB[color][2]);
-    switch (shape) {
+    final switch (shape) {
     case Shape.SQUARE:
       for (int i = 0; i < divNum; i++) {
         float x11 = -0.5 + (1.0 / divNum) * i;
@@ -437,8 +437,8 @@ public class Structure {
       for (int i = 0; i < divNum; i++) {
         float x1 = -0.5 + (1.0 / divNum) * i;
         float x2 = x1 + (1.0 / divNum) * 0.8;
-        float y1 = -0.5 + (1.0 / divNum) * fabs(i - divNum / 2) * 2;
-        float y2 = -0.5 + (1.0 / divNum) * fabs(i + 0.8 - divNum / 2) * 2;
+        float y1 = -0.5 + (1.0 / divNum) * fabs(cast(float)i - divNum / 2) * 2;
+        float y2 = -0.5 + (1.0 / divNum) * fabs(cast(float)i + 0.8 - divNum / 2) * 2;
         glBegin(GL_LINE_LOOP);
         glVertex3f(x1, 0, y1);
         glVertex3f(x2, 0, y2);
@@ -553,26 +553,26 @@ public class BulletShape: Drawable {
   static const float[] COLOR_RGB = [1, 0.7, 0.8];
   DisplayList displayList;
 
-  public void create(int type) {
+  public void create(BSType type) {
     displayList = new DisplayList(1);
     displayList.beginNewList();
-    switch (type) {
-    case 0:
+    final switch (type) {
+    case BSType.TRIANGLE:
       createTriangleShape(false);
       break;
-    case 1:
+    case BSType.TRIANGLE_WIRE:
       createTriangleShape(true);
       break;
-    case 2:
+    case BSType.SQUARE:
       createSquareShape(false);
       break;
-    case 3:
+    case BSType.SQUARE_WIRE:
       createSquareShape(true);
       break;
-    case 4:
+    case BSType.BAR:
       createBarShape(false);
       break;
-    case 5:
+    case BSType.BAR_WIRE:
       createBarShape(true);
       break;
     }
@@ -584,13 +584,13 @@ public class BulletShape: Drawable {
   }
 
   private void createTriangleShape(bool wireShape) {
-    auto Vector3 cp = new Vector3;
-    auto Vector3 p1 = new Vector3;
-    auto Vector3 p2 = new Vector3;
-    auto Vector3 p3 = new Vector3;
-    auto Vector3 np1 = new Vector3;
-    auto Vector3 np2 = new Vector3;
-    auto Vector3 np3 = new Vector3;
+    auto cp = new Vector3;
+    auto p1 = new Vector3;
+    auto p2 = new Vector3;
+    auto p3 = new Vector3;
+    auto np1 = new Vector3;
+    auto np2 = new Vector3;
+    auto np3 = new Vector3;
     for (int i = 0; i < 3; i++) {
       float d = PI * 2 / 3 * i;
       p1.x = p1.y = 0;
@@ -631,9 +631,9 @@ public class BulletShape: Drawable {
   }
 
   private void createSquareShape(bool wireShape) {
-    auto Vector3 cp = new Vector3;
-    auto Vector3[] p = new Vector3[4];
-    auto Vector3[] np = new Vector3[4];
+    auto cp = new Vector3;
+    auto p = new Vector3[4];
+    auto np = new Vector3[4];
     static const float[][][] POINT_DAT = [
       [[-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1], ],
       [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], ],
@@ -642,9 +642,9 @@ public class BulletShape: Drawable {
       [[1, -1, -1], [1, -1, 1], [1, 1, 1], [1, 1, -1], ],
       [[-1, -1, -1], [-1, -1, 1], [-1, 1, 1], [-1, 1, -1], ],
     ];
-    foreach (inout Vector3 ip; p)
+    foreach (ref Vector3 ip; p)
       ip = new Vector3;
-    foreach (inout Vector3 inp; np)
+    foreach (ref Vector3 inp; np)
       inp = new Vector3;
     for (int i = 0; i < 6; i++) {
       cp.x = cp.y = cp.z = 0;
@@ -676,9 +676,9 @@ public class BulletShape: Drawable {
   }
 
   private void createBarShape(bool wireShape) {
-    auto Vector3 cp = new Vector3;
-    auto Vector3[] p = new Vector3[4];
-    auto Vector3[] np = new Vector3[4];
+    auto cp = new Vector3;
+    auto p = new Vector3[4];
+    auto np = new Vector3[4];
     static const float[][][] POINT_DAT = [
       [[-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1], ],
       //[[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], ],
@@ -687,9 +687,9 @@ public class BulletShape: Drawable {
       [[1, -1, -1], [1, -1, 1], [1, 1, 1], [1, 1, -1], ],
       [[-1, -1, -1], [-1, -1, 1], [-1, 1, 1], [-1, 1, -1], ],
     ];
-    foreach (inout Vector3 ip; p)
+    foreach (ref Vector3 ip; p)
       ip = new Vector3;
-    foreach (inout Vector3 inp; np)
+    foreach (ref Vector3 inp; np)
       inp = new Vector3;
     for (int i = 0; i < 5; i++) {
       cp.x = cp.y = cp.z = 0;

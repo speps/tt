@@ -34,7 +34,7 @@ extern(C):
 struct SDL_Thread { }
 
 /* Create a thread */
-SDL_Thread * SDL_CreateThread(int (*fn)(void *), void *data);
+SDL_Thread * SDL_CreateThread(int function(void *) fn, void *data);
 
 /* Get the 32-bit thread identifier for the current thread */
 Uint32 SDL_ThreadID();

@@ -5,7 +5,7 @@
  */
 module abagames.tt.prefmanager;
 
-private import std.stream;
+private import undead.stream;
 private import abagames.util.prefmanager;
 private import abagames.tt.ship;
 
@@ -15,7 +15,7 @@ private import abagames.tt.ship;
 public class PrefManager: abagames.util.prefmanager.PrefManager {
  private:
   static const int VERSION_NUM = 10;
-  static const char[] PREF_FILE = "tt.prf";
+  static const string PREF_FILE = "tt.prf";
   PrefData _prefData;
 
   public this() {
@@ -23,7 +23,7 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
   }
 
   public void load() {
-    auto File fd = new File;
+    auto fd = new File;
     try {
       int ver;
       fd.open(PREF_FILE);
@@ -31,7 +31,7 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
       if (ver != VERSION_NUM)
         throw new Error("Wrong version num");
       _prefData.load(fd);
-    } catch (Object e) {
+    } catch (Throwable) {
       _prefData.init();
     } finally {
       if (fd.isOpen())
@@ -40,7 +40,7 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
   }
 
   public void save() {
-    auto File fd = new File;
+    auto fd = new File;
     fd.create(PREF_FILE);
     fd.write(VERSION_NUM);
     _prefData.save(fd);
@@ -59,7 +59,7 @@ public class PrefData {
 
   public this() {
     gradeData = new GradeData[Ship.GRADE_NUM];
-    foreach (inout GradeData gd; gradeData)
+    foreach (ref GradeData gd; gradeData)
       gd = new GradeData;
   }
 

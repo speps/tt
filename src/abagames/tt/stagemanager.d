@@ -69,8 +69,8 @@ public class StageManager {
     _middleBossZone = false;
     Slice.darkLine = true;
     Slice.darkLineRatio = 1;
-    tunnelColorPolyIdx = TUNNEL_COLOR_PATTERN_POLY.length + cast(int) level - 2;
-    tunnelColorLineIdx = TUNNEL_COLOR_PATTERN_LINE.length + cast(int) level - 2;
+    tunnelColorPolyIdx = cast(int)TUNNEL_COLOR_PATTERN_POLY.length + cast(int) level - 2;
+    tunnelColorLineIdx = cast(int)TUNNEL_COLOR_PATTERN_LINE.length + cast(int) level - 2;
     createNextZone();
   }
 
@@ -159,13 +159,13 @@ public class StageManager {
     }
     nextSmallAppDist -= ship.speed;
     if (nextSmallAppDist <= 0) {
-      addEnemy(smallShipSpec[rand.nextInt(smallShipSpec.length)],
+      addEnemy(smallShipSpec[rand.nextInt(cast(int)smallShipSpec.length)],
                Ship.IN_SIGHT_DEPTH_DEFAULT * (4 + rand.nextFloat(0.5)), rand);
       setNextSmallAppDist();
     }
     nextMiddleAppDist -= ship.speed;
     if (nextMiddleAppDist <= 0) {
-      addEnemy(middleShipSpec[rand.nextInt(middleShipSpec.length)],
+      addEnemy(middleShipSpec[rand.nextInt(cast(int)middleShipSpec.length)],
                Ship.IN_SIGHT_DEPTH_DEFAULT * (4 + rand.nextFloat(0.5)), rand);
       setNextMiddleAppDist();
     }
@@ -176,16 +176,16 @@ public class StageManager {
       } else {
         Slice.darkLineRatio -= 1.0f / TUNNEL_COLOR_CHANGE_INTERVAL;
         float cRatio = cast(float) tunnelColorChangeCnt / TUNNEL_COLOR_CHANGE_INTERVAL;
-        int cpIdxPrev = (tunnelColorPolyIdx - 1) % TUNNEL_COLOR_PATTERN_POLY.length;
-        int cpIdxNow = tunnelColorPolyIdx % TUNNEL_COLOR_PATTERN_POLY.length;
+        int cpIdxPrev = (tunnelColorPolyIdx - 1) % cast(int)TUNNEL_COLOR_PATTERN_POLY.length;
+        int cpIdxNow = tunnelColorPolyIdx % cast(int)TUNNEL_COLOR_PATTERN_POLY.length;
         Slice.polyR = TUNNEL_COLOR_PATTERN_POLY[cpIdxPrev][0] * cRatio +
           TUNNEL_COLOR_PATTERN_POLY[cpIdxNow][0] * (1 - cRatio);
         Slice.polyG = TUNNEL_COLOR_PATTERN_POLY[cpIdxPrev][1] * cRatio +
           TUNNEL_COLOR_PATTERN_POLY[cpIdxNow][1] * (1 - cRatio);
         Slice.polyB = TUNNEL_COLOR_PATTERN_POLY[cpIdxPrev][2] * cRatio +
           TUNNEL_COLOR_PATTERN_POLY[cpIdxNow][2] * (1 - cRatio);
-        int clIdxPrev = (tunnelColorLineIdx - 1) % TUNNEL_COLOR_PATTERN_LINE.length;
-        int clIdxNow = tunnelColorLineIdx % TUNNEL_COLOR_PATTERN_LINE.length;
+        int clIdxPrev = (tunnelColorLineIdx - 1) % cast(int)TUNNEL_COLOR_PATTERN_LINE.length;
+        int clIdxNow = tunnelColorLineIdx % cast(int)TUNNEL_COLOR_PATTERN_LINE.length;
         Slice.lineR = TUNNEL_COLOR_PATTERN_LINE[clIdxPrev][0] * cRatio +
           TUNNEL_COLOR_PATTERN_LINE[clIdxNow][0] * (1 - cRatio);
         Slice.lineG = TUNNEL_COLOR_PATTERN_LINE[clIdxPrev][1] * cRatio +
@@ -292,7 +292,7 @@ public class ShipSpec {
     BulletShape bs;
     for (int i = 0; i < BulletShape.NUM; i++) {
       bs = new BulletShape;
-      bs.create(i);
+      bs.create(cast(BulletShape.BSType)i);
       bulletShape ~= bs;
     }
     _bitShape = new BitShape;
@@ -315,10 +315,10 @@ public class ShipSpec {
     else
       baseBank = 0;
     long rs = rand.nextInt(99999);
-    _shape = new ShipShape(rs);
-    _shape.create(ShipShape.Type.SMALL);
-    _damagedShape = new ShipShape(rs);
-    _damagedShape.create(ShipShape.Type.SMALL, true);
+    _shape = new ShipShape();
+    _shape.create(rs, ShipShape.Type.SMALL);
+    _damagedShape = new ShipShape();
+    _damagedShape.create(rs, ShipShape.Type.SMALL, true);
     int brgInterval;
     int biMin = cast(int)(160.0f / level);
     if (biMin > 80)
@@ -346,10 +346,10 @@ public class ShipSpec {
     else
       baseBank = 0;
     long rs = rand.nextInt(99999);
-    _shape = new ShipShape(rs);
-    _shape.create(ShipShape.Type.MIDDLE);
-    _damagedShape = new ShipShape(rs);
-    _damagedShape.create(ShipShape.Type.MIDDLE, true);
+    _shape = new ShipShape();
+    _shape.create(rs, ShipShape.Type.MIDDLE);
+    _damagedShape = new ShipShape();
+    _damagedShape.create(rs, ShipShape.Type.MIDDLE, true);
     _barrage = createBarrage(rand, level, 0, 0, 1,
                              "middle", BulletShape.BSType.SQUARE);
     _score = 500;
@@ -365,10 +365,10 @@ public class ShipSpec {
     bankMax = 0.8 + rand.nextFloat(0.4);
     baseBank = 0;
     long rs = rand.nextInt(99999);
-    _shape = new ShipShape(rs);
-    _shape.create(ShipShape.Type.LARGE);
-    _damagedShape = new ShipShape(rs);
-    _damagedShape.create(ShipShape.Type.LARGE, true);
+    _shape = new ShipShape();
+    _shape.create(rs, ShipShape.Type.LARGE);
+    _damagedShape = new ShipShape();
+    _damagedShape.create(rs, ShipShape.Type.LARGE, true);
     _barrage = createBarrage(rand, level, 0, 0, 1.2f,
                              "middle", BulletShape.BSType.SQUARE, true);
     _score = 2000;
@@ -403,7 +403,7 @@ public class ShipSpec {
   private Barrage createBarrage(Rand rand,
                                 float level,
                                 int preWait, int postWait,
-                                float size = 1, char[] baseDir = null,
+                                float size = 1, string baseDir = null,
                                 int shapeIdx = 0,
                                 bool longRange = false) {
     if (level < 0)
@@ -437,32 +437,32 @@ public class ShipSpec {
     int psn;
     if (baseDir) {
       ps = BarrageManager.getInstanceList(baseDir);
-      int pi = rand.nextInt(ps.length);
+      int pi = rand.nextInt(cast(int)ps.length);
       br.addBml(ps[pi], rank, true, speedRank);
     } else {
       br.addBml("basic", "straight.xml", rank, true, speedRank);
     }
     ps = BarrageManager.getInstanceList("morph");
-    psn = ps.length;
+    psn = cast(int)ps.length;
     for (int i = 0; i < morphCnt; i++) {
-      int pi = rand.nextInt(ps.length);
+      int pi = rand.nextInt(cast(int)ps.length);
       while (!ps[pi]) {
         pi--;
         if (pi < 0)
-          pi = ps.length - 1;
+          pi = cast(int)ps.length - 1;
       }
       br.addBml(ps[pi], morphRank, true, speedRank);
-      delete ps[pi];
+      ps[pi].destroy();
       psn--;
     }
     return br;
   }
 
-  public void setSpeed(inout float sp) {
+  public void setSpeed(ref float sp) {
     changeSpeed(sp, baseSpeed);
   }
 
-  public void setSpeed(inout float sp, float shipSp) {
+  public void setSpeed(ref float sp, float shipSp) {
     float as = shipSp * shipSpeedRatio;
     if (as > baseSpeed)
       changeSpeed(sp, as);
@@ -470,7 +470,7 @@ public class ShipSpec {
       changeSpeed(sp, baseSpeed);
   }
 
-  private void changeSpeed(inout float sp, float aim) {
+  private void changeSpeed(ref float sp, float aim) {
     sp += (aim - sp) * SPEED_CHANGE_RATIO;
   }
 
@@ -500,7 +500,7 @@ public class ShipSpec {
     }
   }
 
-  public void tryToMove(inout float bank, float deg, float aimDeg) {
+  public void tryToMove(ref float bank, float deg, float aimDeg) {
     float bk = aimDeg - deg;
     if (bk > PI)
       bk -= PI * 2;
@@ -513,7 +513,7 @@ public class ShipSpec {
     bank += (bk - bank) * 0.1;
   }
 
-  public void handleLimitY(inout float y, inout float limitY) {
+  public void handleLimitY(ref float y, ref float limitY) {
     if (y > limitY)
       y += (limitY - y) * 0.05f;
     else
@@ -525,8 +525,8 @@ public class ShipSpec {
     return rand.nextSignedFloat(baseBank);
   }
 
-  public void getBitOffset(Vector ofs, inout float deg, int idx, int cnt) {
-    switch (bitType) {
+  public void getBitOffset(Vector ofs, ref float deg, int idx, int cnt) {
+    final switch (bitType) {
     case BitType.ROUND:
       float od = PI * 2 / bitNum;
       float d = od * idx + cnt * bitMd;

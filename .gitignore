@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/tt
+tt.so
+tt.dylib
+tt.dll
+tt.a
+tt.lib
+tt-test-*
+*.exe
+*.o
+*.obj
+*.lst

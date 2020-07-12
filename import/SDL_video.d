@@ -22,6 +22,7 @@
 
 /* Header file for access to the SDL raw framebuffer window */
 
+import std.string;
 import SDL_types;
 import SDL_mutex;
 import SDL_rwops;
@@ -75,8 +76,8 @@ struct SDL_PixelFormat {
 }
 
 /* typedef for private surface blitting functions */
-typedef int (*SDL_blit)(SDL_Surface *src, SDL_Rect *srcrect,
-			SDL_Surface *dst, SDL_Rect *dstrect);
+alias int function(SDL_Surface *src, SDL_Rect *srcrect,
+			SDL_Surface *dst, SDL_Rect *dstrect) SDL_blit;
 
 /* This structure should be treated as read-only, except for 'pixels',
    which, if not NULL, contains the raw pixel data for the surface.
@@ -132,7 +133,7 @@ const uint SDL_SRCALPHA	= 0x00010000;	/* Blit uses source alpha blending */
 const uint SDL_PREALLOC	= 0x01000000;	/* Surface uses preallocated memory */
 
 /* Evaluates to true if the surface needs to be locked before access */
-bit SDL_MUSTLOCK(SDL_Surface *surface)
+SDL_bool SDL_MUSTLOCK(SDL_Surface *surface)
 {
 	return surface.offset || ((surface.flags &
 		(SDL_HWSURFACE | SDL_ASYNCBLIT | SDL_RLEACCEL)) != 0);
@@ -184,13 +185,7 @@ struct SDL_Overlay {
 	void /*private_yuvhwdata*/ *hwdata;
 
 	/* Special flags */
-	union
-	{
-		bit hw_overlay;
-		Uint32 _dummy;
-	}
-//		Uint32 hw_overlay :1;	/* Flag: This overlay hardware accelerated? */
-//		Uint32 UnusedBits :31;
+	Uint32 flags;
 }
 
 
@@ -540,9 +535,9 @@ void SDL_UnlockSurface(SDL_Surface *surface);
 SDL_Surface * SDL_LoadBMP_RW(SDL_RWops *src, int freesrc);
 
 /* Convenience macro -- load a surface from a file */
-SDL_Surface * SDL_LoadBMP(char* file)
+SDL_Surface * SDL_LoadBMP(const char* file)
 {
-	return SDL_LoadBMP_RW(SDL_RWFromFile(file, "rb"), 1);
+	return SDL_LoadBMP_RW(SDL_RWFromFile(file, std.string.toStringz("rb")), 1);
 }
 
 /*
@@ -556,7 +551,7 @@ int SDL_SaveBMP_RW
 /* Convenience macro -- save a surface to a file */
 int SDL_SaveBMP(SDL_Surface *surface, char* file)
 {
-	return SDL_SaveBMP_RW(surface, SDL_RWFromFile(file, "wb"), 1);
+	return SDL_SaveBMP_RW(surface, SDL_RWFromFile(file, std.string.toStringz("wb")), 1);
 }
 
 /*
@@ -837,7 +832,7 @@ void SDL_GL_Unlock();
 /*
  * Sets/Gets the title and icon text of the display window
  */
-void SDL_WM_SetCaption(char *title, char *icon);
+void SDL_WM_SetCaption(const char *title, const char *icon);
 void SDL_WM_GetCaption(char **title, char **icon);
 
 /*

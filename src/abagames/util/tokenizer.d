@@ -5,8 +5,11 @@
  */
 module abagames.util.tokenizer;
 
-private import std.stream;
+private import std.conv;
+private import std.array;
 private import std.string;
+private import undead.stream;
+private import undead.string;
 
 /**
  * Tokenizer.
@@ -14,19 +17,19 @@ private import std.string;
 public class Tokenizer {
  private:
 
-  public static char[][] readFile(char[] fileName, char[] separator) {
-    char[][] result;
-    auto File fd = new File;
+  public static string[] readFile(string fileName, string separator) {
+    string[] result;
+    auto fd = new File;
     fd.open(fileName);
     for (;;) {
       char[] line = fd.readLine();
       if (!line)
-	break;
+        break;
       char[][] spl = split(line, separator);
       foreach (char[] s; spl) {
-	char[] r = strip(s);
-	if (r.length > 0)
-	  result ~= r;
+        char[] r = strip(s);
+        if (r.length > 0)
+          result ~= to!string(r);
       }
     }
     fd.close();
@@ -40,7 +43,7 @@ public class Tokenizer {
 public class CSVTokenizer {
  private:
 
-  public static char[][] readFile(char[] fileName) {
+  public static string[] readFile(string fileName) {
     return Tokenizer.readFile(fileName, ",");
   }
 }

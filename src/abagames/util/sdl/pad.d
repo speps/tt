@@ -5,8 +5,15 @@
  */
 module abagames.util.sdl.pad;
 
+private import std.conv;
 private import std.string;
 private import SDL;
+private import SDL_error;
+private import SDL_events;
+private import SDL_joystick;
+private import SDL_keyboard;
+private import SDL_Keysym;
+private import SDL_types;
 private import abagames.util.sdl.input;
 private import abagames.util.sdl.sdlexception;
 
@@ -32,7 +39,7 @@ public class Pad: Input {
   public void openJoystick() {
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0) {
       throw new SDLInitFailedException(
-        "Unable to init SDL joystick: " ~ std.string.toString(SDL_GetError()));
+        "Unable to init SDL joystick: " ~ to!string(SDL_GetError()));
     }
     stick = SDL_JoystickOpen(0);
   }

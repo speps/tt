@@ -63,7 +63,7 @@ const uint SDL_COMPILEDVERSION = SDL_MAJOR_VERSION * 1000 +
 									SDL_PATCHLEVEL;
 
 /* This macro will evaluate to true if compiled with SDL at least X.Y.Z */
-bit SDL_VERSION_ATLEAST(Uint8 X, Uint8 Y, Uint8 Z)
+SDL_bool SDL_VERSION_ATLEAST(Uint8 X, Uint8 Y, Uint8 Z)
 {
 	return (SDL_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z));
 }

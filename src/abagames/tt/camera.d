@@ -52,7 +52,7 @@ public class Camera {
     changeCnt--;
     if (changeCnt < 0) {
       type = rand.nextInt(2);
-      switch (type) {
+      final switch (type) {
       case MoveType.FLOAT:
         changeCnt = 256 + rand.nextInt(150);
         cameraTrg.x = ship.relPos.x + rand.nextSignedFloat(1);
@@ -95,7 +95,7 @@ public class Camera {
     }
     cameraTrg += cameraVel;
     float cox, coy, coz;
-    switch (type) {
+    final switch (type) {
     case MoveType.FLOAT:
       cox = cameraTrg.x;
       coy = cameraTrg.y;
@@ -155,7 +155,7 @@ public class Camera {
     moveCnt--;
     if (moveCnt < 0) {
       moveCnt = 15 + rand.nextInt(15);
-      float lox = fabs(_lookAtPos.x - _cameraPos.x);
+      lox = fabs(_lookAtPos.x - _cameraPos.x);
       if (lox > PI)
         lox = PI * 2 - lox;
       float ofs = lox * 3 + fabs(_lookAtPos.y - _cameraPos.y);

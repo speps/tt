@@ -9,7 +9,7 @@ module abagames.util.sdl.sdlexception;
  * SDL initialize failed.
  */
 public class SDLInitFailedException: Exception {
-  public this(char[] msg) {
+  public this(string msg) {
     super(msg);
   }
 }
@@ -18,7 +18,7 @@ public class SDLInitFailedException: Exception {
  * SDL general exception.
  */
 public class SDLException: Exception {
-  public this(char[] msg) {
+  public this(string msg) {
     super(msg);
   }
 }

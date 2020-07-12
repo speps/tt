@@ -23,6 +23,7 @@
 /* Include file for SDL quit event handling */
 
 import SDL_events;
+import SDL_types;
 
 /* 
   An SDL_QUITEVENT is generated when the user tries to close the application
@@ -40,8 +41,8 @@ import SDL_events;
 */
 
 /* There are no functions directly affecting the quit event */
-bit SDL_QuitRequested()
+SDL_bool SDL_QuitRequested()
 {
 	SDL_PumpEvents();
-	return cast(bit)SDL_PeepEvents(null, 0, SDL_PEEKEVENT, SDL_QUITMASK);
+	return SDL_PeepEvents(null, 0, SDL_PEEKEVENT, SDL_QUITMASK);
 }

@@ -1,10 +1,4 @@
-version (Win32) {
-	private import std.c.windows.windows;
-	extern(Windows):
-}
-version (linux) {
-	extern(C):
-}
+extern(Windows):
 
 alias uint GLenum;
 alias ubyte GLboolean;
@@ -1116,7 +1110,7 @@ const uint GL_TEXTURE_COMPONENTS = GL_TEXTURE_INTERNAL_FORMAT;
 /*************************************************************/
 
 void /*APIENTRY*/glAccum (GLenum op, GLfloat value);
-void /*APIENTRY*/glAlphaFunc (GLenum func, GLclampf ref);
+void /*APIENTRY*/glAlphaFunc (GLenum func, GLclampf reference);
 GLboolean /*APIENTRY*/glAreTexturesResident (GLsizei n, GLuint *textures, GLboolean *residences);
 void /*APIENTRY*/glArrayElement (GLint i);
 void /*APIENTRY*/glBegin (GLenum mode);
@@ -1369,7 +1363,7 @@ void /*APIENTRY*/glScalef (GLfloat x, GLfloat y, GLfloat z);
 void /*APIENTRY*/glScissor (GLint x, GLint y, GLsizei width, GLsizei height);
 void /*APIENTRY*/glSelectBuffer (GLsizei size, GLuint *buffer);
 void /*APIENTRY*/glShadeModel (GLenum mode);
-void /*APIENTRY*/glStencilFunc (GLenum func, GLint ref, GLuint mask);
+void /*APIENTRY*/glStencilFunc (GLenum func, GLint reference, GLuint mask);
 void /*APIENTRY*/glStencilMask (GLuint mask);
 void /*APIENTRY*/glStencilOp (GLenum fail, GLenum zfail, GLenum zpass);
 void /*APIENTRY*/glTexCoord1d (GLdouble s);
@@ -1454,35 +1448,35 @@ void /*APIENTRY*/glViewport (GLint x, GLint y, GLsizei width, GLsizei height);
 
 
 /* EXT_vertex_array */
-typedef void (* PFNGLARRAYELEMENTEXTPROC) (GLint i);
-typedef void (* PFNGLDRAWARRAYSEXTPROC) (GLenum mode, GLint first, GLsizei count);
-typedef void (* PFNGLVERTEXPOINTEREXTPROC) (GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer);
-typedef void (* PFNGLNORMALPOINTEREXTPROC) (GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer);
-typedef void (* PFNGLCOLORPOINTEREXTPROC) (GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer);
-typedef void (* PFNGLINDEXPOINTEREXTPROC) (GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer);
-typedef void (* PFNGLTEXCOORDPOINTEREXTPROC) (GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer);
-typedef void (* PFNGLEDGEFLAGPOINTEREXTPROC) (GLsizei stride, GLsizei count, GLboolean *pointer);
-typedef void (* PFNGLGETPOINTERVEXTPROC) (GLenum pname, GLvoid* *params);
-typedef void (* PFNGLARRAYELEMENTARRAYEXTPROC)(GLenum mode, GLsizei count, GLvoid* pi);
+alias void function(GLint i) PFNGLARRAYELEMENTEXTPROC;
+alias void function(GLenum mode, GLint first, GLsizei count) PFNGLDRAWARRAYSEXTPROC;
+alias void function(GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer) PFNGLVERTEXPOINTEREXTPROC;
+alias void function(GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer) PFNGLNORMALPOINTEREXTPROC;
+alias void function(GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer) PFNGLCOLORPOINTEREXTPROC;
+alias void function(GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer) PFNGLINDEXPOINTEREXTPROC;
+alias void function(GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid *pointer) PFNGLTEXCOORDPOINTEREXTPROC;
+alias void function(GLsizei stride, GLsizei count, GLboolean *pointer) PFNGLEDGEFLAGPOINTEREXTPROC;
+alias void function(GLenum pname, GLvoid* *params) PFNGLGETPOINTERVEXTPROC;
+alias void function(GLenum mode, GLsizei count, GLvoid* pi) PFNGLARRAYELEMENTARRAYEXTPROC;
 
 /* WIN_draw_range_elements */
-typedef void (* PFNGLDRAWRANGEELEMENTSWINPROC) (GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, GLvoid *indices);
+alias void function(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, GLvoid *indices) PFNGLDRAWRANGEELEMENTSWINPROC;
 
 /* WIN_swap_hint */
-typedef void (* PFNGLADDSWAPHINTRECTWINPROC)  (GLint x, GLint y, GLsizei width, GLsizei height);
+alias void function(GLint x, GLint y, GLsizei width, GLsizei height) PFNGLADDSWAPHINTRECTWINPROC;
 
 /* EXT_paletted_texture */
-typedef void (* PFNGLCOLORTABLEEXTPROC)
+alias void function
     (GLenum target, GLenum internalFormat, GLsizei width, GLenum format,
-     GLenum type, GLvoid *data);
-typedef void (* PFNGLCOLORSUBTABLEEXTPROC)
+     GLenum type, GLvoid *data) PFNGLCOLORTABLEEXTPROC;
+alias void function
     (GLenum target, GLsizei start, GLsizei count, GLenum format,
-     GLenum type, GLvoid *data);
-typedef void (* PFNGLGETCOLORTABLEEXTPROC)
-    (GLenum target, GLenum format, GLenum type, GLvoid *data);
-typedef void (* PFNGLGETCOLORTABLEPARAMETERIVEXTPROC)
-    (GLenum target, GLenum pname, GLint *params);
-typedef void (* PFNGLGETCOLORTABLEPARAMETERFVEXTPROC)
-    (GLenum target, GLenum pname, GLfloat *params);
+     GLenum type, GLvoid *data) PFNGLCOLORSUBTABLEEXTPROC;
+alias void function
+    (GLenum target, GLenum format, GLenum type, GLvoid *data) PFNGLGETCOLORTABLEEXTPROC;
+alias void function
+    (GLenum target, GLenum pname, GLint *params) PFNGLGETCOLORTABLEPARAMETERIVEXTPROC;
+alias void function
+    (GLenum target, GLenum pname, GLfloat *params) PFNGLGETCOLORTABLEPARAMETERFVEXTPROC;
 
 //import openglu;

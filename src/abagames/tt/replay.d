@@ -5,7 +5,7 @@
  */
 module abagames.tt.replay;
 
-private import std.stream;
+private import undead.stream;
 private import abagames.util.sdl.recordablepad;
 
 /**
@@ -13,7 +13,7 @@ private import abagames.util.sdl.recordablepad;
  */
 public class ReplayData {
  public:
-  static const char[] dir = "replay";
+  static const string dir = "replay";
   static const int VERSION_NUM = 20;
   PadRecord padRecord;
   float level;
@@ -21,8 +21,8 @@ public class ReplayData {
   long seed;
  private:
 
-  public void save(char[] fileName) {
-    auto File fd = new File;
+  public void save(string fileName) {
+    auto fd = new File;
     fd.create(dir ~ "/" ~ fileName);
     fd.write(VERSION_NUM);
     fd.write(level);
@@ -32,8 +32,8 @@ public class ReplayData {
     fd.close();
   }
 
-  public void load(char[] fileName) {
-    auto File fd = new File;
+  public void load(string fileName) {
+    auto fd = new File;
     fd.open(dir ~ "/" ~ fileName);
     int ver;
     fd.read(ver);

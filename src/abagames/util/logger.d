@@ -5,47 +5,44 @@
  */
 module abagames.util.logger;
 
-private import std.stream;
+private import std.conv;
+private import std.stdio;
 private import std.string;
+private import undead.stream;
+private import undead.string;
 
 /**
  * Logger(error/info).
  */
 version(Win32_release) {
 
-private import std.string;
 private import std.c.windows.windows;
 
 public class Logger {
 
-  public static void info(char[] msg, bool nline = true) {
-    // Win32 exe crashes if it writes something to stderr.
-    /*if (nline)
-      stderr.writeLine(msg);
+  public static void info(string msg, bool nline = true) {
+    if (nline)
+      stderr.writeln(msg);
     else
-    stderr.writeString(msg);*/
+      stderr.write(msg);
   }
 
   public static void info(double n, bool nline = true) {
-    /*if (nline)
-      stderr.writeLine(std.string.toString(n));
+    if (nline)
+      stderr.writeln(to!string(n));
     else
-    stderr.writeString(std.string.toString(n) ~ " ");*/
+      stderr.write(to!string(n));
   }
 
-  private static void putMessage(char[] msg) {
+  private static void putMessage(string msg) {
     MessageBoxA(null, std.string.toStringz(msg), "Error", MB_OK | MB_ICONEXCLAMATION);
   }
 
-  public static void error(char[] msg) {
+  public static void error(string msg) {
     putMessage("Error: " ~ msg);
   }
 
-  public static void error(Exception e) {
-    putMessage("Error: " ~ e.toString());
-  }
-
-  public static void error(Error e) {
+  public static void error(Throwable e) {
     putMessage("Error: " ~ e.toString());
   }
 }
@@ -54,30 +51,26 @@ public class Logger {
 
 public class Logger {
 
-  public static void info(char[] msg, bool nline = true) {
+  public static void info(string msg, bool nline = true) {
     if (nline)
-      stderr.writeLine(msg);
+      stderr.writeln(msg);
     else
-      stderr.writeString(msg);
+      stderr.write(msg);
   }
 
   public static void info(double n, bool nline = true) {
     if (nline)
-      stderr.writeLine(std.string.toString(n));
+      stderr.writeln(to!string(n));
     else
-      stderr.writeString(std.string.toString(n) ~ " ");
+      stderr.write(to!string(n) ~ " ");
   }
 
-  public static void error(char[] msg) {
-    stderr.writeLine("Error: " ~ msg);
+  public static void error(string msg) {
+    stderr.writeln("Error: " ~ msg);
   }
 
-  public static void error(Exception e) {
-    stderr.writeLine("Error: " ~ e.toString());
-  }
-
-  public static void error(Error e) {
-    stderr.writeLine("Error: " ~ e.toString());
+  public static void error(Throwable e) {
+    stderr.writeln("Error: " ~ e.toString());
     if (e.next)
       error(e.next);
   }
