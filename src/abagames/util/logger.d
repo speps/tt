@@ -9,7 +9,6 @@ private import std.conv;
 private import std.stdio;
 private import std.string;
 private import undead.stream;
-private import undead.string;
 
 /**
  * Logger(error/info).
