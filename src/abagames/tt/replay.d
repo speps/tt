@@ -26,22 +26,22 @@ public class ReplayData {
 
   public void save(string fileName) {
     auto buffer = appender!(ubyte[]);
-    buffer.append!int(VERSION_NUM);
-    buffer.append!float(level);
-    buffer.append!int(grade);
-    buffer.append!long(seed);
+    buffer.append!(int, Endian.littleEndian)(VERSION_NUM);
+    buffer.append!(float, Endian.littleEndian)(level);
+    buffer.append!(int, Endian.littleEndian)(grade);
+    buffer.append!(long, Endian.littleEndian)(seed);
     padRecord.save(buffer);
     std.file.write(dir ~ "/" ~ fileName, buffer[]);
   }
 
   public void load(string fileName) {
     auto buffer = cast(ubyte[])std.file.read(dir ~ "/" ~ fileName);
-    int ver = buffer.read!int;
+    int ver = buffer.read!(int, Endian.littleEndian);
     if (ver != VERSION_NUM)
       throw new Error("Wrong version num");
-    level = buffer.read!float;
-    grade = buffer.read!int;
-    seed = buffer.read!long;
+    level = buffer.read!(float, Endian.littleEndian);
+    grade = buffer.read!(int, Endian.littleEndian);
+    seed = buffer.read!(long, Endian.littleEndian);
     padRecord = new PadRecord;
     padRecord.load(buffer);
   }

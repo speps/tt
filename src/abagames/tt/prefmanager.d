@@ -28,7 +28,7 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
   public void load() {
     try {
       auto buffer = cast(ubyte[])std.file.read(PREF_FILE);
-      int ver = buffer.read!int;
+      int ver = buffer.read!(int, Endian.littleEndian);
       if (ver != VERSION_NUM)
         throw new Error("Wrong version num");
       _prefData.load(buffer);
@@ -39,7 +39,7 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
 
   public void save() {
     auto buffer = appender!(ubyte[]);
-    buffer.append!int(VERSION_NUM);
+    buffer.append!(int, Endian.littleEndian)(VERSION_NUM);
     _prefData.save(buffer);
     std.file.write(PREF_FILE, buffer[]);
   }
@@ -67,18 +67,18 @@ public class PrefData {
     _selectedLevel = 1;
   }
 
-  public void load(ubyte[] buffer) {
+  public void load(ref ubyte[] buffer) {
     foreach (GradeData gd; gradeData)
       gd.load(buffer);
-    _selectedGrade = buffer.read!int;
-    _selectedLevel = buffer.read!int;
+    _selectedGrade = buffer.read!(int, Endian.littleEndian);
+    _selectedLevel = buffer.read!(int, Endian.littleEndian);
   }
 
   public void save(Appender!(ubyte[]) buffer) {
     foreach (GradeData gd; gradeData)
       gd.save(buffer);
-    buffer.append!int(_selectedGrade);
-    buffer.append!int(_selectedLevel);
+    buffer.append!(int, Endian.littleEndian)(_selectedGrade);
+    buffer.append!(int, Endian.littleEndian)(_selectedLevel);
   }
 
   public void recordStartGame(int gd, int lv) {
@@ -128,17 +128,17 @@ public class GradeData {
     hiScore = 0;
   }
 
-  public void load(ubyte[] buffer) {
-    reachedLevel = buffer.read!int;
-    hiScore = buffer.read!int;
-    startLevel = buffer.read!int;
-    endLevel = buffer.read!int;
+  public void load(ref ubyte[] buffer) {
+    reachedLevel = buffer.read!(int, Endian.littleEndian);
+    hiScore = buffer.read!(int, Endian.littleEndian);
+    startLevel = buffer.read!(int, Endian.littleEndian);
+    endLevel = buffer.read!(int, Endian.littleEndian);
   }
 
   public void save(Appender!(ubyte[]) buffer) {
-    buffer.append!int(reachedLevel);
-    buffer.append!int(hiScore);
-    buffer.append!int(startLevel);
-    buffer.append!int(endLevel);
+    buffer.append!(int, Endian.littleEndian)(reachedLevel);
+    buffer.append!(int, Endian.littleEndian)(hiScore);
+    buffer.append!(int, Endian.littleEndian)(startLevel);
+    buffer.append!(int, Endian.littleEndian)(endLevel);
   }
 }

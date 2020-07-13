@@ -92,20 +92,20 @@ public class PadRecord {
   }
 
   public void save(Appender!(ubyte[]) buffer) {
-    buffer.append!int(record.length);
+    buffer.append!(int, Endian.littleEndian)(record.length);
     foreach (Record r; record) {
-      buffer.append!int(r.series);
-      buffer.append!int(r.data);
+      buffer.append!(int, Endian.littleEndian)(r.series);
+      buffer.append!(int, Endian.littleEndian)(r.data);
     }
   }
 
-  public void load(ubyte[] buffer) {
+  public void load(ref ubyte[] buffer) {
     clear();
-    int len = buffer.read!int;
+    int len = buffer.read!(int, Endian.littleEndian);
     for (int i = 0; i < len; i++) {
       Record r;
-      r.series = buffer.read!int;
-      r.data = buffer.read!int;
+      r.series = buffer.read!(int, Endian.littleEndian);
+      r.data = buffer.read!(int, Endian.littleEndian);
       record ~= r;
     }
   }
