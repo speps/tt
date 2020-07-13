@@ -7,8 +7,8 @@ module abagames.util.tokenizer;
 
 private import std.conv;
 private import std.array;
+private import std.stdio;
 private import std.string;
-private import undead.stream;
 
 /**
  * Tokenizer.
@@ -21,14 +21,14 @@ public class Tokenizer {
     auto fd = new File;
     fd.open(fileName);
     for (;;) {
-      char[] line = fd.readLine();
+      string line = fd.readln();
       if (!line)
         break;
-      char[][] spl = split(line, separator);
-      foreach (char[] s; spl) {
-        char[] r = strip(s);
+      string[] spl = split(line, separator);
+      foreach (string s; spl) {
+        string r = strip(s);
         if (r.length > 0)
-          result ~= to!string(r);
+          result ~= r;
       }
     }
     fd.close();

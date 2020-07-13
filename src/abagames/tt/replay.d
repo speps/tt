@@ -5,7 +5,10 @@
  */
 module abagames.tt.replay;
 
-private import undead.stream;
+import std.file;
+import std.array;
+import std.bitmanip;
+
 private import abagames.util.sdl.recordablepad;
 
 /**
@@ -22,28 +25,24 @@ public class ReplayData {
  private:
 
   public void save(string fileName) {
-    auto fd = new File;
-    fd.create(dir ~ "/" ~ fileName);
-    fd.write(VERSION_NUM);
-    fd.write(level);
-    fd.write(grade);
-    fd.write(seed);
-    padRecord.save(fd);
-    fd.close();
+    auto buffer = appender!(ubyte[]);
+    buffer.append!int(VERSION_NUM);
+    buffer.append!float(level);
+    buffer.append!int(grade);
+    buffer.append!long(seed);
+    padRecord.save(buffer);
+    std.file.write(dir ~ "/" ~ fileName, buffer[]);
   }
 
   public void load(string fileName) {
-    auto fd = new File;
-    fd.open(dir ~ "/" ~ fileName);
-    int ver;
-    fd.read(ver);
+    auto buffer = cast(ubyte[])std.file.read(dir ~ "/" ~ fileName);
+    int ver = buffer.read!int;
     if (ver != VERSION_NUM)
       throw new Error("Wrong version num");
-    fd.read(level);
-    fd.read(grade);
-    fd.read(seed);
+    level = buffer.read!float;
+    grade = buffer.read!int;
+    seed = buffer.read!long;
     padRecord = new PadRecord;
-    padRecord.load(fd);
-    fd.close();
+    padRecord.load(buffer);
   }
 }

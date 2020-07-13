@@ -8,7 +8,6 @@ module abagames.util.logger;
 private import std.conv;
 private import std.stdio;
 private import std.string;
-private import undead.stream;
 
 /**
  * Logger(error/info).

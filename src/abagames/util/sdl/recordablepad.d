@@ -5,7 +5,10 @@
  */
 module abagames.util.sdl.recordablepad;
 
-private import undead.stream;
+import std.file;
+import std.array;
+import std.bitmanip;
+
 private import abagames.util.iterator;
 private import abagames.util.sdl.pad;
 
@@ -88,24 +91,21 @@ public class PadRecord {
     return rsl;
   }
 
-  public void save(File fd) {
-    fd.write(record.length);
+  public void save(Appender!(ubyte[]) buffer) {
+    buffer.append!int(record.length);
     foreach (Record r; record) {
-      fd.write(r.series);
-      fd.write(r.data);
+      buffer.append!int(r.series);
+      buffer.append!int(r.data);
     }
   }
 
-  public void load(File fd) {
+  public void load(ubyte[] buffer) {
     clear();
-    int l, s, d;
-    fd.read(l);
-    for (int i = 0; i < l; i++) {
-      fd.read(s);
-      fd.read(d);
+    int len = buffer.read!int;
+    for (int i = 0; i < len; i++) {
       Record r;
-      r.series = s;
-      r.data = d;
+      r.series = buffer.read!int;
+      r.data = buffer.read!int;
       record ~= r;
     }
   }

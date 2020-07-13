@@ -5,7 +5,10 @@
  */
 module abagames.tt.prefmanager;
 
-private import undead.stream;
+import std.file;
+import std.array;
+import std.bitmanip;
+
 private import abagames.util.prefmanager;
 private import abagames.tt.ship;
 
@@ -23,28 +26,22 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
   }
 
   public void load() {
-    auto fd = new File;
     try {
-      int ver;
-      fd.open(PREF_FILE);
-      fd.read(ver);
+      auto buffer = cast(ubyte[])std.file.read(PREF_FILE);
+      int ver = buffer.read!int;
       if (ver != VERSION_NUM)
         throw new Error("Wrong version num");
-      _prefData.load(fd);
+      _prefData.load(buffer);
     } catch (Throwable) {
       _prefData.init();
-    } finally {
-      if (fd.isOpen())
-        fd.close();
     }
   }
 
   public void save() {
-    auto fd = new File;
-    fd.create(PREF_FILE);
-    fd.write(VERSION_NUM);
-    _prefData.save(fd);
-    fd.close();
+    auto buffer = appender!(ubyte[]);
+    buffer.append!int(VERSION_NUM);
+    _prefData.save(buffer);
+    std.file.write(PREF_FILE, buffer[]);
   }
 
   public PrefData prefData() {
@@ -70,18 +67,18 @@ public class PrefData {
     _selectedLevel = 1;
   }
 
-  public void load(File fd) {
+  public void load(ubyte[] buffer) {
     foreach (GradeData gd; gradeData)
-      gd.load(fd);
-    fd.read(_selectedGrade);
-    fd.read(_selectedLevel);
+      gd.load(buffer);
+    _selectedGrade = buffer.read!int;
+    _selectedLevel = buffer.read!int;
   }
 
-  public void save(File fd) {
+  public void save(Appender!(ubyte[]) buffer) {
     foreach (GradeData gd; gradeData)
-      gd.save(fd);
-    fd.write(_selectedGrade);
-    fd.write(_selectedLevel);
+      gd.save(buffer);
+    buffer.append!int(_selectedGrade);
+    buffer.append!int(_selectedLevel);
   }
 
   public void recordStartGame(int gd, int lv) {
@@ -131,17 +128,17 @@ public class GradeData {
     hiScore = 0;
   }
 
-  public void load(File fd) {
-    fd.read(reachedLevel);
-    fd.read(hiScore);
-    fd.read(startLevel);
-    fd.read(endLevel);
+  public void load(ubyte[] buffer) {
+    reachedLevel = buffer.read!int;
+    hiScore = buffer.read!int;
+    startLevel = buffer.read!int;
+    endLevel = buffer.read!int;
   }
 
-  public void save(File fd) {
-    fd.write(reachedLevel);
-    fd.write(hiScore);
-    fd.write(startLevel);
-    fd.write(endLevel);
+  public void save(Appender!(ubyte[]) buffer) {
+    buffer.append!int(reachedLevel);
+    buffer.append!int(hiScore);
+    buffer.append!int(startLevel);
+    buffer.append!int(endLevel);
   }
 }

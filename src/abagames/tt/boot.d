@@ -6,7 +6,6 @@
 module abagames.tt.boot;
 
 private import std.conv;
-private import undead.stream;
 private import core.stdc.stdlib;
 private import abagames.util.logger;
 private import abagames.util.tokenizer;

@@ -5,8 +5,7 @@
  */
 module abagames.util.rand;
 
-private import undead.stream;
-private import undead.date;
+import std.datetime.systime;
 
 /**
  * Random number generator.
@@ -14,8 +13,7 @@ private import undead.date;
 public class Rand {
   
   public this() {
-    d_time timer = getUTCtime();
-    init_genrand(cast(uint)timer);
+    init_genrand(cast(uint)Clock.currTime().toUnixTime!int);
   }
 
   public void setSeed(long n) {
