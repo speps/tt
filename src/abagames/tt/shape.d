@@ -70,7 +70,7 @@ public class ShipShape: Collidable, Drawable {
     displayList.close();
   }
 
-  public void setRandSeed(long n) {
+  public static void setRandSeed(long n) {
     if (!rand) {
       rand = new Rand;
     }

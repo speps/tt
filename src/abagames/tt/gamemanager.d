@@ -327,6 +327,7 @@ public class InGameState: GameState {
     Particle.setRandSeed(_seed);
     Shot.setRandSeed(_seed);
     SoundManager.setRandSeed(_seed);
+    ShipShape.setRandSeed(_seed);
     ship.start(_grade, _seed);
     stageManager.start(_level, _grade, _seed);
     initGameState();
@@ -592,6 +593,7 @@ public class TitleState: GameState {
     Particle.setRandSeed(_seed);
     Shot.setRandSeed(_seed);
     SoundManager.setRandSeed(_seed);
+    ShipShape.setRandSeed(_seed);
     ship.start(_grade, _seed);
     stageManager.start(_level, _grade, _seed);
     inGameState.initGameState();
