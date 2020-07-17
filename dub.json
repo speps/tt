@@ -6,12 +6,6 @@
 	"copyright": "Copyright © 2004 - Kenta Cho, 2020 - Remi Gillig",
 	"description": "Torus Trooper (Reboot)",
 	"license": "BSD 2-clause",
-	"name": "tt",
-	"targetType": "executable",
-	"sourcePaths": [
-		"src",
-		"import"
-	],
 	"importPaths": [
 		"lib"
 	],
@@ -21,5 +15,13 @@
 		"lib/glu32",
 		"lib/SDL",
 		"lib/SDL_mixer"
-	]
+	],
+	"name": "tt",
+	"sourcePaths": [
+		"src",
+		"import"
+	],
+	"targetType": "executable",
+	"targetPath": "dist",
+	"workingDirectory": "dist"
 }
