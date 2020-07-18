@@ -4,8 +4,10 @@
 		"Remi Gillig"
 	],
 	"copyright": "Copyright © 2004 - Kenta Cho, 2020 - Remi Gillig",
+	"dependencies": {
+		"bindbc-sdl": "~>0.19.0"
+	},
 	"description": "Torus Trooper (Reboot)",
-	"license": "BSD 2-clause",
 	"importPaths": [
 		"lib"
 	],
@@ -13,15 +15,26 @@
 		"lib/bulletml",
 		"lib/opengl32",
 		"lib/glu32",
-		"lib/SDL",
-		"lib/SDL_mixer"
+		"lib/SDL"
 	],
+	"copyFiles": [
+		"lib/SDL2-2.0.12/lib/x86/SDL2.dll",
+		"lib/SDL2_mixer-2.0.4/lib/x86/SDL2_mixer.dll",
+		"lib/SDL2_mixer-2.0.4/lib/x86/libvorbis-0.dll",
+		"lib/SDL2_mixer-2.0.4/lib/x86/libvorbisfile-3.dll",
+		"lib/SDL2_mixer-2.0.4/lib/x86/libogg-0.dll"
+	],
+	"license": "BSD 2-clause",
 	"name": "tt",
 	"sourcePaths": [
 		"src",
 		"import"
 	],
-	"targetType": "executable",
 	"targetPath": "dist",
-	"workingDirectory": "dist"
+	"targetType": "executable",
+	"workingDirectory": "dist",
+	"subConfigurations": {
+		"bindbc-sdl": "dynamicBC"
+	},
+	"versions": ["SDL_Mixer"]
 }

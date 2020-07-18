@@ -2,13 +2,16 @@
 docs.json
 __dummy.html
 docs/
+dist/*.dll
 /tt
 tt.so
 tt.dylib
 tt.dll
 tt.a
 tt.lib
-tt.prf
+*.prf
+*.rpl
+tt.exe
 *.rpl
 tt-test-*
 *.exe

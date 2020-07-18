@@ -5,14 +5,11 @@
  */
 module abagames.util.sdl.sound;
 
-private import std.conv;
-private import std.string;
-private import SDL;
-private import SDL_audio;
-private import SDL_error;
-private import SDL_mixer;
-private import SDL_types;
-private import abagames.util.sdl.sdlexception;
+import std.conv;
+import std.string;
+import bindbc.sdl;
+import bindbc.sdl.mixer;
+import abagames.util.sdl.sdlexception;
 
 /**
  * Initialize and close SDL_mixer.
@@ -25,19 +22,23 @@ public class SoundManager {
   public static void init() {
     if (noSound)
       return;
-    int audio_rate;
-    Uint16 audio_format;
-    int audio_channels;
-    int audio_buffers;
+    if (loadSDL() != sdlSupport) {
+      noSound = true;
+      return;
+    }
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
       noSound = true;
       throw new SDLInitFailedException
         ("Unable to initialize SDL_AUDIO: " ~ to!string(SDL_GetError()));
     }
-    audio_rate = 44100;
-    audio_format = AUDIO_S16;
-    audio_channels = 1;
-    audio_buffers = 4096;
+    if (loadSDLMixer() != sdlMixerSupport) {
+      noSound = true;
+      return;
+    }
+    int audio_rate = 44100;
+    Uint16 audio_format = AUDIO_S16;
+    int audio_channels = 1;
+    int audio_buffers = 4096;
     if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) < 0) {
       noSound = true;
       throw new SDLInitFailedException
