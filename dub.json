@@ -22,11 +22,11 @@
 	],
 	"libs": [
 		"lib/bulletml",
-		"lib/glu32",
-		"lib/SDL"
+		"lib/glu32"
 	],
 	"license": "BSD 2-clause",
 	"name": "tt",
+	"sourceFiles": ["resource/tt.res"],
 	"sourcePaths": [
 		"src",
 		"import"

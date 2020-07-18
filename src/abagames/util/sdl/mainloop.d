@@ -5,9 +5,7 @@
  */
 module abagames.util.sdl.mainloop;
 
-import SDL;
-import SDL_events;
-import SDL_timer;
+import bindbc.sdl;
 import abagames.util.logger;
 import abagames.util.rand;
 import abagames.util.prefmanager;
@@ -83,28 +81,28 @@ public class MainLoop {
 
     while (!done) {
       if (SDL_PollEvent(&event) == 0)
-	event.type = SDL_USEREVENT;
+	      event.type = SDL_USEREVENT;
       input.handleEvent(&event);
       if (event.type == SDL_QUIT)
-	breakLoop();
+	      breakLoop();
       nowTick = SDL_GetTicks();
       frame = cast(int) (nowTick-prvTickCount) / interval;
       if (frame <= 0) {
-	frame = 1;
-	SDL_Delay(cast(uint)(prvTickCount+interval-nowTick));
-	if (accframe) {
-	  prvTickCount = SDL_GetTicks();
-	} else {
-	  prvTickCount += interval;
-	}
+        frame = 1;
+        SDL_Delay(cast(uint)(prvTickCount+interval-nowTick));
+        if (accframe) {
+          prvTickCount = SDL_GetTicks();
+        } else {
+          prvTickCount += interval;
+        }
       } else if (frame > maxSkipFrame) {
-	frame = maxSkipFrame;
-	prvTickCount = nowTick;
+        frame = maxSkipFrame;
+        prvTickCount = nowTick;
       } else {
-	prvTickCount += frame * interval;
+	      prvTickCount += frame * interval;
       }
       for (i = 0; i < frame; i++) {
-	gameManager.move();
+	      gameManager.move();
       }
       screen.clear();
       gameManager.draw();

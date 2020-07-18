@@ -5,8 +5,7 @@
  */
 module abagames.util.sdl.input;
 
-import SDL;
-import SDL_events;
+import bindbc.sdl;
 
 /**
  * Input device interface.

@@ -7,10 +7,7 @@ module abagames.tt.gamemanager;
 
 import std.math;
 import bindbc.opengl;
-import SDL;
-import SDL_events;
-import SDL_Keysym;
-import SDL_types;
+import bindbc.sdl;
 import bulletml;
 import abagames.util.vector;
 import abagames.util.rand;
@@ -171,7 +168,7 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
   }
 
   public override void move() {
-    if (pad.keys[SDLK_ESCAPE] == SDL_PRESSED) {
+    if (pad.keys[SDL_SCANCODE_ESCAPE] == SDL_PRESSED) {
       if (!escPressed) {
         escPressed = true;
         if (state == inGameState) {
@@ -189,10 +186,11 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
 
   public override void draw() {
     SDL_Event e = mainLoop.event;
-    if (e.type == SDL_VIDEORESIZE) {
-      SDL_ResizeEvent re = e.resize;
-      if (re.w > 150 && re.h > 100)
-        screen.resized(re.w, re.h);
+    if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_RESIZED) {
+      int w = e.window.data1;
+      int h = e.window.data2;
+      if (w > 150 && h > 100)
+        screen.resized(w, h);
     }
     if (screen.startRenderToLuminousScreen()) {
       glPushMatrix();
@@ -366,7 +364,7 @@ public class InGameState: GameState {
   }
 
   public override void move() {
-    if (pad.keys[SDLK_p] == SDL_PRESSED) {
+    if (pad.keys[SDL_SCANCODE_P] == SDL_PRESSED) {
       if (!pausePressed) {
         if (pauseCnt <= 0 && !ship.isGameOver)
           pauseCnt = 1;

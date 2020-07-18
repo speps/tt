@@ -7,8 +7,7 @@ module abagames.util.sdl.texture;
 
 import std.string;
 import bindbc.opengl;
-import SDL;
-import SDL_video;
+import bindbc.sdl;
 import abagames.util.sdl.sdlexception;
 
 /**
@@ -22,8 +21,7 @@ public class Texture {
 
   public this(string name) {
     string fileName = imagesDir ~ name;
-    SDL_Surface *surface;
-    surface = SDL_LoadBMP(std.string.toStringz(fileName));
+    SDL_Surface *surface = SDL_LoadBMP(std.string.toStringz(fileName));
     if (!surface)
       throw new SDLInitFailedException("Unable to load: " ~ fileName);
     glGenTextures(1, &num);
@@ -36,6 +34,7 @@ public class Texture {
       GL_RGB, GL_UNSIGNED_BYTE, surface.pixels);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);*/
+    SDL_FreeSurface(surface);
   }
 
   public void deleteTexture() {
