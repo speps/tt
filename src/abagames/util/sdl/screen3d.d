@@ -13,7 +13,7 @@ private import SDL_events;
 private import SDL_mouse;
 private import SDL_types;
 private import SDL_video;
-private import opengl;
+private import bindbc.opengl;
 private import abagames.util.vector;
 private import abagames.util.sdl.screen;
 private import abagames.util.sdl.sdlexception;
@@ -50,6 +50,10 @@ public class Screen3D: Screen {
     if (SDL_SetVideoMode(width, height, 0, videoFlags) == null) {
       throw new SDLInitFailedException
         ("Unable to create SDL screen: " ~ to!string(SDL_GetError()));
+    }
+    loadOpenGL();
+    if (!isOpenGLLoaded) {
+      throw new SDLInitFailedException("Unable to load OpenGL");
     }
     glViewport(0, 0, width, height);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);

@@ -6,7 +6,7 @@
 module abagames.tt.floatletter;
 
 private import std.math;
-private import opengl;
+private import bindbc.opengl;
 private import abagames.util.actor;
 private import abagames.util.vector;
 private import abagames.util.rand;

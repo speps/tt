@@ -8,7 +8,7 @@ module abagames.tt.shot;
 private import std.conv;
 private import std.math;
 private import std.string;
-private import opengl;
+private import bindbc.opengl;
 private import abagames.util.actor;
 private import abagames.util.vector;
 private import abagames.util.rand;

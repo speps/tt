@@ -6,7 +6,7 @@
 module abagames.tt.gamemanager;
 
 private import std.math;
-private import opengl;
+private import bindbc.opengl;
 private import SDL;
 private import SDL_events;
 private import SDL_Keysym;

@@ -8,7 +8,7 @@ module abagames.util.sdl.luminous;
 private import std.math;
 private import std.string;
 private import core.stdc.string;
-private import opengl;
+private import bindbc.opengl;
 private import abagames.util.actor;
 
 /**

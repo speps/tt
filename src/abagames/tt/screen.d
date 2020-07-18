@@ -6,7 +6,7 @@
 module abagames.tt.screen;
 
 private import std.math;
-private import opengl;
+private import bindbc.opengl;
 private import abagames.util.sdl.screen3d;
 private import abagames.util.sdl.luminous;
 

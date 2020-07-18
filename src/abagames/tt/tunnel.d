@@ -5,7 +5,7 @@
  */
 module abagames.tt.tunnel;
 
-private import opengl;
+private import bindbc.opengl;
 private import std.math;
 private import abagames.util.vector;
 private import abagames.util.rand;

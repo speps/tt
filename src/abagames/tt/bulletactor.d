@@ -7,7 +7,7 @@ module abagames.tt.bulletactor;
 
 private import core.stdc.stdarg;
 private import std.math;
-private import opengl;
+private import bindbc.opengl;
 private import bulletml;
 private import abagames.util.actor;
 private import abagames.util.vector;
