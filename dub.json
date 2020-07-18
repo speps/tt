@@ -19,6 +19,7 @@
 	],
 	"copyFiles": [
 		"lib/SDL2-2.0.12/lib/x86/SDL2.dll",
+		"lib/SDL2-2.0.12/README-SDL.txt",
 		"lib/SDL2_mixer-2.0.4/lib/x86/SDL2_mixer.dll",
 		"lib/SDL2_mixer-2.0.4/lib/x86/libvorbis-0.dll",
 		"lib/SDL2_mixer-2.0.4/lib/x86/libvorbisfile-3.dll",

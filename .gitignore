@@ -3,6 +3,7 @@ docs.json
 __dummy.html
 docs/
 dist/*.dll
+dist/README-SDL.txt
 /tt
 tt.so
 tt.dylib
