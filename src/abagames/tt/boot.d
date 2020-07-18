@@ -5,17 +5,17 @@
  */
 module abagames.tt.boot;
 
-private import std.conv;
-private import core.stdc.stdlib;
-private import abagames.util.logger;
-private import abagames.util.tokenizer;
-private import abagames.util.sdl.mainloop;
-private import abagames.util.sdl.pad;
-private import abagames.util.sdl.recordablepad;
-private import abagames.util.sdl.sound;
-private import abagames.tt.screen;
-private import abagames.tt.gamemanager;
-private import abagames.tt.prefmanager;
+import std.conv;
+import core.stdc.stdlib;
+import abagames.util.logger;
+import abagames.util.tokenizer;
+import abagames.util.sdl.mainloop;
+import abagames.util.sdl.pad;
+import abagames.util.sdl.recordablepad;
+import abagames.util.sdl.sound;
+import abagames.tt.screen;
+import abagames.tt.gamemanager;
+import abagames.tt.prefmanager;
 
 /**
  * Boot the game.
@@ -29,8 +29,8 @@ MainLoop mainLoop;
 
 version (Win32_release) {
   // Boot as the Windows executable.
-  private import std.c.windows.windows;
-  private import std.string;
+  import std.c.windows.windows;
+  import std.string;
 
   extern (C) void gc_init();
   extern (C) void gc_term();

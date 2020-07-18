@@ -5,8 +5,8 @@
  */
 module abagames.util.sdl.displaylist;
 
-private import bindbc.opengl;
-private import abagames.util.sdl.sdlexception;
+import bindbc.opengl;
+import abagames.util.sdl.sdlexception;
 
 /**
  * Manage the display list.

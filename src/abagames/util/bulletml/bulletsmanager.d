@@ -5,8 +5,8 @@
  */
 module abagames.util.bulletml.bulletsmanager;
 
-private import bulletml;
-private import abagames.util.bulletml.bullet;
+import bulletml;
+import abagames.util.bulletml.bullet;
 
 /**
  * Interface for bullet's instances manager.

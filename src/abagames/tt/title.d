@@ -5,18 +5,18 @@
  */
 module abagames.tt.title;
 
-private import std.math;
-private import bindbc.opengl;
-private import openglu;
-private import abagames.util.vector;
-private import abagames.util.sdl.displaylist;
-private import abagames.util.sdl.texture;
-private import abagames.util.sdl.pad;
-private import abagames.tt.screen;
-private import abagames.tt.prefmanager;
-private import abagames.tt.ship;
-private import abagames.tt.letter;
-private import abagames.tt.gamemanager;
+import std.math;
+import bindbc.opengl;
+import openglu;
+import abagames.util.vector;
+import abagames.util.sdl.displaylist;
+import abagames.util.sdl.texture;
+import abagames.util.sdl.pad;
+import abagames.tt.screen;
+import abagames.tt.prefmanager;
+import abagames.tt.ship;
+import abagames.tt.letter;
+import abagames.tt.gamemanager;
 
 /**
  * Title screen.

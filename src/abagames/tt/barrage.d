@@ -5,18 +5,18 @@
  */
 module abagames.tt.barrage;
 
-private import std.math;
-private import std.string;
-private import std.path;
-private import bulletml;
-private import abagames.util.rand;
-private import abagames.util.logger;
-private import abagames.util.listdir;
-private import abagames.tt.bulletactor;
-private import abagames.tt.bulletactorpool;
-private import abagames.tt.bulletimpl;
-private import abagames.tt.bullettarget;
-private import abagames.tt.shape;
+import std.math;
+import std.string;
+import std.path;
+import bulletml;
+import abagames.util.rand;
+import abagames.util.logger;
+import abagames.util.listdir;
+import abagames.tt.bulletactor;
+import abagames.tt.bulletactorpool;
+import abagames.tt.bulletimpl;
+import abagames.tt.bullettarget;
+import abagames.tt.shape;
 
 /**
  * Barrage pattern.

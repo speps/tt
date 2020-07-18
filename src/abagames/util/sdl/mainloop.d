@@ -5,17 +5,17 @@
  */
 module abagames.util.sdl.mainloop;
 
-private import SDL;
-private import SDL_events;
-private import SDL_timer;
-private import abagames.util.logger;
-private import abagames.util.rand;
-private import abagames.util.prefmanager;
-private import abagames.util.sdl.gamemanager;
-private import abagames.util.sdl.screen;
-private import abagames.util.sdl.input;
-private import abagames.util.sdl.sound;
-private import abagames.util.sdl.sdlexception;
+import SDL;
+import SDL_events;
+import SDL_timer;
+import abagames.util.logger;
+import abagames.util.rand;
+import abagames.util.prefmanager;
+import abagames.util.sdl.gamemanager;
+import abagames.util.sdl.screen;
+import abagames.util.sdl.input;
+import abagames.util.sdl.sound;
+import abagames.util.sdl.sdlexception;
 
 /**
  * SDL main loop.

@@ -5,20 +5,20 @@
  */
 module abagames.tt.bulletactorpool;
 
-private import std.math;
-private import bulletml;
-private import abagames.util.actor;
-private import abagames.util.vector;
-private import abagames.util.bulletml.bullet;
-private import abagames.util.bulletml.bulletsmanager;
-private import abagames.util.sdl.luminous;
-private import abagames.tt.bulletactor;
-private import abagames.tt.bulletimpl;
-private import abagames.tt.bullettarget;
-private import abagames.tt.tunnel;
-private import abagames.tt.ship;
-private import abagames.tt.shot;
-private import abagames.tt.shape;
+import std.math;
+import bulletml;
+import abagames.util.actor;
+import abagames.util.vector;
+import abagames.util.bulletml.bullet;
+import abagames.util.bulletml.bulletsmanager;
+import abagames.util.sdl.luminous;
+import abagames.tt.bulletactor;
+import abagames.tt.bulletimpl;
+import abagames.tt.bullettarget;
+import abagames.tt.tunnel;
+import abagames.tt.ship;
+import abagames.tt.shot;
+import abagames.tt.shape;
 
 /**
  * Bullet actor pool that works as BulletsManager.

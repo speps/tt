@@ -5,11 +5,11 @@
  */
 module abagames.util.sdl.luminous;
 
-private import std.math;
-private import std.string;
-private import core.stdc.string;
-private import bindbc.opengl;
-private import abagames.util.actor;
+import std.math;
+import std.string;
+import core.stdc.string;
+import bindbc.opengl;
+import abagames.util.actor;
 
 /**
  * Luminous effect texture.

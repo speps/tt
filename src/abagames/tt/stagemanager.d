@@ -5,16 +5,16 @@
  */
 module abagames.tt.stagemanager;
 
-private import std.string;
-private import std.math;
-private import bulletml;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.tt.enemy;
-private import abagames.tt.barrage;
-private import abagames.tt.shape;
-private import abagames.tt.ship;
-private import abagames.tt.tunnel;
+import std.string;
+import std.math;
+import bulletml;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.tt.enemy;
+import abagames.tt.barrage;
+import abagames.tt.shape;
+import abagames.tt.ship;
+import abagames.tt.tunnel;
 
 /**
  * Manage an enemys' appearance and a torus.

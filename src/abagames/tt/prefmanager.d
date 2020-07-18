@@ -9,8 +9,8 @@ import std.file;
 import std.array;
 import std.bitmanip;
 
-private import abagames.util.prefmanager;
-private import abagames.tt.ship;
+import abagames.util.prefmanager;
+import abagames.tt.ship;
 
 /**
  * Save/Load the high score.

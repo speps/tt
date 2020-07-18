@@ -5,10 +5,10 @@
  */
 module abagames.tt.letter;
 
-private import std.math;
-private import bindbc.opengl;
-private import abagames.util.sdl.displaylist;
-private import abagames.tt.screen;
+import std.math;
+import bindbc.opengl;
+import abagames.util.sdl.displaylist;
+import abagames.tt.screen;
 
 /**
  * Letters.

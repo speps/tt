@@ -5,10 +5,10 @@
  */
 module abagames.util.tokenizer;
 
-private import std.conv;
-private import std.array;
-private import std.stdio;
-private import std.string;
+import std.conv;
+import std.array;
+import std.stdio;
+import std.string;
 
 /**
  * Tokenizer.

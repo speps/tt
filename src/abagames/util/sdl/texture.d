@@ -5,11 +5,11 @@
  */
 module abagames.util.sdl.texture;
 
-private import std.string;
-private import bindbc.opengl;
-private import SDL;
-private import SDL_video;
-private import abagames.util.sdl.sdlexception;
+import std.string;
+import bindbc.opengl;
+import SDL;
+import SDL_video;
+import abagames.util.sdl.sdlexception;
 
 /**
  * Manage OpenGL textures.

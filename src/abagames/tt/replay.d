@@ -9,7 +9,7 @@ import std.file;
 import std.array;
 import std.bitmanip;
 
-private import abagames.util.sdl.recordablepad;
+import abagames.util.sdl.recordablepad;
 
 /**
  * Manage a replay data.

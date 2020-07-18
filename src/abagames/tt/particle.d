@@ -5,15 +5,15 @@
  */
 module abagames.tt.particle;
 
-private import std.math;
-private import bindbc.opengl;
-private import abagames.util.actor;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.util.sdl.luminous;
-private import abagames.tt.tunnel;
-private import abagames.tt.ship;
-private import abagames.tt.screen;
+import std.math;
+import bindbc.opengl;
+import abagames.util.actor;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.util.sdl.luminous;
+import abagames.tt.tunnel;
+import abagames.tt.ship;
+import abagames.tt.screen;
 
 /**
  * Particles.

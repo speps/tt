@@ -5,22 +5,22 @@
  */
 module abagames.tt.bulletactor;
 
-private import core.stdc.stdarg;
-private import std.math;
-private import bindbc.opengl;
-private import bulletml;
-private import abagames.util.actor;
-private import abagames.util.vector;
-private import abagames.util.bulletml.bullet;
-private import abagames.tt.bulletimpl;
-private import abagames.tt.bullettarget;
-private import abagames.tt.bulletactorpool;
-private import abagames.tt.tunnel;
-private import abagames.tt.ship;
-private import abagames.tt.screen;
-private import abagames.tt.shape;
-private import abagames.tt.enemy;
-private import abagames.tt.shot;
+import core.stdc.stdarg;
+import std.math;
+import bindbc.opengl;
+import bulletml;
+import abagames.util.actor;
+import abagames.util.vector;
+import abagames.util.bulletml.bullet;
+import abagames.tt.bulletimpl;
+import abagames.tt.bullettarget;
+import abagames.tt.bulletactorpool;
+import abagames.tt.tunnel;
+import abagames.tt.ship;
+import abagames.tt.screen;
+import abagames.tt.shape;
+import abagames.tt.enemy;
+import abagames.tt.shot;
 
 /**
  * Actor of an bullet controlled by BulletML.

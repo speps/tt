@@ -5,11 +5,11 @@
  */
 module abagames.util.bulletml.bullet;
 
-private import std.math;
-private import bulletml;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.util.bulletml.bulletsmanager;
+import std.math;
+import bulletml;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.util.bulletml.bulletsmanager;
 
 /**
  * Bullet controlled by BulletML.

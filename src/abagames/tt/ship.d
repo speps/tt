@@ -5,25 +5,25 @@
  */
 module abagames.tt.ship;
 
-private import std.math;
-private import bindbc.opengl;
-private import openglu;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.util.sdl.pad;
-private import abagames.util.sdl.recordablepad;
-private import abagames.util.bulletml.bullet;
-private import abagames.tt.tunnel;
-private import abagames.tt.gamemanager;
-private import abagames.tt.screen;
-private import abagames.tt.shape;
-private import abagames.tt.bullettarget;
-private import abagames.tt.particle;
-private import abagames.tt.letter;
-private import abagames.tt.shot;
-private import abagames.tt.stagemanager;
-private import abagames.tt.soundmanager;
-private import abagames.tt.camera;
+import std.math;
+import bindbc.opengl;
+import openglu;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.util.sdl.pad;
+import abagames.util.sdl.recordablepad;
+import abagames.util.bulletml.bullet;
+import abagames.tt.tunnel;
+import abagames.tt.gamemanager;
+import abagames.tt.screen;
+import abagames.tt.shape;
+import abagames.tt.bullettarget;
+import abagames.tt.particle;
+import abagames.tt.letter;
+import abagames.tt.shot;
+import abagames.tt.stagemanager;
+import abagames.tt.soundmanager;
+import abagames.tt.camera;
 
 /**
  * My ship.

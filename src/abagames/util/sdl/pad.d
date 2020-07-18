@@ -5,17 +5,17 @@
  */
 module abagames.util.sdl.pad;
 
-private import std.conv;
-private import std.string;
-private import SDL;
-private import SDL_error;
-private import SDL_events;
-private import SDL_joystick;
-private import SDL_keyboard;
-private import SDL_Keysym;
-private import SDL_types;
-private import abagames.util.sdl.input;
-private import abagames.util.sdl.sdlexception;
+import std.conv;
+import std.string;
+import SDL;
+import SDL_error;
+import SDL_events;
+import SDL_joystick;
+import SDL_keyboard;
+import SDL_Keysym;
+import SDL_types;
+import abagames.util.sdl.input;
+import abagames.util.sdl.sdlexception;
 
 /**
  * Joystick and keyboard input.

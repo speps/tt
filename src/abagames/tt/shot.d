@@ -5,22 +5,22 @@
  */
 module abagames.tt.shot;
 
-private import std.conv;
-private import std.math;
-private import std.string;
-private import bindbc.opengl;
-private import abagames.util.actor;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.tt.tunnel;
-private import abagames.tt.shape;
-private import abagames.tt.screen;
-private import abagames.tt.enemy;
-private import abagames.tt.bulletactorpool;
-private import abagames.tt.floatletter;
-private import abagames.tt.particle;
-private import abagames.tt.ship;
-private import abagames.tt.soundmanager;
+import std.conv;
+import std.math;
+import std.string;
+import bindbc.opengl;
+import abagames.util.actor;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.tt.tunnel;
+import abagames.tt.shape;
+import abagames.tt.screen;
+import abagames.tt.enemy;
+import abagames.tt.bulletactorpool;
+import abagames.tt.floatletter;
+import abagames.tt.particle;
+import abagames.tt.ship;
+import abagames.tt.soundmanager;
 
 /**
  * Player's shot.

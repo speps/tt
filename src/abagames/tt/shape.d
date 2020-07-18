@@ -5,15 +5,15 @@
  */
 module abagames.tt.shape;
 
-private import std.string;
-private import std.math;
-private import bindbc.opengl;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.util.sdl.screen3d;
-private import abagames.util.sdl.displaylist;
-private import abagames.tt.screen;
-private import abagames.tt.particle;
+import std.string;
+import std.math;
+import bindbc.opengl;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.util.sdl.screen3d;
+import abagames.util.sdl.displaylist;
+import abagames.tt.screen;
+import abagames.tt.particle;
 
 /**
  * Interface for drawing a shape.

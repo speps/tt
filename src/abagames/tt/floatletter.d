@@ -5,14 +5,14 @@
  */
 module abagames.tt.floatletter;
 
-private import std.math;
-private import bindbc.opengl;
-private import abagames.util.actor;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.tt.letter;
-private import abagames.tt.tunnel;
-private import abagames.tt.screen;
+import std.math;
+import bindbc.opengl;
+import abagames.util.actor;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.tt.letter;
+import abagames.tt.tunnel;
+import abagames.tt.screen;
 
 /**
  * Floating letters(display the multiplier).

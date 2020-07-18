@@ -5,10 +5,10 @@
  */
 module abagames.tt.screen;
 
-private import std.math;
-private import bindbc.opengl;
-private import abagames.util.sdl.screen3d;
-private import abagames.util.sdl.luminous;
+import std.math;
+import bindbc.opengl;
+import abagames.util.sdl.screen3d;
+import abagames.util.sdl.luminous;
 
 /**
  * Initialize an OpenGL and set the caption.

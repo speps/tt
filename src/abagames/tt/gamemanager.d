@@ -5,37 +5,37 @@
  */
 module abagames.tt.gamemanager;
 
-private import std.math;
-private import bindbc.opengl;
-private import SDL;
-private import SDL_events;
-private import SDL_Keysym;
-private import SDL_types;
-private import bulletml;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.util.bulletml.bullet;
-private import abagames.util.sdl.gamemanager;
-private import abagames.util.sdl.texture;
-private import abagames.util.sdl.pad;
-private import abagames.util.sdl.recordablepad;
-private import abagames.tt.prefmanager;
-private import abagames.tt.screen;
-private import abagames.tt.ship;
-private import abagames.tt.tunnel;
-private import abagames.tt.bulletactor;
-private import abagames.tt.bulletactorpool;
-private import abagames.tt.barrage;
-private import abagames.tt.enemy;
-private import abagames.tt.stagemanager;
-private import abagames.tt.shape;
-private import abagames.tt.particle;
-private import abagames.tt.letter;
-private import abagames.tt.shot;
-private import abagames.tt.floatletter;
-private import abagames.tt.title;
-private import abagames.tt.soundmanager;
-private import abagames.tt.replay;
+import std.math;
+import bindbc.opengl;
+import SDL;
+import SDL_events;
+import SDL_Keysym;
+import SDL_types;
+import bulletml;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.util.bulletml.bullet;
+import abagames.util.sdl.gamemanager;
+import abagames.util.sdl.texture;
+import abagames.util.sdl.pad;
+import abagames.util.sdl.recordablepad;
+import abagames.tt.prefmanager;
+import abagames.tt.screen;
+import abagames.tt.ship;
+import abagames.tt.tunnel;
+import abagames.tt.bulletactor;
+import abagames.tt.bulletactorpool;
+import abagames.tt.barrage;
+import abagames.tt.enemy;
+import abagames.tt.stagemanager;
+import abagames.tt.shape;
+import abagames.tt.particle;
+import abagames.tt.letter;
+import abagames.tt.shot;
+import abagames.tt.floatletter;
+import abagames.tt.title;
+import abagames.tt.soundmanager;
+import abagames.tt.replay;
 
 /**
  * Manage the game state and actor pools.

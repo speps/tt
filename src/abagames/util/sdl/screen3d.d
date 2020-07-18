@@ -5,18 +5,18 @@
  */
 module abagames.util.sdl.screen3d;
 
-private import std.conv;
-private import std.string;
-private import SDL;
-private import SDL_error;
-private import SDL_events;
-private import SDL_mouse;
-private import SDL_types;
-private import SDL_video;
-private import bindbc.opengl;
-private import abagames.util.vector;
-private import abagames.util.sdl.screen;
-private import abagames.util.sdl.sdlexception;
+import std.conv;
+import std.string;
+import SDL;
+import SDL_error;
+import SDL_events;
+import SDL_mouse;
+import SDL_types;
+import SDL_video;
+import bindbc.opengl;
+import abagames.util.vector;
+import abagames.util.sdl.screen;
+import abagames.util.sdl.sdlexception;
 
 /**
  * SDL screen handler(3D, OpenGL).

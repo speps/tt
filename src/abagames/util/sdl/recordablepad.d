@@ -9,8 +9,8 @@ import std.file;
 import std.array;
 import std.bitmanip;
 
-private import abagames.util.iterator;
-private import abagames.util.sdl.pad;
+import abagames.util.iterator;
+import abagames.util.sdl.pad;
 
 /**
  * Pad that can record an input for a replay.

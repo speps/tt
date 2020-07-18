@@ -5,12 +5,12 @@
  */
 module abagames.tt.soundmanager;
 
-private import std.path;
-private import std.file;
-private import abagames.util.rand;
-private import abagames.util.logger;
-private import abagames.util.listdir;
-private import abagames.util.sdl.sound;
+import std.path;
+import std.file;
+import abagames.util.rand;
+import abagames.util.logger;
+import abagames.util.listdir;
+import abagames.util.sdl.sound;
 
 /**
  * Manage BGMs and SEs.

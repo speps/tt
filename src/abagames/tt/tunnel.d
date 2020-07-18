@@ -5,14 +5,14 @@
  */
 module abagames.tt.tunnel;
 
-private import bindbc.opengl;
-private import std.math;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.util.sdl.displaylist;
-private import abagames.tt.ship;
-private import abagames.tt.enemy;
-private import abagames.tt.screen;
+import bindbc.opengl;
+import std.math;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.util.sdl.displaylist;
+import abagames.tt.ship;
+import abagames.tt.enemy;
+import abagames.tt.screen;
 
 /**
  * Tunnel course manager.

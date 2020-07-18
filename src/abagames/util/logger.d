@@ -5,16 +5,16 @@
  */
 module abagames.util.logger;
 
-private import std.conv;
-private import std.stdio;
-private import std.string;
+import std.conv;
+import std.stdio;
+import std.string;
 
 /**
  * Logger(error/info).
  */
 version(Win32_release) {
 
-private import std.c.windows.windows;
+import std.c.windows.windows;
 
 public class Logger {
 

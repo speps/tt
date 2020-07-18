@@ -5,11 +5,11 @@
  */
 module abagames.tt.camera;
 
-private import std.math;
-private import abagames.util.vector;
-private import abagames.util.rand;
-private import abagames.tt.ship;
-private import abagames.tt.screen;
+import std.math;
+import abagames.util.vector;
+import abagames.util.rand;
+import abagames.tt.ship;
+import abagames.tt.screen;
 
 /**
  * Handle a camera.

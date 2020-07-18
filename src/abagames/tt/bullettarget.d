@@ -5,7 +5,7 @@
  */
 module abagames.tt.bullettarget;
 
-private import abagames.util.vector;
+import abagames.util.vector;
 
 /**
  * Target that is aimed by bullets.

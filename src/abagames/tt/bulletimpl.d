@@ -5,11 +5,11 @@
  */
 module abagames.tt.bulletimpl;
 
-private import bulletml;
-private import abagames.util.bulletml.bullet;
-private import abagames.tt.bulletactor;
-private import abagames.tt.bullettarget;
-private import abagames.tt.shape;
+import bulletml;
+import abagames.util.bulletml.bullet;
+import abagames.tt.bulletactor;
+import abagames.tt.bullettarget;
+import abagames.tt.shape;
 
 /**
  * Bullet params of parsers, shape, the vertical/horizontal reverse moving, target, rootBullet.

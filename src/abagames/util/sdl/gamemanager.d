@@ -5,10 +5,10 @@
  */
 module abagames.util.sdl.gamemanager;
 
-private import abagames.util.prefmanager;
-private import abagames.util.sdl.mainloop;
-private import abagames.util.sdl.screen;
-private import abagames.util.sdl.input;
+import abagames.util.prefmanager;
+import abagames.util.sdl.mainloop;
+import abagames.util.sdl.screen;
+import abagames.util.sdl.input;
 
 /**
  * Manage the lifecycle of the game.
