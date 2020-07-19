@@ -21,8 +21,7 @@
 		"lib"
 	],
 	"libs": [
-		"lib/bulletml",
-		"lib/glu32"
+		"lib/bulletml"
 	],
 	"license": "BSD 2-clause",
 	"name": "tt",
