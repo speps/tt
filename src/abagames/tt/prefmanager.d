@@ -9,6 +9,7 @@ import std.file;
 import std.array;
 import std.bitmanip;
 
+import abagames.util.bytebuffer;
 import abagames.util.prefmanager;
 import abagames.tt.ship;
 
@@ -38,10 +39,10 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
   }
 
   public void save() {
-    auto buffer = appender!(ubyte[]);
+    auto buffer = new ByteBuffer();
     buffer.append!(int, Endian.littleEndian)(VERSION_NUM);
     _prefData.save(buffer);
-    std.file.write(PREF_FILE, buffer[]);
+    std.file.write(PREF_FILE, buffer.data);
   }
 
   public PrefData prefData() {
@@ -74,7 +75,7 @@ public class PrefData {
     _selectedLevel = buffer.read!(int, Endian.littleEndian);
   }
 
-  public void save(Appender!(ubyte[]) buffer) {
+  public void save(ByteBuffer buffer) {
     foreach (GradeData gd; gradeData)
       gd.save(buffer);
     buffer.append!(int, Endian.littleEndian)(_selectedGrade);
@@ -135,7 +136,7 @@ public class GradeData {
     endLevel = buffer.read!(int, Endian.littleEndian);
   }
 
-  public void save(Appender!(ubyte[]) buffer) {
+  public void save(ByteBuffer buffer) {
     buffer.append!(int, Endian.littleEndian)(reachedLevel);
     buffer.append!(int, Endian.littleEndian)(hiScore);
     buffer.append!(int, Endian.littleEndian)(startLevel);

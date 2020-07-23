@@ -9,6 +9,7 @@ import std.file;
 import std.array;
 import std.bitmanip;
 
+import abagames.util.bytebuffer;
 import abagames.util.iterator;
 import abagames.util.sdl.pad;
 
@@ -91,7 +92,7 @@ public class PadRecord {
     return rsl;
   }
 
-  public void save(Appender!(ubyte[]) buffer) {
+  public void save(ByteBuffer buffer) {
     buffer.append!(int, Endian.littleEndian)(record.length);
     foreach (Record r; record) {
       buffer.append!(int, Endian.littleEndian)(r.series);

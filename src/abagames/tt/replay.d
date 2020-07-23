@@ -9,6 +9,7 @@ import std.file;
 import std.array;
 import std.bitmanip;
 
+import abagames.util.bytebuffer;
 import abagames.util.sdl.recordablepad;
 
 /**
@@ -25,13 +26,13 @@ public class ReplayData {
  private:
 
   public void save(string fileName) {
-    auto buffer = appender!(ubyte[]);
+    auto buffer = new ByteBuffer();
     buffer.append!(int, Endian.littleEndian)(VERSION_NUM);
     buffer.append!(float, Endian.littleEndian)(level);
     buffer.append!(int, Endian.littleEndian)(grade);
     buffer.append!(long, Endian.littleEndian)(seed);
     padRecord.save(buffer);
-    std.file.write(dir ~ "/" ~ fileName, buffer[]);
+    std.file.write(dir ~ "/" ~ fileName, buffer.data);
   }
 
   public void load(string fileName) {
