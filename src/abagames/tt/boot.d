@@ -27,46 +27,7 @@ GameManager gameManager;
 PrefManager prefManager;
 MainLoop mainLoop;
 
-version (Win32_release) {
-  // Boot as the Windows executable.
-  import std.c.windows.windows;
-  import std.string;
-
-  extern (C) void gc_init();
-  extern (C) void gc_term();
-  extern (C) void _minit();
-  extern (C) void _moduleCtor();
-
-  extern (Windows)
-  public int WinMain(HINSTANCE hInstance,
-		     HINSTANCE hPrevInstance,
-		     LPSTR lpCmdLine,
-		     int nCmdShow) {
-    int result;
-    gc_init();
-    _minit();
-    try {
-      _moduleCtor();
-      char[4096] exe;
-      GetModuleFileNameA(null, exe, 4096);
-      char[][1] prog;
-      prog[0] = std.string.toString(exe);
-      result = boot(prog ~ std.string.split(std.string.toString(lpCmdLine)));
-    } catch (Object o) {
-      Logger.error("Exception: " ~ o.toString());
-      result = EXIT_FAILURE;
-    }
-    gc_term();
-    return result;
-  }
-} else {
-  // Boot as the general executable.
-  public int main(string[] args) {
-    return boot(args);
-  }
-}
-
-public int boot(string[] args) {
+public int main(string[] args) {
   screen = new Screen;
   input = new RecordablePad;
   try {
