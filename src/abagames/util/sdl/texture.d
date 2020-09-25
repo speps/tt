@@ -21,7 +21,7 @@ public class Texture {
 
   public this(string name) {
     string fileName = imagesDir ~ name;
-    SDL_Surface *surface = SDL_LoadBMP(std.string.toStringz(fileName));
+    SDL_Surface *surface = SDL_LoadBMP(toStringz(fileName));
     if (!surface)
       throw new SDLInitFailedException("Unable to load: " ~ fileName);
     glGenTextures(1, &num);

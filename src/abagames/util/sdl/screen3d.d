@@ -112,7 +112,7 @@ public class Screen3D: Screen {
   }
 
   protected void setCaption(string name) {
-    SDL_SetWindowTitle(window, std.string.toStringz(name));
+    SDL_SetWindowTitle(window, toStringz(name));
   }
 
   public static void setColor(float r, float g, float b, float a = 1) {

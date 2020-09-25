@@ -6,7 +6,6 @@
 module abagames.util.sdl.luminous;
 
 import std.math;
-import std.string;
 import core.stdc.string;
 import bindbc.opengl;
 import abagames.util.actor;

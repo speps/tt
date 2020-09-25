@@ -14,7 +14,8 @@
 	"copyright": "Copyright © 2004 - Kenta Cho, 2020 - Remi Gillig",
 	"dependencies": {
 		"bindbc-opengl": "~>0.13.0",
-		"bindbc-sdl": "~>0.19.0"
+		"bindbc-sdl": "~>0.19.0",
+		"dxml": "~>0.4.3"
 	},
 	"description": "Torus Trooper (Reboot)",
 	"importPaths": [
@@ -25,7 +26,9 @@
 	],
 	"license": "BSD 2-clause",
 	"name": "tt",
-	"sourceFiles": ["resource/tt.res"],
+	"sourceFiles": [
+		"resource/tt.res"
+	],
 	"sourcePaths": [
 		"src",
 		"import"
@@ -40,5 +43,5 @@
 		"SDL_Mixer",
 		"GL_AllowDeprecated"
 	],
-	"workingDirectory": "dist"
+	"workingDirectory": "dist",
 }

@@ -7,7 +7,6 @@ module abagames.util.logger;
 
 import std.conv;
 import std.stdio;
-import std.string;
 
 /**
  * Logger(error/info).
@@ -33,7 +32,7 @@ public class Logger {
   }
 
   private static void putMessage(string msg) {
-    MessageBoxA(null, std.string.toStringz(msg), "Error", MB_OK | MB_ICONEXCLAMATION);
+    MessageBoxA(null, toStringz(msg), "Error", MB_OK | MB_ICONEXCLAMATION);
   }
 
   public static void error(string msg) {

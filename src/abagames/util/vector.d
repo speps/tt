@@ -7,7 +7,6 @@ module abagames.util.vector;
 
 import std.conv;
 import std.math;
-import std.string;
 
 /**
  * Vector.

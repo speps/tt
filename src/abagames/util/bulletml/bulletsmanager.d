@@ -13,7 +13,7 @@ import abagames.util.bulletml.bullet;
  */
 public interface BulletsManager {
   public void addBullet(float deg, float speed);
-  public void addBullet(BulletMLState *state, float deg, float speed);
+  public void addBullet(BulletMLStateType state, float deg, float speed);
   public int getTurn();
   public void killMe(Bullet bullet);
 }

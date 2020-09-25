@@ -5,10 +5,10 @@
  */
 module abagames.tt.stagemanager;
 
-import std.string;
 import std.math;
 import bulletml;
 import abagames.util.vector;
+import abagames.util.bulletml.bullet;
 import abagames.util.rand;
 import abagames.tt.enemy;
 import abagames.tt.barrage;
@@ -433,7 +433,7 @@ public class ShipSpec {
     br.setShape(bsr, dbsr);
     br.setWait(preWait, postWait);
     br.setLongRange(longRange);
-    BulletMLParserTinyXML*[] ps;
+    BulletMLParserType[] ps;
     int psn;
     if (baseDir) {
       ps = BarrageManager.getInstanceList(baseDir);
@@ -452,7 +452,9 @@ public class ShipSpec {
           pi = cast(int)ps.length - 1;
       }
       br.addBml(ps[pi], morphRank, true, speedRank);
-      ps[pi].destroy();
+      version(BML_CPP) {
+        ps[pi].destroy();
+      }
       psn--;
     }
     return br;

@@ -5,7 +5,6 @@
  */
 module abagames.tt.shape;
 
-import std.string;
 import std.math;
 import bindbc.opengl;
 import abagames.util.vector;

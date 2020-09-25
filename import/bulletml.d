@@ -1,3 +1,5 @@
+version(BML_CPP):
+
 extern (C) {
 alias int BulletMLParserTinyXML;
 int* BulletMLParserTinyXML_new(const char*);
@@ -6,7 +8,6 @@ void BulletMLParserTinyXML_delete(int*);
 alias int BulletMLParser;
 alias int BulletMLState;
 alias int BulletMLRunner;
-alias int BulletMLRunnerD;
 int* BulletMLRunner_new_parser(BulletMLParser*);
 int* BulletMLRunner_new_state(BulletMLState*);
 void BulletMLRunner_delete(int*);

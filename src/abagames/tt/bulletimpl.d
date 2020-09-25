@@ -57,7 +57,7 @@ public class BulletImpl: Bullet {
     longRange = bi.longRange;
   }
 
-  public void addParser(BulletMLParser *p, float r, float re, float s) {
+  public void addParser(BulletMLParserType p, float r, float re, float s) {
     parserParam ~= new ParserParam(p, r, re, s);
   }
   
@@ -71,7 +71,7 @@ public class BulletImpl: Bullet {
     }
   }
 
-  public BulletMLParser* getParser() {
+  public BulletMLParserType getParser() {
     return parserParam[parserIdx].parser;
   }
   
@@ -95,12 +95,12 @@ public class BulletImpl: Bullet {
 
 public class ParserParam {
  public:
-  BulletMLParser *parser;
+  BulletMLParserType parser;
   float rank;
   float rootRankEffect;
   float speed;
 
-  public this(BulletMLParser *p, float r, float re, float s) {
+  public this(BulletMLParserType p, float r, float re, float s) {
     parser = p;
     rank = r;
     rootRankEffect = re;

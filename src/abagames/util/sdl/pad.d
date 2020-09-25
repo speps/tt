@@ -6,7 +6,6 @@
 module abagames.util.sdl.pad;
 
 import std.conv;
-import std.string;
 import bindbc.sdl;
 import abagames.util.sdl.input;
 import abagames.util.sdl.sdlexception;

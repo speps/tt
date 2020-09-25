@@ -60,8 +60,7 @@ public class BulletActor: Actor {
     ppos = new Vector;
   }
 
-  public void set(BulletMLRunner* runner,
-                  float x, float y, float deg, float speed) {
+  public void set(BulletMLRunnerType runner, float x, float y, float deg, float speed) {
     bullet.set(runner, x, y, deg, speed, 0);
     isSimple = false;
     start();
@@ -117,7 +116,11 @@ public class BulletActor: Actor {
   public void rewind() {
     bullet.remove();
     bullet.resetParser();
-    BulletMLRunner *runner = BulletMLRunner_new_parser(bullet.getParser());
+    version(BML_CPP) {
+      BulletMLRunner *runner = BulletMLRunner_new_parser(bullet.getParser());
+    } else {
+      auto runner = new BulletMLRunnerType(bullet.getParser());
+    }
     BulletActorPool.registFunctions(runner);
     bullet.setRunner(runner);
   }
