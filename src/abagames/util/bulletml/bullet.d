@@ -6,20 +6,13 @@
 module abagames.util.bulletml.bullet;
 
 import std.math;
-import bulletml;
 import abagames.util.vector;
 import abagames.util.rand;
 import abagames.util.bulletml.bulletsmanager;
 
-version(BML_CPP) {
-  alias BulletMLParserType = BulletMLParser*;
-  alias BulletMLRunnerType = BulletMLRunner*;
-  alias BulletMLStateType = BulletMLState*;
-} else {
-  alias BulletMLParserType = abagames.util.bulletml.bulletmlparser.BulletMLParser;
-  alias BulletMLRunnerType = abagames.util.bulletml.bulletmlrunner.BulletMLRunner;
-  alias BulletMLStateType = abagames.util.bulletml.bulletmlrunner.BulletMLState;
-}
+alias BulletMLParserType = abagames.util.bulletml.bulletmlparser.BulletMLParser;
+alias BulletMLRunnerType = abagames.util.bulletml.bulletmlrunner.BulletMLRunner;
+alias BulletMLStateType = abagames.util.bulletml.bulletmlrunner.BulletMLState;
 
 /**
  * Bullet controlled by BulletML.
@@ -95,23 +88,13 @@ public class Bullet {
 
   public void move() {
     now = this;
-    version(BML_CPP) {
-      if (!BulletMLRunner_isEnd(runner)) {
-        BulletMLRunner_run(runner);
-      }
-    } else {
-      if (!runner.isEnd) {
-        runner.run();
-      }
+    if (!runner.isEnd) {
+      runner.run();
     }
   }
 
   public bool isEnd() {
-    version(BML_CPP) {
-      return BulletMLRunner_isEnd(runner);
-    } else {
-      return runner.isEnd;
-    }
+    return runner.isEnd;
   }
 
   public void kill() {
@@ -120,9 +103,6 @@ public class Bullet {
 
   public void remove() {
     if (runner) {
-      version(BML_CPP) {
-        BulletMLRunner_delete(runner);
-      }
       runner = null;
     }
   }
@@ -150,108 +130,54 @@ float dtor(float a) {
   return a * std.math.PI / 180;
 }
 
-version(BML_CPP) {
-extern (C) {
-  double getBulletDirection_(BulletMLRunnerType) {
-    return rtod(Bullet.now.deg);
-  }
-  double getAimDirection_(BulletMLRunnerType) {
-    Vector b = Bullet.now.pos;
-    Vector t = Bullet.target;
-    return rtod(std.math.atan2(t.x - b.x, t.y - b.y));
-  }
-  double getBulletSpeed_(BulletMLRunnerType) {
-    return Bullet.now.speed * VEL_SS_SDM_RATIO;
-  }
-  double getDefaultSpeed_(BulletMLRunnerType) {
-    return 1;
-  }
-  double getRank_(BulletMLRunnerType) {
-    return Bullet.now.rank;
-  }
-  void createSimpleBullet_(BulletMLRunnerType, double d, double s) {
-    Bullet.addBullet(dtor(d), s * VEL_SDM_SS_RATIO);
-  }
-  void createBullet_(BulletMLRunnerType, BulletMLStateType state, double d, double s) {
-    Bullet.addBullet(state, dtor(d), s * VEL_SDM_SS_RATIO);
-  }
-  int getTurn_(BulletMLRunnerType) {
-    return Bullet.getTurn();
-  }
-  void doVanish_(BulletMLRunnerType) {
-    Bullet.now.kill();
-  }
-  void doChangeDirection_(BulletMLRunnerType, double d) {
-    Bullet.now.deg = dtor(d);
-  }
-  void doChangeSpeed_(BulletMLRunnerType, double s) {
-    Bullet.now.speed = s * VEL_SDM_SS_RATIO;
-  }
-  void doAccelX_(BulletMLRunnerType, double sx) {
-    Bullet.now.acc.x = sx * VEL_SDM_SS_RATIO;
-  }
-  void doAccelY_(BulletMLRunnerType, double sy) {
-    Bullet.now.acc.y = sy * VEL_SDM_SS_RATIO;
-  }
-  double getBulletSpeedX_(BulletMLRunnerType) {
-    return Bullet.now.acc.x;
-  }
-  double getBulletSpeedY_(BulletMLRunnerType) {
-    return Bullet.now.acc.y;
-  }
-  double getRand_(BulletMLRunnerType) {
-    return Bullet.getRand();
-  }
+
+double getBulletDirection_(BulletMLRunnerType) {
+  return rtod(Bullet.now.deg);
 }
-} else {
-  double getBulletDirection_(BulletMLRunnerType) {
-    return rtod(Bullet.now.deg);
-  }
-  double getAimDirection_(BulletMLRunnerType) {
-    Vector b = Bullet.now.pos;
-    Vector t = Bullet.target;
-    return rtod(std.math.atan2(t.x - b.x, t.y - b.y));
-  }
-  double getBulletSpeed_(BulletMLRunnerType) {
-    return Bullet.now.speed * VEL_SS_SDM_RATIO;
-  }
-  double getDefaultSpeed_(BulletMLRunnerType) {
-    return 1;
-  }
-  double getRank_(BulletMLRunnerType) {
-    return Bullet.now.rank;
-  }
-  void createSimpleBullet_(BulletMLRunnerType, double d, double s) {
-    Bullet.addBullet(dtor(d), s * VEL_SDM_SS_RATIO);
-  }
-  void createBullet_(BulletMLRunnerType, BulletMLStateType state, double d, double s) {
-    Bullet.addBullet(state, dtor(d), s * VEL_SDM_SS_RATIO);
-  }
-  int getTurn_(BulletMLRunnerType) {
-    return Bullet.getTurn();
-  }
-  void doVanish_(BulletMLRunnerType) {
-    Bullet.now.kill();
-  }
-  void doChangeDirection_(BulletMLRunnerType, double d) {
-    Bullet.now.deg = dtor(d);
-  }
-  void doChangeSpeed_(BulletMLRunnerType, double s) {
-    Bullet.now.speed = s * VEL_SDM_SS_RATIO;
-  }
-  void doAccelX_(BulletMLRunnerType, double sx) {
-    Bullet.now.acc.x = sx * VEL_SDM_SS_RATIO;
-  }
-  void doAccelY_(BulletMLRunnerType, double sy) {
-    Bullet.now.acc.y = sy * VEL_SDM_SS_RATIO;
-  }
-  double getBulletSpeedX_(BulletMLRunnerType) {
-    return Bullet.now.acc.x;
-  }
-  double getBulletSpeedY_(BulletMLRunnerType) {
-    return Bullet.now.acc.y;
-  }
-  double getRand_(BulletMLRunnerType) {
-    return Bullet.getRand();
-  }
+double getAimDirection_(BulletMLRunnerType) {
+  Vector b = Bullet.now.pos;
+  Vector t = Bullet.target;
+  return rtod(std.math.atan2(t.x - b.x, t.y - b.y));
+}
+double getBulletSpeed_(BulletMLRunnerType) {
+  return Bullet.now.speed * VEL_SS_SDM_RATIO;
+}
+double getDefaultSpeed_(BulletMLRunnerType) {
+  return 1;
+}
+double getRank_(BulletMLRunnerType) {
+  return Bullet.now.rank;
+}
+void createSimpleBullet_(BulletMLRunnerType, double d, double s) {
+  Bullet.addBullet(dtor(d), s * VEL_SDM_SS_RATIO);
+}
+void createBullet_(BulletMLRunnerType, BulletMLStateType state, double d, double s) {
+  Bullet.addBullet(state, dtor(d), s * VEL_SDM_SS_RATIO);
+}
+int getTurn_(BulletMLRunnerType) {
+  return Bullet.getTurn();
+}
+void doVanish_(BulletMLRunnerType) {
+  Bullet.now.kill();
+}
+void doChangeDirection_(BulletMLRunnerType, double d) {
+  Bullet.now.deg = dtor(d);
+}
+void doChangeSpeed_(BulletMLRunnerType, double s) {
+  Bullet.now.speed = s * VEL_SDM_SS_RATIO;
+}
+void doAccelX_(BulletMLRunnerType, double sx) {
+  Bullet.now.acc.x = sx * VEL_SDM_SS_RATIO;
+}
+void doAccelY_(BulletMLRunnerType, double sy) {
+  Bullet.now.acc.y = sy * VEL_SDM_SS_RATIO;
+}
+double getBulletSpeedX_(BulletMLRunnerType) {
+  return Bullet.now.acc.x;
+}
+double getBulletSpeedY_(BulletMLRunnerType) {
+  return Bullet.now.acc.y;
+}
+double getRand_(BulletMLRunnerType) {
+  return Bullet.getRand();
 }

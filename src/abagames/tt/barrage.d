@@ -8,7 +8,6 @@ module abagames.tt.barrage;
 import std.math;
 import std.string;
 import std.path;
-import bulletml;
 import abagames.util.bulletml.bullet;
 import abagames.util.rand;
 import abagames.util.logger;
@@ -111,13 +110,8 @@ public class BarrageManager {
     if (!(dirName in parser) || !(fileName in parser[dirName])) {
       string barrageName = dirName ~ "/" ~ fileName;
       Logger.info("Load BulletML: " ~ barrageName);
-      version(BML_CPP) {
-        parser[dirName][fileName] = BulletMLParserTinyXML_new(toStringz(BARRAGE_DIR_NAME ~ "/" ~ barrageName));
-        BulletMLParserTinyXML_parse(parser[dirName][fileName]);
-      } else {
-        parser[dirName][fileName] = new BulletMLParserType(BARRAGE_DIR_NAME ~ "/" ~ barrageName);
-        parser[dirName][fileName].parse();
-      }
+      parser[dirName][fileName] = new BulletMLParserType(BARRAGE_DIR_NAME ~ "/" ~ barrageName);
+      parser[dirName][fileName].parse();
     }
     return parser[dirName][fileName];
   }
@@ -133,13 +127,6 @@ public class BarrageManager {
   }
 
   public static void unload() {
-    version(BML_CPP) {
-      foreach (BulletMLParserTinyXML*[string] pa; parser) {
-        foreach (BulletMLParserTinyXML *p; pa) {
-          BulletMLParserTinyXML_delete(p);
-        }
-      }
-    }
     parser.clear();
   }
 }

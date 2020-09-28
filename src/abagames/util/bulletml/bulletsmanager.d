@@ -5,7 +5,6 @@
  */
 module abagames.util.bulletml.bulletsmanager;
 
-import bulletml;
 import abagames.util.bulletml.bullet;
 
 /**

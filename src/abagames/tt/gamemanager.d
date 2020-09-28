@@ -8,7 +8,6 @@ module abagames.tt.gamemanager;
 import std.math;
 import bindbc.opengl;
 import bindbc.sdl;
-import bulletml;
 import abagames.util.vector;
 import abagames.util.rand;
 import abagames.util.bulletml.bullet;

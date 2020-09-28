@@ -6,7 +6,6 @@
 module abagames.tt.stagemanager;
 
 import std.math;
-import bulletml;
 import abagames.util.vector;
 import abagames.util.bulletml.bullet;
 import abagames.util.rand;
@@ -452,9 +451,6 @@ public class ShipSpec {
           pi = cast(int)ps.length - 1;
       }
       br.addBml(ps[pi], morphRank, true, speedRank);
-      version(BML_CPP) {
-        ps[pi].destroy();
-      }
       psn--;
     }
     return br;

@@ -5,7 +5,6 @@
  */
 module abagames.tt.bulletimpl;
 
-import bulletml;
 import abagames.util.bulletml.bullet;
 import abagames.tt.bulletactor;
 import abagames.tt.bullettarget;

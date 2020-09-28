@@ -8,7 +8,6 @@ module abagames.tt.bulletactor;
 import core.stdc.stdarg;
 import std.math;
 import bindbc.opengl;
-import bulletml;
 import abagames.util.actor;
 import abagames.util.vector;
 import abagames.util.bulletml.bullet;
@@ -116,11 +115,7 @@ public class BulletActor: Actor {
   public void rewind() {
     bullet.remove();
     bullet.resetParser();
-    version(BML_CPP) {
-      BulletMLRunner *runner = BulletMLRunner_new_parser(bullet.getParser());
-    } else {
-      auto runner = new BulletMLRunnerType(bullet.getParser());
-    }
+    auto runner = new BulletMLRunnerType(bullet.getParser());
     BulletActorPool.registFunctions(runner);
     bullet.setRunner(runner);
   }
