@@ -17,6 +17,9 @@ import abagames.tt.screen;
 import abagames.tt.gamemanager;
 import abagames.tt.prefmanager;
 
+import std.stdio;
+import abagames.util.bulletml.xml;
+
 /**
  * Boot the game.
  */

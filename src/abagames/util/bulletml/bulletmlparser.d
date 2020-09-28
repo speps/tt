@@ -3,7 +3,7 @@ module abagames.util.bulletml.bulletmlparser;
 import abagames.util.logger;
 import abagames.util.bulletml.bulletmlnode;
 import abagames.util.bulletml.idpool;
-import dxml.parser;
+import abagames.util.bulletml.xml;
 import std.file;
 import std.conv;
 import std.stdio;
@@ -11,7 +11,7 @@ import std.stdio;
 class BulletMLParser {
   this(string fileName) {
     _fileName = fileName;
-    _xml = parseXML!simpleXML(std.file.readText(fileName));
+    _xml = parseXML(std.file.readText(fileName));
     _topActions = [];
     _isHorizontal = false;
   }
@@ -20,8 +20,8 @@ class BulletMLParser {
     auto idPool = new IDPool();
     BulletMLNode curNode;
     foreach (element; _xml) {
-      if (element.type == EntityType.elementStart) {
-        auto node = addContent(element.name);
+      if (element.type == ElementType.TagOpen) {
+        auto node = addContent(element.value);
         if (curNode !is null) {
           curNode.addChild(node);
         }
@@ -39,19 +39,19 @@ class BulletMLParser {
           }
         }
       }
-      else if (element.type == EntityType.elementEnd) {
+      else if (element.type == ElementType.TagClose) {
         if (curNode) {
           curNode = curNode.parent;
         }
       }
-      else if (element.type == EntityType.text) {
+      else if (element.type == ElementType.Text) {
         if (curNode) {
-          curNode.setValue(element.text);
+          curNode.setValue(element.value);
         }
       }
     }
 
-    dump(0, _bulletml);
+    // dump(0, _bulletml);
   }
 
   @property string fileName() const { return _fileName; }
@@ -128,7 +128,7 @@ private:
   }
 
   string _fileName;
-  EntityRange!(simpleXML, string) _xml;
+  Element[] _xml;
 
   BulletMLNode _bulletml;
   BulletMLNode[int] _bulletMap;
