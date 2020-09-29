@@ -1,0 +1,12 @@
+/*
+ * ABA Games style sheet(base)
+ */
+
+a:visited { color: #002244; }
+a:link { color: #007799; }
+a:active { color: #000000; }
+
+body {
+  background-color: #ffffff;
+  color: #111111;
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+ <meta http-equiv="CONTENT-TYPE" content="text/html; charset=EUC-JP">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>libBulletML</title>
+ <link rev="MADE" href="mailto:shinichiro.hamaji _at_ gmail.com">
+ <link rel="INDEX" href="http://shinh.skr.jp/libbulletml/">
+ <link rel="stylesheet" type="text/css" href="libBulletML_j_files/site.css">
+</head>
+
+<body>
+
+<h1>libBulletML</h1>
+
+<div class="update" align="right">
+since: 2002-06-18
+update: 2004-02-15
+count: 
+</div>
+
+<p>
+<a href="http://shinh.skr.jp/libbulletml/index_en.html">english</a><br>
+
+</p><h2>説明</h2>
+
+<p>
+弾幕記述言語 BulletML を扱う c++ ライブラリです。
+これを用いることによって、豊富な記述力を持つ BulletML を、
+XML解析の知識がなくても利用することができます。
+</p>
+
+<p>
+グラフィックなどのゲームの他の部分とは完全に切り分けられているので、
+安心してどんなソフトにでも使用することができます。
+</p>
+
+<p>
+プログラムに埋め込まれた弾幕記述に比べると遅いと思われますが、
+解析時に全ての要素を enum 化しているため、
+実行時の文字列比較などによる速度低下は起こりません。
+</p>
+
+<p>
+BulletML は ABAさんがデザインした弾幕記述言語です。
+詳しくは
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/index.html">
+こちら</a>をどうぞ。
+</p>
+
+<hr>
+
+<h2>私見。BulletMLのここが良い</h2>
+
+<p>
+記述が簡単。
+XMLなんて書く分にはそんなに難しくないです。
+htmlに毛が生えたようなもんさね。
+</p>
+
+<p>
+毎回コンパイルしなくていい。
+ていうかプログラムに弾幕の動きを記述するのって
+私的には尋常じゃないことに感じるんですが。
+でも結構みんなやってるみたいですねえ。
+</p>
+
+<p>
+既に他の人が作った弾幕をそのまま使える。
+みんなが使うようになったらもっと便利になるのにねえ。
+私なんかはABAさんから弾幕盗りまくりです。
+</p>
+
+<p>
+無限の応用可能性。
+XMLは解析方法が確立しているからいろんなことに使えるです。
+XSLT食らわしてSVGに変換とかできないかなあ。
+</p>
+
+<p>
+つかXMLの利点をそのまま述べているようなもんですね。
+</p>
+
+<hr>
+
+<h2>更新情報</h2>
+<ul>
+<li>040215.
+MacOSX で動くように。 direction 回りの小さい問題を修正。
+<a href="http://c5h12.hp.infoseek.co.jp/">
+Pentan</a>さんありがとうございます。
+</li><li>040202.
+&lt;repeat&gt; が終了していない時に
+BulletMLRunner が無くなると発生するメモリリークを修正。
+<a href="http://studiokingyo.fc2web.com/">
+d金魚さん</a>ご指摘ありがとうございます。
+</li><li>030907. VCではやっぱりヘンだったみたい。
+<a href="http://hp.vector.co.jp/authors/VA019207/">
+nakさん</a>ご指摘ありがとうございます。
+</li><li>030807. BSDライセンス化。VCで通り、DLLを作れるように。
+</li><li>020618. 作った。
+</li></ul>
+
+<hr>
+
+<h2>ダウンロード</h2>
+
+<p>
+中身は全て SJIS です。
+</p>
+
+<p>
+<a href="http://shinh.skr.jp/libbulletml/libbulletml-0.0.6.tar.bz2">
+libbulletml-0.0.6</a>
+</p>
+
+<p>
+<a href="http://trickyfly.com/public_svn/libraries/bulletml">
+Justin さんによる Xcode 3.0 と MSVC++ Express 2005 用のプロジェクトファイル</a>とのこと。 Thanks!
+</p>
+
+<p>
+<a href="http://shinh.skr.jp/bulletss/">D言語版は弾幕360度と同時配布</a>
+</p>
+
+<p>
+使い方は <a href="http://shinh.skr.jp/libbulletml/README.txt">README</a>を参照。
+</p>
+<hr>
+
+<p>
+<a href="http://shinh.skr.jp/">home</a>
+/
+<a href="http://shinh.skr.jp/libbulletml/">index</a>
+
+</p><p>
+全てリンクフリーです。
+コード片は自由に使用していただいて構いません。
+その他のものはGPL扱いであればあらゆる使用に関して文句は言いません。
+なにかあれば下記メールアドレスへ。
+</p>
+<div align="right">
+shinichiro.hamaji _at_ gmail.com
+/
+shinichiro.h
+</div>
+
+
+</body></html>

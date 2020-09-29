@@ -1,0 +1,82 @@
+/*
+ * ABA Games style sheet(article)
+ */
+
+div.header {
+  width: 100%;
+  color: #111111;
+  background-color: #bbccaa;
+  font-weight: bold;
+}
+
+div.header div#platform {
+  float: left;
+  clear: left;
+  width: 50%;
+  text-align: left;
+  padding: 0.2em;
+}
+
+div.header div#backtotop {
+  text-align: right;
+  padding: 0.2em;
+}
+
+div.about {
+  width: 100%;
+  color: #111111;
+  background-color: #bbccaa;
+}
+
+div.about div#platform {
+  float: left;
+  width: 25%;
+  text-align: left;
+  padding: 0.2em;
+}
+
+div.about div#version {
+  float: left;
+  width: 25%;
+  text-align: left;
+  padding: 0.2em;
+}
+
+div.about div#copyright {
+  text-align: right;
+  padding: 0.2em;
+}
+
+div.language {
+  margin-left: 25%;
+  margin-right: 25%;
+  color: #111111;
+  background-color: #ddddcc;
+  text-align: center;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+h1 {
+  font-size: 180%;
+}
+
+h2 {
+  font-size: 120%;
+  width: 100%;
+  border-bottom: solid 0.1em;
+}
+
+h3 {
+  font-size: 110%;
+  width: 100%;
+  border-bottom: dashed 0.1em;
+}
+
+div.footer {
+  width: 100%;
+  color: #111111;
+  background-color: #bbccaa;
+  text-align: right;
+  padding: 0.2em;
+}

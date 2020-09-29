@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja"><head>
+ <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+ <title>BulletML</title>
+</head>
+
+<body vlink="#004466" text="#111111" link="#006688" bgcolor="#ffffff" background="bulletml_j_files/ababack000520.gif" alink="#000000">
+
+<table summary="page title" width="100%" border="0" bgcolor="#bbaaee">
+<tbody><tr><td>
+<strong>BulletML</strong>
+</td><td align="RIGHT">
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/"><strong>ABA Games</strong></a>
+</td></tr>
+</tbody></table>
+
+<h1>
+BulletML
+</h1>
+
+<table summary="about this software" width="100%" border="0" bgcolor="#bbaaee">
+<tbody><tr><td>
+BulletML ver. 0.21
+</td><td align="RIGHT">
+(c) 長 健太(ABA."Saba")
+</td></tr>
+</tbody></table>
+
+<div align="center">
+<table summary="English or Japanese" width="50%" border="0" bgcolor="#eeaabb">
+<tbody><tr><td><div align="center">
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/index_e.html">English</a>
+</div></td><td><div align="center">
+Japanese
+</div></td></tr>
+</tbody></table>
+</div>
+
+<img src="bulletml_j_files/bulletml1.gif" alt="BulletML image" align="right">
+
+<p>
+BulletMLがどんなものかを見たい方は以下へ。
+（要Internet Explorer, Netscape Navigator 6）
+</p>
+
+<ul>
+<li><a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml_applet.html">BulletMLアプレット</a>
+</li></ul>
+
+<p>
+ソースや言語の定義は以下からダウンロード。
+</p>
+
+<ul>
+<li><a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml0_21.zip">bulletml0_21.zip</a>(112,411バイト)
+</li></ul>
+
+<br clear="all">
+
+<table summary="section" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<b>はじめに</b>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+シューティング落日の今日この頃、皆様いかがお過ごしでしょうか。
+
+</p><p>
+ゲームといったらシューティングゲームを指していた時代は、今は昔も昔、大昔。
+最近のシューティングゲームへの風当たりの強さといったら半端じゃありません。
+コンシューマー市場ではほぼ全滅状態、かろうじてアーケード業界で細々と生き延びている惨状です。
+
+</p><p>
+細々ですが、最近のアーケードでのシューティングは良作ぞろいです。
+かすりによるレベルアップで痛快なゲーム展開を実現した
+<a href="http://www.success-corp.co.jp/software/ac/revision/">サイヴァリア</a>、
+リフレクトフォースによる新次元の稼ぎを体現した
+<a href="http://www.capcom.co.jp/newproducts/arcade/gigawing2/">ギガウィング2</a>、
+芸術的な弾避けを楽しめる彩京系シューティングの極め
+<a href="http://www.psikyo.co.jp/product/dra_bl/index.html">ドラゴンブレイズ</a>、
+多彩を通り越して異彩を放つ敵の多種多様な攻撃が魅力
+<a href="http://www.capcom.co.jp/newproducts/arcade/progia/">プロギアの嵐</a>、
+などなど。
+
+</p><p>
+しかし悲しいかな、これらの最高に楽しいシューティングも、
+ゲーセンのすみにひっそりと置かれ、格闘ゲーや音ゲーに追いやられるのをおびえて待つ状態です。
+いや、それどころがゲーセン自体の存続も昨今危ういです。
+シューティングゲームの生命線はゆらぎまくりです。
+
+</p><p>
+そこでちょっと思い立ちました。
+
+</p><p>
+保存しなくては。
+
+</p><p>
+弾幕を。
+
+</p><p>
+シューティングゲームが消えてなくなってしまう前に、
+この芸術的な弾幕の数々を保存しなくては、と。
+</p>
+
+<table summary="section" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<b>BulletMLとは</b>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+謎の前段はあまり気にしなくてもいいです。
+
+</p><p>
+BulletMLは、いわゆる昨今の弾幕シューティングにおける
+弾幕を定義するための言語です。以下のような特徴があります。
+
+</p><ul>
+<li>最近のシューティングの弾幕が、そこそこ簡単に、それなりに記述できます。
+</li><li>記述内容を確認するアプレットをご用意。実際の弾幕を見ながら調整できます。
+</li><li>XMLで記述されているので、再利用しやすい、はず。ゲームに流用とかね。
+</li></ul>
+
+<table summary="section" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<b>使い方</b>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+まず
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml_applet.html" target="_blank">
+BulletMLアプレットのページ
+</a>
+をご覧ください。
+（注意: Internet ExplorerまたはNetscape Navigator 6でご覧ください。NN 4.7では動作しません。）
+そしてサンプルをちょいと動かしてみてください。
+
+</p><p>
+だいたい雰囲気はつかめましたか? 
+先ほどのページで右に書かれているのがBulletMLで書かれている弾幕記述です。
+
+</p><p>
+BulletMLの書き方を説明するため、簡単な例を書いてみましょう。
+右上のプルダウンメニューからtemplateを選んでDocumentをいったんクリアし、
+以下のように書いてみます。
+方向はVerticalにして縦シューモードにしましょう。
+</p>
+
+<pre>&lt;?xml version="1.0" ?&gt;
+&lt;!DOCTYPE bulletml SYSTEM "http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml.dtd"&gt;
+
+&lt;bulletml xmlns="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml"&gt;
+
+&lt;action label="top"&gt;
+&lt;fire&gt;
+&lt;bullet/&gt;
+&lt;/fire&gt;
+&lt;/action&gt;
+
+&lt;/bulletml&gt;
+</pre>
+
+<p>
+スタートを押すと、自分を狙った弾が飛んでくると思います。
+この動作は&lt;action label="top"&gt;と&lt;/action&gt;の中に書いてあります。
+
+</p><p>
+action要素の中には弾幕発射のアクションを書きます。
+この場合はfireアクション、つまり弾を1つ発射するというアクションが記述されています。
+
+</p><p>
+fireアクションの中では、どの弾をどの方向にどのくらいの速度で撃つか、
+ということが記述できます。この例では方向と速度は省略、弾の種類も指定していません。
+こうすると、デフォルトの自機を狙う弾が発射されます。
+
+</p><p>
+もう少しこった発射のしかたをしてみましょう。
+</p>
+
+<pre>&lt;?xml version="1.0" ?&gt;
+&lt;!DOCTYPE bulletml SYSTEM "http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml.dtd"&gt;
+
+&lt;bulletml xmlns="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml"&gt;
+
+&lt;action label="top"&gt;
+&lt;repeat&gt;
+&lt;times&gt;100&lt;/times&gt;
+&lt;action&gt;
+ &lt;fire&gt;
+  &lt;direction type="sequence"&gt;23&lt;/direction&gt;
+  &lt;bullet/&gt;
+ &lt;/fire&gt;
+ &lt;wait&gt;1&lt;/wait&gt;
+&lt;/action&gt;
+&lt;/repeat&gt;
+&lt;/action&gt;
+
+&lt;/bulletml&gt;
+</pre>
+
+<p>
+action要素がちょっと複雑になってます。まず最初のアクションはrepeatです。
+repeatアクションは、あるアクションを複数回繰り返すときに使います。
+繰り返し回数はrepeat要素の中のtimes要素で、繰り返すアクションはaction要素で
+指定します。
+この例では繰り返し回数は100回、繰り返すアクションは
+fireアクションとwaitアクションです。
+
+</p><p>
+fireアクションでは先ほどはなかったdirection要素が加わっています。
+direction要素は弾を撃つ方向を指定します。
+direction要素にはtypeが指定できます。typeは以下の3種類があります。
+</p>
+
+<ul>
+<li>aim - 自機を狙った方向
+</li><li>absolute - 自機に関係ない絶対方向（上が0度で時計回り）
+</li><li>sequence - 直前に撃った方向との相対方向
+</li></ul>
+
+<p>
+この場合はsequenceですので、直前に撃った方向との相対方向を指定しています。
+単位は度です。この場合は直前から23度ずれた方向に弾を撃ちます。
+
+</p><p>
+つぎのwaitアクションは、一定時間待つアクションです。
+単位はフレームで、1フレームは約1/60秒です。
+
+</p><p>
+ここまでが繰り返すアクションです。これで
+</p>
+
+<ul>
+<li>直前から23度ずれた方向に弾を撃ち
+</li><li>1フレーム待つ
+</li></ul>
+
+<p>
+という動作を100回繰り返す動作が定義できました。
+動かしてみると、ある場所からくるくる回転しながら弾をばらまく、
+いわゆる回転砲台ができました。
+
+</p><p>
+BulletMLでは、弾の飛び方を定義することもできます。
+以下のようにしてみます
+</p>
+
+<pre>&lt;?xml version="1.0" ?&gt;
+&lt;!DOCTYPE bulletml SYSTEM "http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml.dtd"&gt;
+
+&lt;bulletml xmlns="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml"&gt;
+
+&lt;action label="top"&gt;
+&lt;repeat&gt;
+&lt;times&gt;100&lt;/times&gt;
+&lt;action&gt;
+ &lt;fire&gt;
+  &lt;direction type="sequence"&gt;23&lt;/direction&gt;
+  &lt;bulletRef label="straight"/&gt;
+ &lt;/fire&gt;
+ &lt;wait&gt;1&lt;/wait&gt;
+&lt;/action&gt;
+&lt;/repeat&gt;
+&lt;/action&gt;
+
+&lt;bullet label="straight"&gt;
+&lt;action&gt;
+ &lt;wait&gt;20+$rand*50&lt;/wait&gt;
+ &lt;changeDirection&gt;
+  &lt;direction type="absolute"&gt;180&lt;/direction&gt;
+  &lt;term&gt;10&lt;/term&gt;
+ &lt;/changeDirection&gt;
+&lt;/action&gt;
+&lt;/bullet&gt;
+
+&lt;/bulletml&gt;
+</pre>
+
+<p>
+撃ち方は変わってませんが、撃つ弾の定義、bulletがbulletRefに変わっています。
+bulletRefは、その後ろのlabelでラベルづけされたbulletの要素を参照します。
+この例だと、action要素の下にあるstraightラベルがついたbullet要素です。
+
+</p><p>
+bullet要素の中をみてみましょう。bullet要素の中にもアクションが書かれています。
+最初はwaitアクションです。ここでは待つフレーム数の中に数式がかかれています。
+このように、数を指定するところでは、数式を用いることもできます。
+使えるのは四則演算と余りを求める%、括弧、0から1の間の乱数を発生させる$rand変数
+などです。この例では20から70(20+50)のフレーム数待つように書かれています。
+
+</p><p>
+その次はchangeDirectionアクションです。このアクションはdirection要素で
+指定された方向に弾を向けます。この場合はabsolute180度ですので、真下です。
+その次のterm要素は、何フレームかけて方向を曲げるかを書きます。
+この場合は10フレームかけて少しずつ下方向に弾を曲げます。
+
+</p><p>スタートしてみましょう。さきほどの回転砲台の弾が途中から下方向に変わって
+落ちてきます。プロギアの2ボスっぽいですね。サンプルにもプロギア2ボス
+最終形態のサンプルがありますので、そちらもあわせてご覧ください。
+</p>
+
+<p>
+よりくわしい説明については以下をごらんください。
+</p>
+
+<ul>
+<li><a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml_ref.html">BulletML簡易リファレンス</a>
+</li><li><a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml_rlx.html">BulletML RELAX定義</a>
+</li><li><a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml_dtd.html">BulletML DTD定義</a>
+</li></ul>
+
+<table summary="section" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<b>ダウンロード</b>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+BulletMLのRELAX定義およびデモソフトウェアはフリーソフトウェアです。
+以下からダウンロードできます。
+</p>
+
+<ul>
+<li><a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml0_21.zip">bulletml0_21.zip</a>(112,411バイト)
+</li></ul>
+<table summary="section" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<b>活用事例</b>
+</td><td width="100%"><hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+BulletMLの活用事例をご紹介。
+</p>
+
+<ul>
+<li>
+<a href="http://user.ecc.u-tokyo.ac.jp/~s31552/wp/sdmkun/">
+白い弾幕くん
+</a>
+</li></ul>
+
+<table summary="section" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<b>謝辞</b>
+</td><td width="100%"><hr size="1">
+</td></tr>
+</tbody></table>
+
+<a href="http://www.relaxer.org/">
+<img src="bulletml_j_files/powered.html" border="0" align="right"></a>
+
+<p>
+BulletMLではXMLモデルの定義に
+<a href="http://www.xml.gr.jp/relax/">RELAX</a>
+を、XMLドキュメントの操作用Javaクラスの生成に
+<a href="http://www.relaxer.org/">Relaxer</a>
+を利用させていただいています。
+</p>
+
+<br clear="all">
+
+<table summary="section" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<b>ご意見、ご感想</b>
+</td><td width="100%"><hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+ご意見、ご感想は、
+<a href="mailto:cs8k-cyu@asahi-net.or.jp">cs8k-cyu@asahi-net.or.jp</a>
+までお願いします。
+</p>
+
+<table summary="return to top" width="100%" border="0" bgcolor="#bbaaee">
+<tbody><tr><td>
+■
+</td><td align="right">
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/index.html">ABA Gamesトップページへ</a>
+</td></tr>
+</tbody></table>
+
+
+
+
+</body></html>
