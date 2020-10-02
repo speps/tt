@@ -6,10 +6,10 @@
 module abagames.tt.tunnel;
 
 import bindbc.opengl;
+import abagames.util.gl;
 import std.math;
 import abagames.util.vector;
 import abagames.util.rand;
-import abagames.util.sdl.displaylist;
 import abagames.tt.ship;
 import abagames.tt.enemy;
 import abagames.tt.screen;
@@ -485,15 +485,15 @@ public class Slice {
         int psPi = cast(int) (pi * prevSlice.state.pointNum / _state.pointNum);
         int psPrevPi = cast(int) (prevPi * prevSlice.state.pointNum / _state.pointNum);
         Screen.setColor(lineR * lineBn, lineG * lineBn, lineB * lineBn);
-        glBegin(GL_LINE_STRIP);
+        GL.begin(GL_LINE_STRIP);
         Screen.glVertex(pointPos[cast(int) pi]);
         Screen.glVertex(prevSlice.pointPos[psPi]);
         Screen.glVertex(prevSlice.pointPos[psPrevPi]);
-        glEnd();
+        GL.end();
         if (polyBn > 0) {
           if (roundSlice || (!polyFirst && width > 0)) {
             Screen.setColor(polyR, polyG, polyB, polyBn);
-            glBegin(GL_TRIANGLE_FAN);
+            GL.begin(GL_TRIANGLE_FAN);
             polyPoint.blend(pointPos[cast(int) prevPi], prevSlice.pointPos[psPi], 0.9);
             Screen.glVertex(polyPoint);
             polyPoint.blend(pointPos[cast(int) pi], prevSlice.pointPos[psPrevPi], 0.9);
@@ -503,7 +503,7 @@ public class Slice {
             Screen.glVertex(polyPoint);
             polyPoint.blend(pointPos[cast(int) pi], prevSlice.pointPos[psPrevPi], 0.1);
             Screen.glVertex(polyPoint);
-            glEnd();
+            GL.end();
           } else {
             polyFirst = false;
           }
@@ -523,10 +523,10 @@ public class Slice {
       pi = _pointFrom;
       int psPi = cast(int) (pi * prevSlice.state.pointNum / _state.pointNum);
       Screen.setColor(lineBn / 3 * 2, lineBn / 3 * 2, lineBn);
-      glBegin(GL_LINE_STRIP);
+      GL.begin(GL_LINE_STRIP);
       Screen.glVertex(pointPos[cast(int) pi]);
       Screen.glVertex(prevSlice.pointPos[psPi]);
-      glEnd();
+      GL.end();
     }
     if (!roundSlice && lightBn > 0.2f) {
       drawSideLight(getLeftEdgeDeg() - 0.07f, lightBn);
@@ -562,13 +562,13 @@ public class Slice {
     radOfs.rollX(_d2);
     radOfs += _centerPos;
     Screen.setColor(1 * lightBn, 1 * lightBn, 0.6 * lightBn);
-    glBegin(GL_LINE_LOOP);
+    GL.begin(GL_LINE_LOOP);
     glVertex3f(radOfs.x - 0.5, radOfs.y - 0.5, radOfs.z);
     glVertex3f(radOfs.x + 0.5, radOfs.y - 0.5, radOfs.z);
     glVertex3f(radOfs.x + 0.5, radOfs.y + 0.5, radOfs.z);
     glVertex3f(radOfs.x - 0.5, radOfs.y + 0.5, radOfs.z);
-    glEnd();
-    glBegin(GL_TRIANGLE_FAN);
+    GL.end();
+    GL.begin(GL_TRIANGLE_FAN);
     Screen.setColor(0.5 * lightBn, 0.5 * lightBn, 0.3 * lightBn);
     glVertex3f(radOfs.x, radOfs.y, radOfs.z);
     Screen.setColor(0.9 * lightBn, 0.9 * lightBn, 0.6 * lightBn);
@@ -577,7 +577,7 @@ public class Slice {
     glVertex3f(radOfs.x + 0.5, radOfs.y + 0.5, radOfs.z);
     glVertex3f(radOfs.x + 0.5, radOfs.y - 0.5, radOfs.z);
     glVertex3f(radOfs.x - 0.5, radOfs.y - 0.5, radOfs.z);
-    glEnd();
+    GL.end();
   }
 
   public bool isNearlyRound() {
@@ -668,12 +668,6 @@ public class Torus {
         ring ~= new Ring(ri, ss);
       ri += 100 + rand.nextInt(200);
     }
-  }
-
-  public void close() {
-    if (ring)
-      foreach (Ring r; ring)
-        r.close();
   }
 
   public TorusPart getTorusPart(int idx) {
@@ -930,46 +924,33 @@ public class Ring {
  private:
   static const float[][] COLOR_RGB = [[0.5, 1, 0.9], [1, 0.9, 0.5]];
   int _idx;
-  DisplayList displayList;
   int cnt;
   int clr;
   int type;
+  float r;
 
   public this(int idx, SliceState ss, int type = 0) {
     _idx = idx;
     cnt = 0;
     this.type = type;
-    float r = ss.rad;
-    final switch (type) {
-    case 0:
-      createNormalRing(r);
-      break;
-    case 1:
-      createFinalRing(r);
-      break;
-    }
+    this.r = ss.rad;
   }
 
   private void createNormalRing(float r) {
-    displayList = new DisplayList(1);
-    displayList.beginNewList();
     drawRing(r, 1.2, 1.4, 16);
-    displayList.endNewList();
   }
 
-  private void createFinalRing(float r) {
-    displayList = new DisplayList(2);
-    displayList.beginNewList();
-    drawRing(r, 1.2, 1.5, 14);
-    displayList.nextNewList();
-    drawRing(r, 1.6, 1.9, 14);
-    displayList.endNewList();
+  private void createFinalRing(float r, int n) {
+    if (n == 0)
+      drawRing(r, 1.2, 1.5, 14);
+    if (n == 1)
+      drawRing(r, 1.6, 1.9, 14);
   }
 
   private void drawRing(float r, float rr1, float rr2, int num) {
     float d = 0, md = 0.2;
     for (int i = 0; i < num; i++) {
-      glBegin(GL_LINE_LOOP);
+      GL.begin(GL_LINE_LOOP);
       auto p1 = new Vector3(sin(d) * r * rr1, cos(d) * r * rr1, 0);
       auto p2 = new Vector3(sin(d) * r * rr2, cos(d) * r * rr2, 0);
       auto p3 = new Vector3(sin(d + md) * r * rr2, cos(d + md) * r * rr2, 0);
@@ -992,13 +973,9 @@ public class Ring {
       Screen.glVertex(np2);
       Screen.glVertex(np3);
       Screen.glVertex(np4);
-      glEnd();
+      GL.end();
       d += md;
     }
-  }
-  
-  public void close() {
-    displayList.close();
   }
 
   public void move() {
@@ -1012,21 +989,25 @@ public class Ring {
     Screen.setColor(COLOR_RGB[type][0] * a,
                     COLOR_RGB[type][1] * a,
                     COLOR_RGB[type][2] * a);
-    glPushMatrix();
-    glTranslatef(p.x, p.y, p.z);
-    glRotatef(cnt * 1.0f, 0, 0, 1);
-    glRotatef(d1, 0, 1, 0);
-    glRotatef(d2, 1, 0, 0);
-    displayList.call(0);
-    glPopMatrix();
+    GL.pushMatrix();
+    GL.translate(p.x, p.y, p.z);
+    GL.rotate(cnt * 1.0f, 0, 0, 1);
+    GL.rotate(d1, 0, 1, 0);
+    GL.rotate(d2, 1, 0, 0);
+    if (type == 0) {
+      createNormalRing(r);
+    } else if (type == 1) {
+      createFinalRing(r, 0);
+    }
+    GL.popMatrix();
     if (type == 1) {
-      glPushMatrix();
-      glTranslatef(p.x, p.y, p.z);
-      glRotatef(cnt * -1.0f, 0, 0, 1);
-      glRotatef(d1, 0, 1, 0);
-      glRotatef(d2, 1, 0, 0);
-      displayList.call(1);
-      glPopMatrix();
+      GL.pushMatrix();
+      GL.translate(p.x, p.y, p.z);
+      GL.rotate(cnt * -1.0f, 0, 0, 1);
+      GL.rotate(d1, 0, 1, 0);
+      GL.rotate(d2, 1, 0, 0);
+      createFinalRing(r, 1);
+      GL.popMatrix();
     }
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }

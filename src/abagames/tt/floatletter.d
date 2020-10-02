@@ -7,6 +7,7 @@ module abagames.tt.floatletter;
 
 import std.math;
 import bindbc.opengl;
+import abagames.util.gl;
 import abagames.util.actor;
 import abagames.util.vector;
 import abagames.util.rand;
@@ -67,14 +68,14 @@ public class FloatLetter: Actor {
   }
 
   public override void draw() {
-    glPushMatrix();
+    GL.pushMatrix();
     Vector3 sp = tunnel.getPos(pos);
-    glTranslatef(0, 0, sp.z);
+    GL.translate(0, 0, sp.z);
     Screen.setColor(1, 1, 1, 1);
     Letter.drawString(msg, sp.x, sp.y, size, Letter.Direction.TO_RIGHT, 2, false, d  * 180 / PI);
     Screen.setColor(1, 1, 1, alpha);
     Letter.drawString(msg, sp.x, sp.y, size, Letter.Direction.TO_RIGHT, 3, false, d  * 180 / PI);
-    glPopMatrix();
+    GL.popMatrix();
   }
 }
 

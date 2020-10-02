@@ -7,6 +7,7 @@ module abagames.tt.screen;
 
 import std.math;
 import bindbc.opengl;
+import abagames.util.gl;
 import abagames.util.sdl.screen3d;
 import abagames.util.sdl.luminous;
 
@@ -76,19 +77,19 @@ public class Screen: Screen3D {
   }
 
   public static void viewOrthoFixed() {
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(0, 640, 480, 0, -1, 1);
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
+    GL.matrixMode(GL.MatrixMode.Projection);
+    GL.pushMatrix();
+    GL.loadIdentity();
+    GL.ortho(0, 640, 480, 0, -1, 1);
+    GL.matrixMode(GL.MatrixMode.ModelView);
+    GL.pushMatrix();
+    GL.loadIdentity();
   }
 
   public static void viewPerspective() {
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
+    GL.matrixMode(GL.MatrixMode.Projection);
+    GL.popMatrix();
+    GL.matrixMode(GL.MatrixMode.ModelView);
+    GL.popMatrix();
   }
 }

@@ -7,10 +7,10 @@ module abagames.tt.shape;
 
 import std.math;
 import bindbc.opengl;
+import abagames.util.gl;
 import abagames.util.vector;
 import abagames.util.rand;
 import abagames.util.sdl.screen3d;
-import abagames.util.sdl.displaylist;
 import abagames.tt.screen;
 import abagames.tt.particle;
 
@@ -60,14 +60,9 @@ public class ShipShape: Collidable, Drawable {
   static Rand rand;
   Structure[] structure;
   Vector _collision;
-  DisplayList displayList;
   float[] rocketX;
   Vector rocketPos, fragmentPos;
   int color;
-
-  public void close() {
-    displayList.close();
-  }
 
   public static void setRandSeed(long n) {
     if (!rand) {
@@ -90,18 +85,8 @@ public class ShipShape: Collidable, Drawable {
       createLargeType(localRand, damaged);
       break;
     }
-    createDisplayList();
     rocketPos = new Vector;
     fragmentPos = new Vector;
-  }
-
-  private void createDisplayList() {
-    displayList = new DisplayList(1);
-    displayList.beginNewList();
-    foreach (Structure st; structure) {
-      st.createDisplayList();
-    }
-    displayList.endNewList();
   }
 
   private void createSmallType(Rand localRand, bool damaged = false) {
@@ -324,7 +309,9 @@ public class ShipShape: Collidable, Drawable {
   }
 
   public void draw() {
-    displayList.call(0);
+    foreach (Structure st; structure) {
+      st.createDisplayList();
+    }
   }
 
   public Vector collision() {
@@ -364,15 +351,15 @@ public class Structure {
   }
 
   public void createDisplayList() {
-    glPushMatrix();
-    glTranslatef(pos.x, pos.y, 0);
-    glRotatef(-d2, 1, 0, 0);
-    glRotatef(d1, 0, 0, 1);
+    GL.pushMatrix();
+    GL.translate(pos.x, pos.y, 0);
+    GL.rotate(-d2, 1, 0, 0);
+    GL.rotate(d1, 0, 0, 1);
     if (shape == Shape.ROCKET)
-      glScalef(width, width, height);
+      GL.scale(width, width, height);
     else
-      glScalef(width, height, 1);
-    glScalef(shapeXReverse, 1, 1);
+      GL.scale(width, height, 1);
+    GL.scale(shapeXReverse, 1, 1);
     float alp = 0.5;
     if (color == 0)
       alp = 1;
@@ -384,25 +371,25 @@ public class Structure {
         float x12 = x11 + (1.0 / divNum) * 0.8;
         float x21 = -0.5 + (0.8 / divNum) * i;
         float x22 = x21 + (0.8 / divNum) * 0.8;
-        glBegin(GL_LINE_LOOP);
+        GL.begin(GL_LINE_LOOP);
         glVertex3f(x21, 0, -0.5);
         glVertex3f(x22, 0, -0.5);
         glVertex3f(x12, 0, 0.5);
         glVertex3f(x11, 0, 0.5);
-        glEnd();
-        glBegin(GL_LINE_LOOP);
+        GL.end();
+        GL.begin(GL_LINE_LOOP);
         glVertex3f(x21, 0.1, -0.5);
         glVertex3f(x22, 0.1, -0.5);
         glVertex3f(x12, 0.1, 0.5);
         glVertex3f(x11, 0.1, 0.5);
-        glEnd();
+        GL.end();
         Screen.setColor(COLOR_RGB[color][0], COLOR_RGB[color][1], COLOR_RGB[color][2], alp);
-        glBegin(GL_TRIANGLE_FAN);
+        GL.begin(GL_TRIANGLE_FAN);
         glVertex3f(x21, 0, -0.5);
         glVertex3f(x22, 0, -0.5);
         glVertex3f(x12, 0, 0.5);
         glVertex3f(x11, 0, 0.5);
-        glEnd();
+        GL.end();
       }
       break;
     case Shape.WING:
@@ -411,25 +398,25 @@ public class Structure {
         float x2 = x1 + (1.0 / divNum) * 0.8;
         float y1 = x1;
         float y2 = x2;
-        glBegin(GL_LINE_LOOP);
+        GL.begin(GL_LINE_LOOP);
         glVertex3f(x1, 0, y1);
         glVertex3f(x2, 0, y2);
         glVertex3f(x2, 0, 0.5);
         glVertex3f(x1, 0, 0.5);
-        glEnd();
-        glBegin(GL_LINE_LOOP);
+        GL.end();
+        GL.begin(GL_LINE_LOOP);
         glVertex3f(x1, 0.1, y1);
         glVertex3f(x2, 0.1, y2);
         glVertex3f(x2, 0.1, 0.5);
         glVertex3f(x1, 0.1, 0.5);
-        glEnd();
+        GL.end();
         Screen.setColor(COLOR_RGB[color][0], COLOR_RGB[color][1], COLOR_RGB[color][2], alp);
-        glBegin(GL_TRIANGLE_FAN);
+        GL.begin(GL_TRIANGLE_FAN);
         glVertex3f(x1, 0, y1);
         glVertex3f(x2, 0, y2);
         glVertex3f(x2, 0, 0.5);
         glVertex3f(x1, 0, 0.5);
-        glEnd();
+        GL.end();
       }
       break;
     case Shape.TRIANGLE:
@@ -438,47 +425,47 @@ public class Structure {
         float x2 = x1 + (1.0 / divNum) * 0.8;
         float y1 = -0.5 + (1.0 / divNum) * fabs(cast(float)i - divNum / 2) * 2;
         float y2 = -0.5 + (1.0 / divNum) * fabs(cast(float)i + 0.8 - divNum / 2) * 2;
-        glBegin(GL_LINE_LOOP);
+        GL.begin(GL_LINE_LOOP);
         glVertex3f(x1, 0, y1);
         glVertex3f(x2, 0, y2);
         glVertex3f(x2, 0, 0.5);
         glVertex3f(x1, 0, 0.5);
-        glEnd();
-        glBegin(GL_LINE_LOOP);
+        GL.end();
+        GL.begin(GL_LINE_LOOP);
         glVertex3f(x1, 0.1, y1);
         glVertex3f(x2, 0.1, y2);
         glVertex3f(x2, 0.1, 0.5);
         glVertex3f(x1, 0.1, 0.5);
-        glEnd();
+        GL.end();
         Screen.setColor(COLOR_RGB[color][0], COLOR_RGB[color][1], COLOR_RGB[color][2], alp);
-        glBegin(GL_TRIANGLE_FAN);
+        GL.begin(GL_TRIANGLE_FAN);
         glVertex3f(x1, 0, y1);
         glVertex3f(x2, 0, y2);
         glVertex3f(x2, 0, 0.5);
         glVertex3f(x1, 0, 0.5);
-        glEnd();
+        GL.end();
       }
       break;
     case Shape.ROCKET:
       for (int i = 0; i < 4; i++) {
         float d = i * PI / 2 + PI / 4;
-        glBegin(GL_LINE_LOOP);
+        GL.begin(GL_LINE_LOOP);
         glVertex3f(sin(d - 0.3), cos(d - 0.3), -0.5);
         glVertex3f(sin(d + 0.3), cos(d + 0.3), -0.5);
         glVertex3f(sin(d + 0.3), cos(d + 0.3), 0.5);
         glVertex3f(sin(d - 0.3), cos(d - 0.3), 0.5);
-        glEnd();
+        GL.end();
         Screen.setColor(COLOR_RGB[color][0], COLOR_RGB[color][1], COLOR_RGB[color][2], alp);
-        glBegin(GL_TRIANGLE_FAN);
+        GL.begin(GL_TRIANGLE_FAN);
         glVertex3f(sin(d - 0.3), cos(d - 0.3), -0.5);
         glVertex3f(sin(d + 0.3), cos(d + 0.3), -0.5);
         glVertex3f(sin(d + 0.3), cos(d + 0.3), 0.5);
         glVertex3f(sin(d - 0.3), cos(d - 0.3), 0.5);
-        glEnd();
+        GL.end();
       }
       break;
     }
-    glPopMatrix();
+    GL.popMatrix();
   }
 }
 
@@ -488,52 +475,40 @@ public class Structure {
 public class BitShape: Drawable {
  private:
   static const float[] COLOR_RGB = [1, 0.9, 0.5];
-  DisplayList displayList;
-
-  public void create() {
-    displayList = new DisplayList(1);
-    displayList.beginNewList();
-      for (int i = 0; i < 4; i++) {
-        float d = i * PI / 2 + PI / 4;
-        Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
-        glBegin(GL_LINE_LOOP);
-        glVertex3f(sin(d - 0.3), -0.8, cos(d - 0.3));
-        glVertex3f(sin(d + 0.3), -0.8, cos(d + 0.3));
-        glVertex3f(sin(d + 0.3), 0.8, cos(d + 0.3));
-        glVertex3f(sin(d - 0.3), 0.8, cos(d - 0.3));
-        glEnd();
-        d += PI / 4;
-        glBegin(GL_LINE_LOOP);
-        glVertex3f(sin(d - 0.3) * 2, -0.2, cos(d - 0.3) * 2);
-        glVertex3f(sin(d + 0.3) * 2, -0.2, cos(d + 0.3) * 2);
-        glVertex3f(sin(d + 0.3) * 2, 0.2, cos(d + 0.3) * 2);
-        glVertex3f(sin(d - 0.3) * 2, 0.2, cos(d - 0.3) * 2);
-        glEnd();
-        d -= PI / 4;
-        Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2], 0.5);
-        glBegin(GL_TRIANGLE_FAN);
-        glVertex3f(sin(d - 0.3), -0.8, cos(d - 0.3));
-        glVertex3f(sin(d + 0.3), -0.8, cos(d + 0.3));
-        glVertex3f(sin(d + 0.3), 0.8, cos(d + 0.3));
-        glVertex3f(sin(d - 0.3), 0.8, cos(d - 0.3));
-        glEnd();
-        d += PI / 4;
-        glBegin(GL_TRIANGLE_FAN);
-        glVertex3f(sin(d - 0.3) * 2, -0.2, cos(d - 0.3) * 2);
-        glVertex3f(sin(d + 0.3) * 2, -0.2, cos(d + 0.3) * 2);
-        glVertex3f(sin(d + 0.3) * 2, 0.2, cos(d + 0.3) * 2);
-        glVertex3f(sin(d - 0.3) * 2, 0.2, cos(d - 0.3) * 2);
-        glEnd();
-      }
-    displayList.endNewList();
-  }
-
-  public void close() {
-    displayList.close();
-  }
 
   public void draw() {
-    displayList.call(0);
+    for (int i = 0; i < 4; i++) {
+      float d = i * PI / 2 + PI / 4;
+      Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
+      GL.begin(GL_LINE_LOOP);
+      glVertex3f(sin(d - 0.3), -0.8, cos(d - 0.3));
+      glVertex3f(sin(d + 0.3), -0.8, cos(d + 0.3));
+      glVertex3f(sin(d + 0.3), 0.8, cos(d + 0.3));
+      glVertex3f(sin(d - 0.3), 0.8, cos(d - 0.3));
+      GL.end();
+      d += PI / 4;
+      GL.begin(GL_LINE_LOOP);
+      glVertex3f(sin(d - 0.3) * 2, -0.2, cos(d - 0.3) * 2);
+      glVertex3f(sin(d + 0.3) * 2, -0.2, cos(d + 0.3) * 2);
+      glVertex3f(sin(d + 0.3) * 2, 0.2, cos(d + 0.3) * 2);
+      glVertex3f(sin(d - 0.3) * 2, 0.2, cos(d - 0.3) * 2);
+      GL.end();
+      d -= PI / 4;
+      Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2], 0.5);
+      GL.begin(GL_TRIANGLE_FAN);
+      glVertex3f(sin(d - 0.3), -0.8, cos(d - 0.3));
+      glVertex3f(sin(d + 0.3), -0.8, cos(d + 0.3));
+      glVertex3f(sin(d + 0.3), 0.8, cos(d + 0.3));
+      glVertex3f(sin(d - 0.3), 0.8, cos(d - 0.3));
+      GL.end();
+      d += PI / 4;
+      GL.begin(GL_TRIANGLE_FAN);
+      glVertex3f(sin(d - 0.3) * 2, -0.2, cos(d - 0.3) * 2);
+      glVertex3f(sin(d + 0.3) * 2, -0.2, cos(d + 0.3) * 2);
+      glVertex3f(sin(d + 0.3) * 2, 0.2, cos(d + 0.3) * 2);
+      glVertex3f(sin(d - 0.3) * 2, 0.2, cos(d - 0.3) * 2);
+      GL.end();
+    }
   }
 }
 
@@ -550,12 +525,14 @@ public class BulletShape: Drawable {
   static const int NUM = 6;
  private:
   static const float[] COLOR_RGB = [1, 0.7, 0.8];
-  DisplayList displayList;
+  BSType shapeType;
 
   public void create(BSType type) {
-    displayList = new DisplayList(1);
-    displayList.beginNewList();
-    final switch (type) {
+    shapeType = type;
+  }
+
+  public void draw() {
+    final switch (shapeType) {
     case BSType.TRIANGLE:
       createTriangleShape(false);
       break;
@@ -575,11 +552,6 @@ public class BulletShape: Drawable {
       createBarShape(true);
       break;
     }
-    displayList.endNewList();
-  }
-
-  public void close() {
-    displayList.close();
   }
 
   private void createTriangleShape(bool wireShape) {
@@ -612,19 +584,19 @@ public class BulletShape: Drawable {
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
       else
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
-      glBegin(GL_LINE_LOOP);
+      GL.begin(GL_LINE_LOOP);
       Screen.glVertex(np1);
       Screen.glVertex(np2);
       Screen.glVertex(np3);
-      glEnd();
+      GL.end();
       if (!wireShape) {
-        glBegin(GL_TRIANGLE_FAN);
+        GL.begin(GL_TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
         Screen.glVertex(np1);
         Screen.setColor(COLOR_RGB[0] * 0.4, COLOR_RGB[1] * 0.4, COLOR_RGB[2] * 0.4);
         Screen.glVertex(np2);
         Screen.glVertex(np3);
-        glEnd();
+        GL.end();
       }
     }
   }
@@ -660,16 +632,16 @@ public class BulletShape: Drawable {
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
       else
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
-      glBegin(GL_LINE_LOOP);
+      GL.begin(GL_LINE_LOOP);
       for (int j = 0; j < 4; j++)
         Screen.glVertex(np[j]);
-      glEnd();
+      GL.end();
       if (!wireShape) {
-        glBegin(GL_TRIANGLE_FAN);
+        GL.begin(GL_TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
         for (int j = 0; j < 4; j++)
           Screen.glVertex(np[j]);
-        glEnd();
+        GL.end();
       }
     }
   }
@@ -705,22 +677,18 @@ public class BulletShape: Drawable {
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
       else
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
-      glBegin(GL_LINE_LOOP);
+      GL.begin(GL_LINE_LOOP);
       for (int j = 0; j < 4; j++)
         Screen.glVertex(np[j]);
-      glEnd();
+      GL.end();
       if (!wireShape) {
-        glBegin(GL_TRIANGLE_FAN);
+        GL.begin(GL_TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
         for (int j = 0; j < 4; j++)
           Screen.glVertex(np[j]);
-        glEnd();
+        GL.end();
       }
     }
-  }
-
-  public void draw() {
-    displayList.call(0);
   }
 }
 
@@ -731,57 +699,50 @@ public class ShotShape: Collidable, Drawable {
   mixin CollidableImpl;
  private:
   static const float[] COLOR_RGB = [0.8, 1, 0.7];
-  DisplayList displayList;
+  bool _charge;
   Vector _collision;
 
   public void create(bool charge) {
-    displayList = new DisplayList(1);
-    displayList.beginNewList();
-    if (charge) {
+    _charge = charge;
+  }
+
+  public void draw() {
+    if (_charge) {
       for (int i = 0; i < 8; i++) {
         float d = i * PI / 4;
-        glBegin(GL_TRIANGLES);
+        GL.begin(GL_TRIANGLES);
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
         glVertex3f(sin(d) * 0.1, cos(d) * 0.1, 0.2);
         glVertex3f(sin(d) * 0.5, cos(d) * 0.5, 0.5);
         Screen.setColor(COLOR_RGB[0] * 0.2, COLOR_RGB[1] * 0.2, COLOR_RGB[2] * 0.2);
         glVertex3f(sin(d) * 1.0, cos(d) * 1.0, -0.7);
-        glEnd();
+        GL.end();
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
-        glBegin(GL_LINE_LOOP);
+        GL.begin(GL_LINE_LOOP);
         glVertex3f(sin(d) * 0.1, cos(d) * 0.1, 0.2);
         glVertex3f(sin(d) * 0.5, cos(d) * 0.5, 0.5);
         glVertex3f(sin(d) * 1.0, cos(d) * 1.0, -0.7);
-        glEnd();
+        GL.end();
       }
     } else {
       for (int i = 0; i < 4; i++) {
         float d = i * PI / 2;
-        glBegin(GL_TRIANGLES);
+        GL.begin(GL_TRIANGLES);
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
         glVertex3f(sin(d) * 0.1, cos(d) * 0.1, 0.4);
         glVertex3f(sin(d) * 0.3, cos(d) * 0.3, 1.0);
         Screen.setColor(COLOR_RGB[0] * 0.2, COLOR_RGB[1] * 0.2, COLOR_RGB[2] * 0.2);
         glVertex3f(sin(d) * 0.5, cos(d) * 0.5, -1.4);
-        glEnd();
+        GL.end();
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
-        glBegin(GL_LINE_LOOP);
+        GL.begin(GL_LINE_LOOP);
         glVertex3f(sin(d) * 0.1, cos(d) * 0.1, 0.4);
         glVertex3f(sin(d) * 0.3, cos(d) * 0.3, 1.0);
         glVertex3f(sin(d) * 0.5, cos(d) * 0.5, -1.4);
-        glEnd();
+        GL.end();
       }
     }
-    displayList.endNewList();
     _collision = new Vector(0.15, 0.3);
-  }
-
-  public void close() {
-    displayList.close();
-  }
-
-  public void draw() {
-    displayList.call(0);
   }
 
   public Vector collision() {
@@ -800,7 +761,7 @@ public class ResizableDrawable: Collidable, Drawable {
   Vector _collision;
 
   public void draw() {
-    glScalef(_size, _size, _size);
+    GL.scale(_size, _size, _size);
     _shape.draw();
   }
 

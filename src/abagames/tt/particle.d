@@ -7,6 +7,7 @@ module abagames.tt.particle;
 
 import std.math;
 import bindbc.opengl;
+import abagames.util.gl;
 import abagames.util.actor;
 import abagames.util.vector;
 import abagames.util.rand;
@@ -180,7 +181,7 @@ public class Particle: LuminousActor {
   }
 
   private void drawSpark() {
-    glBegin(GL_TRIANGLE_FAN);
+    GL.begin(GL_TRIANGLE_FAN);
     Screen.setColor(r, g, b, 0.5);
     Screen.glVertex(psp);
     Screen.setColor(r, g, b, 0);
@@ -189,9 +190,9 @@ public class Particle: LuminousActor {
     glVertex3f(sp.x + SIZE, sp.y + SIZE, sp.z);
     glVertex3f(sp.x - SIZE, sp.y + SIZE, sp.z);
     glVertex3f(sp.x - SIZE, sp.y - SIZE, sp.z);
-    glEnd();
+    GL.end();
     if (inCourse) {
-      glBegin(GL_TRIANGLE_FAN);
+      GL.begin(GL_TRIANGLE_FAN);
       Screen.setColor(r, g, b, 0.2);
       Screen.glVertex(rpsp);
       Screen.setColor(r, g, b, 0);
@@ -200,44 +201,44 @@ public class Particle: LuminousActor {
       glVertex3f(rsp.x + SIZE, rsp.y + SIZE, sp.z);
       glVertex3f(rsp.x - SIZE, rsp.y + SIZE, sp.z);
       glVertex3f(rsp.x - SIZE, rsp.y - SIZE, sp.z);
-      glEnd();
+      GL.end();
     }
   }
 
   private void drawStar() {
-    glBegin(GL_LINES);
+    GL.begin(GL_LINES);
     Screen.setColor(r, g, b, 1);
     Screen.glVertex(psp);
     Screen.setColor(r, g, b, 0.2);
     Screen.glVertex(sp);
-    glEnd();
+    GL.end();
   }
 
   private void drawFragment() {
-    glPushMatrix();
-    glTranslatef(sp.x, sp.y, sp.z);
-    glRotatef(d1, 0, 0, 1);
-    glRotatef(d2, 0, 1, 0);
-    glBegin(GL_LINE_LOOP);
+    GL.pushMatrix();
+    GL.translate(sp.x, sp.y, sp.z);
+    GL.rotate(d1, 0, 0, 1);
+    GL.rotate(d2, 0, 1, 0);
+    GL.begin(GL_LINE_LOOP);
     Screen.setColor(r, g, b, 0.5);
     glVertex3f(width, 0, height);
     glVertex3f(-width, 0, height);
     glVertex3f(-width, 0, -height);
     glVertex3f(width, 0, -height);
-    glEnd();
-    glBegin(GL_TRIANGLE_FAN);
+    GL.end();
+    GL.begin(GL_TRIANGLE_FAN);
     Screen.setColor(r, g, b, 0.2);
     glVertex3f(width, 0, height);
     glVertex3f(-width, 0, height);
     glVertex3f(-width, 0, -height);
     glVertex3f(width, 0, -height);
-    glEnd();
-    glPopMatrix();
+    GL.end();
+    GL.popMatrix();
   }
 
   public override void drawLuminous() {
     if (lumAlp < 0.2 || type != PType.SPARK) return;
-    glBegin(GL_TRIANGLE_FAN);
+    GL.begin(GL_TRIANGLE_FAN);
     Screen.setColor(r, g, b, lumAlp * 0.6);
     Screen.glVertex(psp);
     Screen.setColor(r, g, b, 0);
@@ -246,7 +247,7 @@ public class Particle: LuminousActor {
     glVertex3f(sp.x + SIZE, sp.y + SIZE, sp.z);
     glVertex3f(sp.x - SIZE, sp.y + SIZE, sp.z);
     glVertex3f(sp.x - SIZE, sp.y - SIZE, sp.z);
-    glEnd();
+    GL.end();
   }
 }
 

@@ -7,7 +7,7 @@ module abagames.tt.letter;
 
 import std.math;
 import bindbc.opengl;
-import abagames.util.sdl.displaylist;
+import abagames.util.gl;
 import abagames.tt.screen;
 
 /**
@@ -15,7 +15,6 @@ import abagames.tt.screen;
  */
 public class Letter {
  public:
-  static DisplayList displayList;
   static const float LETTER_WIDTH = 2.1f;
   static const float LETTER_HEIGHT = 3.0f;
   static const int COLOR_NUM = 4;
@@ -23,22 +22,6 @@ public class Letter {
   static const float[][] COLOR_RGB = [[1, 1, 1], [0.9, 0.7, 0.5]];
   static const int LETTER_NUM = 44;
   static const int DISPLAY_LIST_NUM = LETTER_NUM * COLOR_NUM;
-
-  public static void init() {
-    displayList = new DisplayList(DISPLAY_LIST_NUM);
-    displayList.resetList();
-    for (int j = 0; j < COLOR_NUM; j++) {
-      for (int i = 0; i < LETTER_NUM; i++) {
-        displayList.newList();
-        drawLetter(i, j);
-        displayList.endList();
-      }
-    }
-  }
-
-  public static void close() {
-    displayList.close();
-  }
 
   public static float getWidth(int n ,float s) {
     return n * s * LETTER_WIDTH;
@@ -49,21 +32,21 @@ public class Letter {
   }
 
   private static void drawLetter(int n, float x, float y, float s, float d, int c) {
-    glPushMatrix();
-    glTranslatef(x, y, 0);
-    glScalef(s, s, s);
-    glRotatef(d, 0, 0, 1);
-    displayList.call(n + c * LETTER_NUM);
-    glPopMatrix();
+    GL.pushMatrix();
+    GL.translate(x, y, 0);
+    GL.scale(s, s, s);
+    GL.rotate(d, 0, 0, 1);
+    drawLetter(n, c);
+    GL.popMatrix();
   }
 
   private static void drawLetterRev(int n, float x, float y, float s, float d, int c) {
-    glPushMatrix();
-    glTranslatef(x, y, 0);
-    glScalef(s, -s, s);
-    glRotatef(d, 0, 0, 1);
-    displayList.call(n + c * LETTER_NUM);
-    glPopMatrix();
+    GL.pushMatrix();
+    GL.translate(x, y, 0);
+    GL.scale(s, -s, s);
+    GL.rotate(d, 0, 0, 1);
+    drawLetter(n, c);
+    GL.popMatrix();
   }
 
   public static enum Direction {
@@ -275,38 +258,38 @@ public class Letter {
 
   private static void drawBox(float x, float y, float width, float height, float deg,
                               float r, float g, float b) {
-    glPushMatrix();
-    glTranslatef(x - width / 2, y - height / 2, 0);
-    glRotatef(deg, 0, 0, 1);
+    GL.pushMatrix();
+    GL.translate(x - width / 2, y - height / 2, 0);
+    GL.rotate(deg, 0, 0, 1);
     Screen.setColor(r, g, b, 0.5);
-    glBegin(GL_TRIANGLE_FAN);
+    GL.begin(GL_TRIANGLE_FAN);
     drawBoxPart(width, height);
-    glEnd();
+    GL.end();
     Screen.setColor(r, g, b);
-    glBegin(GL_LINE_LOOP);
+    GL.begin(GL_LINE_LOOP);
     drawBoxPart(width, height);
-    glEnd();
-    glPopMatrix();
+    GL.end();
+    GL.popMatrix();
   }
 
   private static void drawBoxLine(float x, float y, float width, float height, float deg) {
-    glPushMatrix();
-    glTranslatef(x - width / 2, y - height / 2, 0);
-    glRotatef(deg, 0, 0, 1);
-    glBegin(GL_LINE_LOOP);
+    GL.pushMatrix();
+    GL.translate(x - width / 2, y - height / 2, 0);
+    GL.rotate(deg, 0, 0, 1);
+    GL.begin(GL_LINE_LOOP);
     drawBoxPart(width, height);
-    glEnd();
-    glPopMatrix();
+    GL.end();
+    GL.popMatrix();
   }
 
   private static void drawBoxPoly(float x, float y, float width, float height, float deg) {
-    glPushMatrix();
-    glTranslatef(x - width / 2, y - height / 2, 0);
-    glRotatef(deg, 0, 0, 1);
-    glBegin(GL_TRIANGLE_FAN);
+    GL.pushMatrix();
+    GL.translate(x - width / 2, y - height / 2, 0);
+    GL.rotate(deg, 0, 0, 1);
+    GL.begin(GL_TRIANGLE_FAN);
     drawBoxPart(width, height);
-    glEnd();
-    glPopMatrix();
+    GL.end();
+    GL.popMatrix();
   }
 
   private static void drawBoxPart(float width, float height) {

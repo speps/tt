@@ -8,6 +8,7 @@ module abagames.util.sdl.luminous;
 import std.math;
 import core.stdc.string;
 import bindbc.opengl;
+import abagames.util.gl;
 import abagames.util.actor;
 
 /**
@@ -62,20 +63,20 @@ public class LuminousScreen {
   }
 
   private void viewOrtho() {
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(0, screenWidth, screenHeight, 0, -1, 1);
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
+    GL.matrixMode(GL.MatrixMode.Projection);
+    GL.pushMatrix();
+    GL.loadIdentity();
+    GL.ortho(0, screenWidth, screenHeight, 0, -1, 1);
+    GL.matrixMode(GL.MatrixMode.ModelView);
+    GL.pushMatrix();
+    GL.loadIdentity();
   }
 
   private void viewPerspective() {
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
+    GL.matrixMode(GL.MatrixMode.Projection);
+    GL.popMatrix();
+    GL.matrixMode(GL.MatrixMode.ModelView);
+    GL.popMatrix();
   }
 
   //private int[5][2] lmOfs = [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]];
@@ -88,7 +89,7 @@ public class LuminousScreen {
     glBindTexture(GL_TEXTURE_2D, luminousTexture);
     viewOrtho();
     glColor4f(1, 0.8, 0.9, luminous);
-    glBegin(GL_QUADS);
+    GL.begin(GL_QUADS);
     //for (int i = 0; i < 5; i++) {
     //for (int i = 1; i < 5; i++) {
     for (int i = 0; i < 2; i++) {
@@ -101,7 +102,7 @@ public class LuminousScreen {
       glTexCoord2f(1, 1);
       glVertex2f(screenWidth + lmOfs[i][0] * lmOfsBs, 0 + lmOfs[i][0] * lmOfsBs);
     }
-    glEnd();
+    GL.end();
     viewPerspective();
     glDisable(GL_TEXTURE_2D);
   }

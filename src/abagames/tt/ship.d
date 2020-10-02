@@ -7,7 +7,8 @@ module abagames.tt.ship;
 
 import std.math;
 import bindbc.opengl;
-import openglu;
+import abagames.util.gl;
+import abagames.util.gl;
 import abagames.util.vector;
 import abagames.util.rand;
 import abagames.util.sdl.pad;
@@ -167,10 +168,6 @@ public class Ship: BulletTarget {
       chargingShot = null;
     }
     regenerativeCharge = 0;
-  }
-
-  public void close() {
-    _shape.close();
   }
 
   public void move() {
@@ -440,15 +437,15 @@ public class Ship: BulletTarget {
       ly = lp3.y;
       lz = lp3.z;
       deg = camera.deg;
-      glMatrixMode(GL_PROJECTION);
-      glLoadIdentity();
+      GL.matrixMode(GL.MatrixMode.Projection);
+      GL.loadIdentity();
       float np = Screen.nearPlane * camera.zoom;
-      glFrustum(-np,
+      GL.frustum(-np,
                 np,
                 -np * cast(GLfloat) Screen.height / cast(GLfloat) Screen.width,
                 np * cast(GLfloat) Screen.height / cast(GLfloat) Screen.width,
                 0.1f, Screen.farPlane);
-      glMatrixMode(GL_MODELVIEW);
+      GL.matrixMode(GL.MatrixMode.ModelView);
     }
     if (screenShakeCnt > 0) {
       float mx = rand.nextSignedFloat(screenShakeIntense * (screenShakeCnt + 6));
@@ -461,7 +458,7 @@ public class Ship: BulletTarget {
       ly += my;
       lz += mz;
     }
-    gluLookAt(ex, ey, ez,
+    GL.lookAt(ex, ey, ez,
 	      lx, ly, lz,
 	      sin(deg), -cos(deg) , 0);
   }
@@ -583,13 +580,13 @@ public class Ship: BulletTarget {
   public void draw() {
     if (cnt < -INVINCIBLE_CNT || (cnt < 0 && (-cnt % 32) < 16))
       return;
-    glPushMatrix();
-    glTranslatef(pos3.x, pos3.y, pos3.z);
-    glRotatef((pos.x - bank) * 180 / PI, 0, 0, 1);
-    glRotatef(d1 * 180 / PI, 0, 1, 0);
-    glRotatef(d2 * 180 / PI, 1, 0, 0);
+    GL.pushMatrix();
+    GL.translate(pos3.x, pos3.y, pos3.z);
+    GL.rotate((pos.x - bank) * 180 / PI, 0, 0, 1);
+    GL.rotate(d1 * 180 / PI, 0, 1, 0);
+    GL.rotate(d2 * 180 / PI, 1, 0, 0);
     _shape.draw();
-    glPopMatrix();
+    GL.popMatrix();
   }
 
   public void drawFront() {

@@ -7,9 +7,9 @@ module abagames.tt.title;
 
 import std.math;
 import bindbc.opengl;
-import openglu;
+import abagames.util.gl;
+import abagames.util.gl;
 import abagames.util.vector;
-import abagames.util.sdl.displaylist;
 import abagames.util.sdl.texture;
 import abagames.util.sdl.pad;
 import abagames.tt.screen;
@@ -30,7 +30,6 @@ public class TitleManager {
   Pad pad;
   Ship ship;
   GameManager gameManager;
-  DisplayList displayList;
   int cnt;
   Texture titleTexture;
   int grade, level;
@@ -45,12 +44,7 @@ public class TitleManager {
     pad = p;
     ship = s;
     gameManager = gm;
-    createTorusShape();
     titleTexture = new Texture("title.bmp");
-  }
-
-  public void close() {
-    displayList.close();
   }
 
   public void start() {
@@ -177,52 +171,52 @@ public class TitleManager {
   public void draw() {
     if (_replayChangeRatio >= 1.0f)
       return;
-    glPopMatrix();
+    GL.popMatrix();
     Screen.viewOrthoFixed();
     glDisable(GL_BLEND);
     Screen.setColor(0, 0, 0);
     float rcr = _replayChangeRatio * 2;
     if (rcr > 1)
       rcr = 1;
-    glBegin(GL_QUADS);
+    GL.begin(GL_QUADS);
     glVertex3f(450 + (640 - 450) * rcr, 0, 0);
     glVertex3f(640, 0, 0);
     glVertex3f(640, 480, 0);
     glVertex3f(450 + (640 - 450) * rcr, 480, 0);
-    glEnd();
+    GL.end();
     glEnable(GL_BLEND);
     Screen.viewPerspective();
-    glPushMatrix();
-    gluLookAt(0, 0, -1, 0, 0, 0, 0, 1, 0);
-    glPushMatrix();
-    glTranslatef(3 - _replayChangeRatio * 2.4f, 1.8f, 3.5f - _replayChangeRatio * 1.5f);
-    glRotatef(30, 1, 0, 0);
-    glRotatef(sin(cnt * 0.005f) * 12, 0, 1, 0);
-    glRotatef(cnt * 0.2f, 0, 0, 1);
+    GL.pushMatrix();
+    GL.lookAt(0, 0, -1, 0, 0, 0, 0, 1, 0);
+    GL.pushMatrix();
+    GL.translate(3 - _replayChangeRatio * 2.4f, 1.8f, 3.5f - _replayChangeRatio * 1.5f);
+    GL.rotate(30, 1, 0, 0);
+    GL.rotate(sin(cnt * 0.005f) * 12, 0, 1, 0);
+    GL.rotate(cnt * 0.2f, 0, 0, 1);
     glDisable(GL_BLEND);
     Screen.setColor(0, 0, 0);
-    displayList.call(1);
+    createTorusShape(1);
     glEnable(GL_BLEND);
     Screen.setColor(1, 1, 1, 0.5f);
-    displayList.call(0);
-    glPopMatrix();
+    createTorusShape(0);
+    GL.popMatrix();
   }
 
   public void drawFront() {
     if (_replayChangeRatio > 0)
       return;
-    glPushMatrix();
-    glTranslatef(508, 400, 0);
-    glRotatef(-20, 0, 0, 1);
-    glScalef(128, 64, 1);
+    GL.pushMatrix();
+    GL.translate(508, 400, 0);
+    GL.rotate(-20, 0, 0, 1);
+    GL.scale(128, 64, 1);
     glLineWidth(2);
-    displayList.call(2);
+    createTorusShape(2);
     glLineWidth(1);
-    glPopMatrix();
+    GL.popMatrix();
     Screen.setColor(1, 1, 1);
     glEnable(GL_TEXTURE_2D);
     titleTexture.bind();
-    glBegin(GL_TRIANGLE_FAN);
+    GL.begin(GL_TRIANGLE_FAN);
     glTexCoord2f(0, 0);
     glVertex3f(470, 380, 0);
     glTexCoord2f(1, 0);
@@ -231,7 +225,7 @@ public class TitleManager {
     glVertex3f(598, 428, 0);
     glTexCoord2f(0, 1);
     glVertex3f(470, 428, 0);
-    glEnd();
+    GL.end();
     glDisable(GL_TEXTURE_2D);
     float cx, cy;
     for (int i = 0; i < Ship.GRADE_NUM; i++) {
@@ -248,7 +242,7 @@ public class TitleManager {
         Letter.drawNum(ml, ecx + 7, ecy - 8, 6);
         float l2cx, l2cy;
         calcCursorPos(l2cx, l2cy, i, 2);
-        glBegin(GL_LINES);
+        GL.begin(GL_LINES);
         glVertex3f(cx - 29, cy + 7, 0);
         glVertex3f(l2cx - 29, l2cy + 7, 0);
         glVertex3f(l2cx - 29, l2cy + 7, 0);
@@ -257,7 +251,7 @@ public class TitleManager {
         glVertex3f(l2cx + 29, l2cy - 7, 0);
         glVertex3f(l2cx + 29, l2cy - 7, 0);
         glVertex3f(ecx + 29, ecy - 7, 0);
-        glEnd();
+        GL.end();
       }
     }
     Letter.drawString(Ship.GRADE_STR[grade],
@@ -283,96 +277,98 @@ public class TitleManager {
   }
 
   private void drawCursorRing(float x, float y, float s) {
-    glPushMatrix();
-    glTranslatef(x, y, 0);
-    glRotatef(-20, 0, 0, 1);
-    glScalef(s * 2, s, 1);
-    displayList.call(2);
-    glPopMatrix();
+    GL.pushMatrix();
+    GL.translate(x, y, 0);
+    GL.rotate(-20, 0, 0, 1);
+    GL.scale(s * 2, s, 1);
+    createTorusShape(2);
+    GL.popMatrix();
   }
 
-  private void createTorusShape() {
+  private void createTorusShape(int n) {
     Vector3 cp = new Vector3;
     cp.z = 0;
     Vector3 ringOfs = new Vector3;
     float torusRad = 5;
     float ringRad = 0.7;
-    displayList = new DisplayList(3);
-    displayList.beginNewList();
-    float d1 = 0;
-    for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
-      float d2 = 0;
-      for (int j = 0; j < 16; j++, d2 += PI * 2 / 16) {
-        cp.x = sin(d1) * torusRad;
-        cp.y = cos(d1) * torusRad;
-        glBegin(GL_LINE_STRIP);
-        createRingOffset(ringOfs, cp, ringRad, d1, d2);
-        Screen.glVertex(ringOfs);
-        createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
-        Screen.glVertex(ringOfs);
-        cp.x = sin(d1 + PI * 2 / 32) * torusRad;
-        cp.y = cos(d1 + PI * 2 / 32) * torusRad;
-        createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2 + PI * 2 / 16);
-        Screen.glVertex(ringOfs);
-        glEnd();
+    if (n == 0) {
+      float d1 = 0;
+      for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
+        float d2 = 0;
+        for (int j = 0; j < 16; j++, d2 += PI * 2 / 16) {
+          cp.x = sin(d1) * torusRad;
+          cp.y = cos(d1) * torusRad;
+          GL.begin(GL_LINE_STRIP);
+          createRingOffset(ringOfs, cp, ringRad, d1, d2);
+          Screen.glVertex(ringOfs);
+          createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
+          Screen.glVertex(ringOfs);
+          cp.x = sin(d1 + PI * 2 / 32) * torusRad;
+          cp.y = cos(d1 + PI * 2 / 32) * torusRad;
+          createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2 + PI * 2 / 16);
+          Screen.glVertex(ringOfs);
+          GL.end();
+        }
       }
     }
-    displayList.nextNewList();
-    d1 = 0;
-    glBegin(GL_QUADS);
-    for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
-      cp.x = sin(d1) * (torusRad + ringRad);
-      cp.y = cos(d1) * (torusRad + ringRad);
-      Screen.glVertex(cp);
-      cp.x = sin(d1) * (torusRad + ringRad * 10);
-      cp.y = cos(d1) * (torusRad + ringRad * 10);
-      Screen.glVertex(cp);
-      cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
-      cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
-      Screen.glVertex(cp);
-      cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad);
-      cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad);
-      Screen.glVertex(cp);
-    }
-    d1 = 0;
-    for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
-      float d2 = 0;
-      for (int j = 0; j < 16; j++, d2 += PI * 2 / 16) {
-        cp.x = sin(d1) * torusRad;
-        cp.y = cos(d1) * torusRad;
-        createRingOffset(ringOfs, cp, ringRad, d1, d2);
-        Screen.glVertex(ringOfs);
-        createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
-        Screen.glVertex(ringOfs);
-        cp.x = sin(d1 + PI * 2 / 32) * torusRad;
-        cp.y = cos(d1 + PI * 2 / 32) * torusRad;
-        createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2 + PI * 2 / 16);
-        Screen.glVertex(ringOfs);
-        createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2);
-        Screen.glVertex(ringOfs);
+    else if (n == 1)
+    {
+      float d1 = 0;
+      GL.begin(GL_QUADS);
+      for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
+        cp.x = sin(d1) * (torusRad + ringRad);
+        cp.y = cos(d1) * (torusRad + ringRad);
+        Screen.glVertex(cp);
+        cp.x = sin(d1) * (torusRad + ringRad * 10);
+        cp.y = cos(d1) * (torusRad + ringRad * 10);
+        Screen.glVertex(cp);
+        cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
+        cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
+        Screen.glVertex(cp);
+        cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad);
+        cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad);
+        Screen.glVertex(cp);
       }
+      d1 = 0;
+      for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
+        float d2 = 0;
+        for (int j = 0; j < 16; j++, d2 += PI * 2 / 16) {
+          cp.x = sin(d1) * torusRad;
+          cp.y = cos(d1) * torusRad;
+          createRingOffset(ringOfs, cp, ringRad, d1, d2);
+          Screen.glVertex(ringOfs);
+          createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
+          Screen.glVertex(ringOfs);
+          cp.x = sin(d1 + PI * 2 / 32) * torusRad;
+          cp.y = cos(d1 + PI * 2 / 32) * torusRad;
+          createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2 + PI * 2 / 16);
+          Screen.glVertex(ringOfs);
+          createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2);
+          Screen.glVertex(ringOfs);
+        }
+      }
+      GL.end();
     }
-    glEnd();
-    displayList.nextNewList();
-    d1 = 0;
-    Screen.setColor(1, 1, 1);
-    glBegin(GL_LINE_LOOP);
-    for (int i = 0; i < 128; i++, d1 += PI * 2 / 128) {
-      cp.x = sin(d1);
-      cp.y = cos(d1);
-      Screen.glVertex(cp);
+    else if (n == 2) {
+      float d1 = 0;
+      Screen.setColor(1, 1, 1);
+      GL.begin(GL_LINE_LOOP);
+      for (int i = 0; i < 128; i++, d1 += PI * 2 / 128) {
+        cp.x = sin(d1);
+        cp.y = cos(d1);
+        Screen.glVertex(cp);
+      }
+      GL.end();
+      Screen.setColor(1, 1, 1, 0.3f);
+      GL.begin(GL_TRIANGLE_FAN);
+      glVertex3f(0, 0, 0);
+      for (int i = 0; i <= 128; i++, d1 += PI * 2 / 128) {
+        cp.x = sin(d1);
+        cp.y = cos(d1);
+        Screen.glVertex(cp);
+      }
+      GL.end();
     }
-    glEnd();
-    Screen.setColor(1, 1, 1, 0.3f);
-    glBegin(GL_TRIANGLE_FAN);
-    glVertex3f(0, 0, 0);
-    for (int i = 0; i <= 128; i++, d1 += PI * 2 / 128) {
-      cp.x = sin(d1);
-      cp.y = cos(d1);
-      Screen.glVertex(cp);
-    }
-    glEnd();
-    displayList.endNewList();
   }
 
   public void createRingOffset(Vector3 ringOfs, Vector3 centerPos,

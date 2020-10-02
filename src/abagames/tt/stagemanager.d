@@ -83,7 +83,6 @@ public class StageManager {
     Slice.darkLine = !Slice.darkLine;
     tunnelColorChangeCnt = TUNNEL_COLOR_CHANGE_INTERVAL;
     enemies.clear();
-    closeShipSpec();
     smallShipSpec = null;
     for (int i = 0; i < 2 + rand.nextInt(2); i++) {
       ShipSpec ss = new ShipSpec;
@@ -226,28 +225,6 @@ public class StageManager {
     en.set(spec, x, y, rand);
   }
 
-  public void closeStage() {
-    closeShipSpec();
-    torus.close();
-  }
-
-  public void close() {
-    closeStage();
-    ShipSpec.closeBulletShape();
-  }
-
-  private void closeShipSpec() {
-    if (smallShipSpec)
-      foreach (ShipSpec ss; smallShipSpec)
-        ss.close();
-    if (middleShipSpec)
-      foreach (ShipSpec ss; middleShipSpec)
-        ss.close();
-    if (bossShipSpec)
-      foreach (ShipSpec ss; bossShipSpec)
-        ss.close();
-  }
-
   public float level() {
     return _level;
   }
@@ -295,12 +272,6 @@ public class ShipSpec {
       bulletShape ~= bs;
     }
     _bitShape = new BitShape;
-    _bitShape.create();
-  }
-
-  public static void closeBulletShape() {
-    foreach (BulletShape bs; bulletShape)
-      bs.close();
   }
 
   public void createSmall(Rand rand, float level, int grade) {
@@ -393,10 +364,6 @@ public class ShipSpec {
     _bitBarrage = createBarrage(rand, bitBrgRank, 0, brgInterval, 1, null,
                                 BulletShape.BSType.BAR, true);
     _bitBarrage.setNoXReverse();
-  }
-
-  public void close() {
-    _shape.close();
   }
 
   private Barrage createBarrage(Rand rand,

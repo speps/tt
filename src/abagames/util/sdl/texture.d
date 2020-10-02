@@ -7,6 +7,7 @@ module abagames.util.sdl.texture;
 
 import std.string;
 import bindbc.opengl;
+import abagames.util.gl;
 import bindbc.sdl;
 import abagames.util.sdl.sdlexception;
 

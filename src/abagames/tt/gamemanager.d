@@ -7,6 +7,7 @@ module abagames.tt.gamemanager;
 
 import std.math;
 import bindbc.opengl;
+import abagames.util.gl;
 import bindbc.sdl;
 import abagames.util.vector;
 import abagames.util.rand;
@@ -60,7 +61,6 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
 
   public override void init() {
     BarrageManager.load();
-    Letter.init();
     Shot.init();
     pad = cast(Pad) input;
     prefManager = cast(PrefManager) abstPrefManager;
@@ -139,11 +139,6 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
   }
 
   public override void close() {
-    stageManager.close();
-    titleState.close();
-    ship.close();
-    Shot.close();
-    Letter.close();
     BarrageManager.unload();
   }
 
@@ -192,17 +187,17 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
         screen.resized(w, h);
     }
     if (screen.startRenderToLuminousScreen()) {
-      glPushMatrix();
+      GL.pushMatrix();
       ship.setEyepos();
       state.drawLuminous();
-      glPopMatrix();
+      GL.popMatrix();
       screen.endRenderToLuminousScreen();
     }
     screen.clear();
-    glPushMatrix();
+    GL.pushMatrix();
     ship.setEyepos();
     state.draw();
-    glPopMatrix();
+    GL.popMatrix();
     screen.drawLuminous();
     screen.viewOrthoFixed();
     state.drawFront();
@@ -550,10 +545,6 @@ public class TitleState: GameState {
     this.inGameState = inGameState;
   }
 
-  public void close() {
-    titleManager.close();
-  }
-
   public void setReplayData(ReplayData rd) {
     replayData = rd;
   }
@@ -650,14 +641,14 @@ public class TitleState: GameState {
       shots.draw();
     }
     glViewport(0, 0, Screen.width, Screen.height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(-Screen.nearPlane,
+    GL.matrixMode(GL.MatrixMode.Projection);
+    GL.loadIdentity();
+    GL.frustum(-Screen.nearPlane,
               Screen.nearPlane,
               -Screen.nearPlane * cast(GLfloat) Screen.height / cast(GLfloat) Screen.width,
               Screen.nearPlane * cast(GLfloat) Screen.height / cast(GLfloat) Screen.width,
               0.1f, Screen.farPlane);
-    glMatrixMode(GL_MODELVIEW);
+    GL.matrixMode(GL.MatrixMode.ModelView);
     titleManager.draw();
   }
 

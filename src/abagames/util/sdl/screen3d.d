@@ -9,6 +9,7 @@ import std.conv;
 import std.string;
 import bindbc.sdl;
 import bindbc.opengl;
+import abagames.util.gl;
 import abagames.util.vector;
 import abagames.util.sdl.screen;
 import abagames.util.sdl.sdlexception;
@@ -67,15 +68,15 @@ public class Screen3D: Screen {
 
   public void screenResized() {
     glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    GL.matrixMode(GL.MatrixMode.Projection);
+    GL.loadIdentity();
     //gluPerspective(45.0f, cast(GLfloat) width / cast(GLfloat) height, nearPlane, farPlane);
-    glFrustum(-nearPlane,
+    GL.frustum(-nearPlane,
 	      nearPlane,
 	      -nearPlane * cast(GLfloat) height / cast(GLfloat) width,
 	      nearPlane * cast(GLfloat) height / cast(GLfloat) width,
               0.1f, farPlane);
-    glMatrixMode(GL_MODELVIEW);
+    GL.matrixMode(GL.MatrixMode.ModelView);
   }
 
   public void resized(int width, int height) {
@@ -128,6 +129,6 @@ public class Screen3D: Screen {
   }
 
   public static void glTranslate(Vector3 v) {
-    glTranslatef(v.x, v.y, v.z);
+    GL.translate(v.x, v.y, v.z);
   }
 }

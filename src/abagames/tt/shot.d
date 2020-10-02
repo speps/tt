@@ -8,6 +8,7 @@ module abagames.tt.shot;
 import std.conv;
 import std.math;
 import bindbc.opengl;
+import abagames.util.gl;
 import abagames.util.actor;
 import abagames.util.vector;
 import abagames.util.rand;
@@ -65,10 +66,6 @@ public class Shot: Actor {
 
   public static void setRandSeed(long seed) {
     rand.setSeed(seed);
-  }
-
-  public static void close() {
-    shotShape.close();
   }
 
   public override void init(Object[] args) {
@@ -192,12 +189,12 @@ public class Shot: Actor {
 
   public override void draw() {
     Vector3 sp = tunnel.getPos(pos);
-    glPushMatrix();
+    GL.pushMatrix();
     Screen.glTranslate(sp);
-    glRotatef(deg * 180 / PI, 0, 1, 10);
-    glRotatef(cnt * 7, 0, 0, 1);
+    GL.rotate(deg * 180 / PI, 0, 1, 10);
+    GL.rotate(cnt * 7, 0, 0, 1);
     shape.draw();
-    glPopMatrix();
+    GL.popMatrix();
   }
 
   public int damage() {

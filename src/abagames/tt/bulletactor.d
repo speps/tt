@@ -8,6 +8,7 @@ module abagames.tt.bulletactor;
 import core.stdc.stdarg;
 import std.math;
 import bindbc.opengl;
+import abagames.util.gl;
 import abagames.util.actor;
 import abagames.util.vector;
 import abagames.util.bulletml.bullet;
@@ -229,17 +230,17 @@ public class BulletActor: Actor {
       return;
     float d = (bullet.deg * bullet.xReverse + PI / 2) * bullet.yReverse - PI / 2;
     Vector3 sp = tunnel.getPos(bullet.pos);
-    glPushMatrix();
-    glTranslatef(sp.x, sp.y, sp.z);
-    glRotatef(d * 180 / PI, 0, 1, 0);
-    glRotatef(cnt * 6, 0, 0, 1);
+    GL.pushMatrix();
+    GL.translate(sp.x, sp.y, sp.z);
+    GL.rotate(d * 180 / PI, 0, 1, 0);
+    GL.rotate(cnt * 6, 0, 0, 1);
     if (disapCnt <= 0) {
       bullet.shape.draw();
     } else {
       float s = 1 - cast(float) disapCnt / DISAP_CNT;
-      glScalef(s, s, s);
+      GL.scale(s, s, s);
       bullet.disapShape.draw();
     }
-    glPopMatrix();
+    GL.popMatrix();
   }
 }

@@ -7,6 +7,7 @@ module abagames.tt.enemy;
 
 import std.math;
 import bindbc.opengl;
+import abagames.util.gl;
 import abagames.util.vector;
 import abagames.util.actor;
 import abagames.util.rand;
@@ -352,29 +353,29 @@ public class Enemy: Actor {
 
   public override void draw() {
     Vector3 sp = tunnel.getPos(pos);
-    glPushMatrix();
+    GL.pushMatrix();
     Screen.glTranslate(sp);
-    glRotatef((pos.x - bank) * 180 / PI, 0, 0, 1);
+    GL.rotate((pos.x - bank) * 180 / PI, 0, 0, 1);
     if (sp.z > 200) {
       float sz = 1 - (sp.z - 200) * 0.0025;
-      glScalef(sz, sz, sz);
+      GL.scale(sz, sz, sz);
     }
-    glRotatef(d1 * 180 / PI, 0, 1, 0);
-    glRotatef(d2 * 180 / PI, 1, 0, 0);
+    GL.rotate(d1 * 180 / PI, 0, 1, 0);
+    GL.rotate(d2 * 180 / PI, 1, 0, 0);
     if (!damaged)
       spec.shape.draw();
     else
       spec.damagedShape.draw();
-    glPopMatrix();
+    GL.popMatrix();
     if (bitBullet) {
       foreach (BulletActor bb; bitBullet) {
         sp = tunnel.getPos(bb.bullet.pos);
-        glPushMatrix();
+        GL.pushMatrix();
         Screen.glTranslate(sp);
-        glRotatef(bitCnt * 7, 0, 1, 0);
-        glRotatef(pos.x * 180 / PI, 0, 0, 1);
+        GL.rotate(bitCnt * 7, 0, 1, 0);
+        GL.rotate(pos.x * 180 / PI, 0, 0, 1);
         ShipSpec.bitShape.draw();
-        glPopMatrix();
+        GL.popMatrix();
       }
     }
   }
