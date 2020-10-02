@@ -1,0 +1,519 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en"><head>
+ <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+ <title>BulletML Reference</title>
+</head>
+
+<body vlink="#004466" text="#111111" link="#006688" bgcolor="#ffffff" background="bulletml_ref_files/ababack000520.gif" alink="#000000">
+
+<table summary="page title" width="100%" border="0" bgcolor="#bbaaee">
+<tbody><tr><td>
+<strong>BulletML Reference ver. 0.21</strong>
+</td><td align="right">
+(c) Kenta Cho(ABA."Saba")
+</td><td align="right">
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/"><strong>ABA Games</strong></a>
+</td></tr>
+</tbody></table>
+
+<p>
+BulletML simple reference.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;bulletml&gt; - Defines the BulletML's body</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (none | vertical | horizontal)</p>
+</li><li><p><b>Contents</b> - (bullet | action | fire)*</p>
+</li></ul>
+
+<p>
+Define the BulletML's body.
+
+</p><p>
+A type attribute specifies that this barrage is for
+vertical scroll shooting or horizontal scroll shooting.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;bullet&gt; - Defines attributes of a bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - direction?, speed?, (action | actionRef)*</p>
+</li><li><p><b>Example</b></p>
+<pre>&lt;bullet label="downAccel"&gt;
+&lt;direction&gt;270&lt;/direction&gt;
+&lt;speed&gt;2&lt;/speed&gt;
+&lt;action&gt;
+&lt;accel&gt;
+ &lt;vertical&gt;3&lt;/vertical&gt;
+ &lt;term&gt;120&lt;/term&gt;
+&lt;/accel&gt;
+&lt;/action&gt;
+&lt;/bullet&gt;
+</pre>
+</li></ul>
+
+<p>
+Defines the direction, the speed and the action of bullet.
+
+</p><p>
+A label attribute labels the bullet.
+The labeled bullet element is referred by bulletRef elements.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;action&gt; - Defines the action of bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - (repeat | fire | fireRef | changeSpeed | changeDirection | accel | wait | vanish | action | actionRef)*</p>
+</li><li><p><b>Example</b></p>
+<pre>&lt;action&gt;
+&lt;changeSpeed&gt;
+ &lt;speed&gt;0&lt;/speed&gt;
+ &lt;term&gt;60&lt;/term&gt;
+&lt;/changeSpeed&gt;
+&lt;wait&gt;60&lt;/wait&gt;
+&lt;fire&gt;&lt;bullet/&gt;&lt;/fire&gt;
+&lt;fire&gt;
+ &lt;direction type="absolute"&gt;330+$rand*25&lt;/direction&gt;
+ &lt;bulletRef label="downAccel"/&gt;
+&lt;/fire&gt;
+&lt;vanish/&gt;
+&lt;/action&gt;
+</pre>
+</li></ul>
+
+<p>
+Defines the action of bullet.
+The labeled action element is referred by actionRef elements.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;fire&gt; - Fires a bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - direction?, speed?, (bullet | bulletRef)</p>
+</li><li><p><b>Example</b></p>
+<pre>&lt;fire&gt;
+ &lt;direction type="absolute"&gt;270&lt;/direction&gt;
+ &lt;speed&gt;2&lt;/speed&gt;
+ &lt;bulletRef label="rocket"/&gt;
+&lt;/fire&gt;
+</pre>
+</li></ul>
+
+<p>
+Fires a bullet to &lt;direction&gt; degrees at &lt;speed&gt;.
+The labeled fire element is referred by fireRef elements.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;changeDirection&gt; - Changes the direction of bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - direction, term</p>
+</li></ul>
+
+<p>
+Changes the direction of bullet to &lt;direction&gt; degrees in &lt;term&gt; frames.
+1 frame is 1/60 seconds.
+</p><p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;changeSpeed&gt; - Changes the speed of bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+</p><ul>
+<li><p><b>Contents</b> - speed, term</p>
+</li></ul>
+
+<p>
+Changes the speed of bullet to &lt;speed&gt; in &lt;term&gt; frames.
+</p><p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;accel&gt; - Accelerates a bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+</p><ul>
+<li><p><b>Contents</b> - horizontal?, vertical?, term</p>
+</li></ul>
+
+<p>
+Accelerates a bullet &lt;horizontal&gt; in a horizontal line and
+&lt;vertical&gt; in a vertical line in &lt;term&gt; frames.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;wait&gt; - Waits</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+Waits for NUMBER frames.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;vanish&gt; - Vanishes a bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+Vanishes a bullet.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;repeat&gt; - Repeats an action</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - times, (action | actionRef)</p>
+</li><li><p><b>Example</b></p>
+<pre>&lt;repeat&gt;
+&lt;times&gt;100&lt;/times&gt;
+&lt;action&gt;
+ &lt;fire&gt;
+  &lt;direction type="absolute"&gt;220+$rand*100&lt;/direction&gt;
+  &lt;bulletRef label="backBurst"/&gt;
+ &lt;/fire&gt;
+ &lt;wait&gt;6&lt;/wait&gt;
+&lt;/action&gt;
+&lt;/repeat&gt;
+</pre>
+</li></ul>
+
+<p>
+Repeats the action &lt;times&gt; times.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;direction&gt; - Specifies a direction</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (aim | absolute | relative | sequence)</p>
+</li><li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+Specifies the direction in degrees.
+
+</p><p>
+"aim" type means that NUMBER is relative to the direction to my ship
+(The direction to my ship is 0, clockwise).
+
+</p><p>
+"absolute" type means that NUMBER is the absolute value
+(12 o'clock is 0, clockwise).
+
+</p><p>
+"relative" type means that NUMBER is relative to the direction of
+this bullet
+(0 means that the direction of this fire and 
+the direction of the bullet are the same).
+
+</p><p>
+"sequence" type means that NUMBER is relative to the direction of
+the previous fire
+(0 means that the direction of this fire and 
+the direction of the previous fire are the same).
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;speed&gt; - Specifies a speed</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (absolute | relative | sequence)</p>
+</li><li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+Specifies the speed.
+
+</p><p>
+In case of the type is "relative", 
+if this element is included in changeSpeed element, 
+the speed is relative to the current speed of this bullet.
+If not,
+the speed is relative to the speed of this bullet.
+
+</p><p>
+In case of the type is "sequence", 
+if this element is included in changeSpeed element, 
+the speed is changing successively.
+If not,
+the speed is relative to the speed of the previous fire.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;horizontal&gt; - Specifies the acceleration in a horizontal line</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (absolute | relative | sequence)</p>
+</li><li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+Specifies the acceleration in a horizontal line.
+
+</p><p>
+If the type is "relative", the acceleration is relative to 
+the acceleration of this bullet.
+If the type is "sequence", the acceleration is changing successively.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;vertical&gt; - Specifies the acceleration in a vertical line</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (absolute | relative | sequence)</p>
+</li><li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+Specifies the acceleration in a vertical line.
+
+</p><p>
+If the type is "relative", the acceleration is relative to 
+the acceleration of this bullet.
+If the type is "sequence", the acceleration is changing successively.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;term&gt; - Specifies a term</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+Specifies a term.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;times&gt; - Specifies the number of times</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+Specifies the number of times.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;bulletRef&gt; - Refers to the bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - param*</p>
+</li></ul>
+
+<p>
+Refers to the labeled bullet.
+This element is handled as the bullet element that has the same label.
+
+</p><p>
+Variables($1, $2, $3, ...) in the referred element are replaced 
+with parameters in &lt;param&gt;.
+(First parameter replaces $1, second parameter replaces $2, ...)
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;actionRef&gt; - Refers to the action</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - param*</p>
+</li></ul>
+
+<p>
+Refers to the labeled action.
+This element is handled as the action element that has the same label.
+
+</p><p>
+Variables in the referred element are replaced with parameters
+in &lt;param&gt;.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;fireRef&gt; - Refers to the fire action</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - param*</p>
+</li></ul>
+
+<p>
+Refers to the labeled fire action.
+This element is handled as the fire action element that has the same label.
+
+</p><p>
+Variables in the referred element are replaced with parameters
+in &lt;param&gt;.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;param&gt; - Specifies the parameter</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+Specifies the parameter.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>STRING - any string</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+String for labels.
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>NUMBER - expression</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Examples</b></p>
+<pre>35
+360/16
+0.7 + 0.9*$rand
+180-$rank*20
+(2+$1)*0.3
+</pre>
+</li></ul>
+
+<p>
+Expression for specifying the number.
+
+</p><p>
+An addition, a subtraction, a multiplication, a division, a modulo,
+a bracket, and variables($1, $2, $3... for parameters, 
+$rand for random value(from 0 to 1),
+$rank for the rank of game difficulty(from 0 to 1)) are available.
+</p>
+
+<table summary="return to top" width="100%" border="0" bgcolor="#bbaaee">
+<tbody><tr><td>
+-
+</td><td align="right">
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/index_e.html">To BulletML page</a>
+</td></tr>
+</tbody></table>
+
+
+
+
+</body></html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="jp"><head>
+ <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+ <title>BulletML Reference</title>
+</head>
+
+<body vlink="#004466" text="#111111" link="#006688" bgcolor="#ffffff" background="bulletml_ref_j_files/ababack000520.gif" alink="#000000">
+
+<table summary="page title" width="100%" border="0" bgcolor="#bbaaee">
+<tbody><tr><td>
+<strong>BulletML Reference ver. 0.21</strong>
+</td><td align="right">
+(c) 長 健太(ABA."Saba")
+</td><td align="right">
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/"><strong>ABA Games</strong></a>
+</td></tr>
+</tbody></table>
+
+<p>
+BulletMLの簡易リファレンスです。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;bulletml&gt; - Defines the BulletML's body</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (none | vertical | horizontal)</p>
+</li><li><p><b>Contents</b> - (bullet | action | fire)*</p>
+</li></ul>
+
+<p>
+BulletML本体を定義します。
+
+</p><p>
+type属性は、この弾幕が縦スクロールシューティング用か、
+横スクロールシューティング用かを規定します。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;bullet&gt; - Defines attributes of a bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - direction?, speed?, (action | actionRef)*</p>
+</li><li><p><b>Example</b></p>
+<pre>&lt;bullet label="downAccel"&gt;
+&lt;direction&gt;270&lt;/direction&gt;
+&lt;speed&gt;2&lt;/speed&gt;
+&lt;action&gt;
+&lt;accel&gt;
+ &lt;vertical&gt;3&lt;/vertical&gt;
+ &lt;term&gt;120&lt;/term&gt;
+&lt;/accel&gt;
+&lt;/action&gt;
+&lt;/bullet&gt;
+</pre>
+</li></ul>
+
+<p>
+弾の方向、速度およびアクションを定義します。
+
+</p><p>
+ラベル属性でラベル名をつけることができます。
+ラベル付けされたbullet要素は、bulletRef要素によって参照されます。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;action&gt; - Defines the action of bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - (repeat | fire | fireRef | changeSpeed | changeDirection | accel | wait | vanish | action | actionRef)*</p>
+</li><li><p><b>Example</b></p>
+<pre>&lt;action&gt;
+&lt;changeSpeed&gt;
+ &lt;speed&gt;0&lt;/speed&gt;
+ &lt;term&gt;60&lt;/term&gt;
+&lt;/changeSpeed&gt;
+&lt;wait&gt;60&lt;/wait&gt;
+&lt;fire&gt;&lt;bullet/&gt;&lt;/fire&gt;
+&lt;fire&gt;
+ &lt;direction type="absolute"&gt;330+$rand*25&lt;/direction&gt;
+ &lt;bulletRef label="downAccel"/&gt;
+&lt;/fire&gt;
+&lt;vanish/&gt;
+&lt;/action&gt;
+</pre>
+</li></ul>
+
+<p>
+弾のアクションを定義します。
+ラベル付けされたaction要素は、actionRef要素によって参照されます。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;fire&gt; - Fires a bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - direction?, speed?, (bullet | bulletRef)</p>
+</li><li><p><b>Example</b></p>
+<pre>&lt;fire&gt;
+ &lt;direction type="absolute"&gt;270&lt;/direction&gt;
+ &lt;speed&gt;2&lt;/speed&gt;
+ &lt;bulletRef label="rocket"/&gt;
+&lt;/fire&gt;
+</pre>
+</li></ul>
+
+<p>
+弾を&lt;direction&gt;度方向に速度&lt;speed&gt;で撃ちます。
+ラベル付けされたfire要素は、fireRef要素によって参照されます。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;changeDirection&gt; - Changes the direction of bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - direction, term</p>
+</li></ul>
+
+<p>
+弾の方向を&lt;direction&gt;度に&lt;term&gt;フレームかけて曲げます。
+1フレームは1/60秒です。
+</p><p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;changeSpeed&gt; - Changes the speed of bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+</p><ul>
+<li><p><b>Contents</b> - speed, term</p>
+</li></ul>
+
+<p>
+弾の速度を&lt;speed&gt;に&lt;term&gt;フレームかけて変えます。
+</p><p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;accel&gt; - Accelerates a bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+</p><ul>
+<li><p><b>Contents</b> - horizontal?, vertical?, term</p>
+</li></ul>
+
+<p>
+弾を水平方向に&lt;horizontal&gt;、垂直方向に&lt;vertical&gt;、
+&lt;term&gt;フレームかけて加速します。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;wait&gt; - Waits</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+NUMBERフレーム待ちます。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;vanish&gt; - Vanishes a bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+弾を消します。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;repeat&gt; - Repeats an action</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - times, (action | actionRef)</p>
+</li><li><p><b>Example</b></p>
+<pre>&lt;repeat&gt;
+&lt;times&gt;100&lt;/times&gt;
+&lt;action&gt;
+ &lt;fire&gt;
+  &lt;direction type="absolute"&gt;220+$rand*100&lt;/direction&gt;
+  &lt;bulletRef label="backBurst"/&gt;
+ &lt;/fire&gt;
+ &lt;wait&gt;6&lt;/wait&gt;
+&lt;/action&gt;
+&lt;/repeat&gt;
+</pre>
+</li></ul>
+
+<p>
+アクションを&lt;times&gt;回繰り返します。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;direction&gt; - Specifies a direction</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (aim | absolute | relative | sequence)</p>
+</li><li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+方向を度単位で指定します。
+
+</p><p>
+typeが"aim"の場合、自機を狙う方向が0の相対値になります。
+
+</p><p>
+typeが"absolute"の場合、NUMBERは絶対値（上方向が0で時計回り）です。
+
+</p><p>
+typeが"relative"の場合、NUMBERはこの弾の方向が0の相対値になります。
+
+</p><p>
+typeが"sequence"の場合、直前の弾を撃った方向が0の相対値になります。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap"><big><b>&lt;speed&gt; - Specifies a speed</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (absolute | relative | sequence)</p>
+</li><li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+速度を指定します。
+
+</p><p>
+typeが"relative"の場合、
+changeSpeed要素内では現在の弾の速度との相対値、
+それ以外の要素内ではこの弾の速度との相対値です。
+
+</p><p>
+typeが"sequence"の場合、
+changeSpeed要素内では弾の速度を連続的に変化させ、
+それ以外の要素内では直前の弾の速度との相対値です。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;horizontal&gt; - Specifies the acceleration in a horizontal line</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (absolute | relative | sequence)</p>
+</li><li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+水平方向の弾の加速度を指定します。
+
+</p><p>
+typeが"relative"の場合、現在の弾の速度との相対値です。
+typeが"sequence"の場合、加速度を連続的に変化させます。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;vertical&gt; - Specifies the acceleration in a vertical line</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - type = (absolute | relative | sequence)</p>
+</li><li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+垂直方向の弾の加速度を指定します。
+
+</p><p>
+typeが"sequence"の場合、現在の弾の速度との相対値です。
+typeが"sequence"の場合、加速度を連続的に変化させます。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;term&gt; - Specifies a term</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+期間を指定します。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;times&gt; - Specifies the number of times</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+繰り返し回数を指定します。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;bulletRef&gt; - Refers to the bullet</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - param*</p>
+</li></ul>
+
+<p>
+ラベル付けされたbullet要素を参照します。
+この要素は同名のラベルでラベル付けされたbullet要素と同じに扱われます。
+
+</p><p>
+参照されたbullet要素内の変数（$1, $2, $3, ...）は、
+&lt;param&gt;要素に指定された数値に置き換えられます。
+（最初に出現したparam要素が$1に、次に出現したparam要素が$2に、...）
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;actionRef&gt; - Refers to the action</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - param*</p>
+</li></ul>
+
+<p>
+ラベル付けされたaction要素を参照します。
+この要素は同名のラベルでラベル付けされたaction要素と同じに扱われます。
+
+</p><p>
+参照されたaction要素内の変数は、&lt;param&gt;要素に指定された数値に
+置き換えられます。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;fireRef&gt; - Refers to the fire action</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Attribute</b> - label = STRING</p>
+</li><li><p><b>Contents</b> - param*</p>
+</li></ul>
+
+<p>
+ラベル付けされたfire要素を参照します。
+この要素は同名のラベルでラベル付けされたfire要素と同じに扱われます。
+
+</p><p>
+参照されたfire要素内の変数は、&lt;param&gt;要素に指定された数値に
+置き換えられます。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>&lt;param&gt; - Specifies the parameter</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Contents</b> - NUMBER</p>
+</li></ul>
+
+<p>
+パラメタを指定します。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>STRING - any string</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<p>
+ラベル用文字列です。
+</p>
+
+<table summary="element" width="100%" border="0">
+<tbody><tr><td nowrap="nowrap">
+<big><b>NUMBER - expression</b></big>
+</td><td width="100%">
+<hr size="1">
+</td></tr>
+</tbody></table>
+
+<ul>
+<li><p><b>Examples</b></p>
+<pre>35
+360/16
+0.7 + 0.9*$rand
+180-$rank*20
+(2+$1)*0.3
+</pre>
+</li></ul>
+
+<p>
+数値を指定するための式です。
+
+</p><p>
+四則演算と剰余算、括弧、変数（パラメタ用に$1, $2, $3...、
+乱数（0から1までの値）用に$rand、難易度（0から1までの値）用に$rank）
+が使えます。
+</p>
+
+<table summary="return to top" width="100%" border="0" bgcolor="#bbaaee">
+<tbody><tr><td>
+■
+</td><td align="right">
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/index.html">BulletMLページにもどる</a>
+</td></tr>
+</tbody></table>
+
+
+
+
+
+</body></html>

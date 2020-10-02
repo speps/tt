@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+ <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+ <title>BulletML RELAX</title>
+</head>
+
+<body vlink="#004466" text="#111111" link="#006688" bgcolor="#ffffff" background="bulletml_rlx_files/ababack000520.gif" alink="#000000">
+
+<table summary="about this software" width="100%" border="0" bgcolor="#bbaaee">
+<tbody><tr><td>
+<strong>BulletML RELAX ver. 0.21</strong>
+</td><td align="right">
+(c) Kenta Cho(ABA."Saba")
+</td><td align="right">
+<a href="http://www.asahi-net.or.jp/~cs8k-cyu/"><strong>ABA Games</strong></a>
+</td></tr>
+</tbody></table>
+
+<pre>&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE module SYSTEM "relaxCore.dtd"&gt;
+
+&lt;!--
+  bulletml.rlx
+
+  Copyright 2001 Kenta Cho. All rights reserved. 
+--&gt;
+
+&lt;module 
+ moduleVersion="0.21"
+ relaxCoreVersion="1.0"
+ targetNamespace="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml"
+ xmlns="http://www.xml.gr.jp/xmlns/relaxCore"&gt;
+
+&lt;interface&gt;
+&lt;export label="bulletml"/&gt;
+&lt;/interface&gt;
+
+
+&lt;elementRule role="bulletml"&gt;
+&lt;choice occurs="*"&gt;
+&lt;ref label="action"/&gt;
+&lt;ref label="bullet"/&gt;
+&lt;ref label="fire"/&gt;
+&lt;/choice&gt;
+&lt;/elementRule&gt;
+
+&lt;hedgeRule label="bulletElm"&gt;
+&lt;choice&gt;
+&lt;ref label="bullet"/&gt;
+&lt;ref label="bulletRef"/&gt;
+&lt;/choice&gt;
+&lt;/hedgeRule&gt;
+
+&lt;elementRule role="bulletRef"&gt;
+&lt;choice occurs="*"&gt;
+&lt;ref label="param"/&gt;
+&lt;/choice&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="param" type="string"/&gt;
+
+&lt;elementRule role="bullet"&gt;
+&lt;sequence&gt;
+&lt;ref label="direction" occurs="?"/&gt;
+&lt;ref label="speed" occurs="?"/&gt;
+&lt;hedgeRef label="actionElm" occurs="*"/&gt;
+&lt;/sequence&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="direction" type="string"/&gt;
+
+&lt;elementRule role="speed" type="string"/&gt;
+
+&lt;hedgeRule label="actionElm"&gt;
+&lt;choice&gt;
+&lt;ref label="action"/&gt;
+&lt;ref label="actionRef"/&gt;
+&lt;/choice&gt;
+&lt;/hedgeRule&gt;
+
+&lt;elementRule role="actionRef"&gt;
+&lt;choice occurs="*"&gt;
+&lt;ref label="param"/&gt;
+&lt;/choice&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="action"&gt;
+&lt;choice occurs="*"&gt;
+&lt;ref label="repeat"/&gt;
+&lt;hedgeRef label="fireElm"/&gt;
+&lt;ref label="changeSpeed"/&gt;
+&lt;ref label="changeDirection"/&gt;
+&lt;ref label="accel"/&gt;
+&lt;ref label="wait"/&gt;
+&lt;ref label="vanish"/&gt;
+&lt;hedgeRef label="actionElm"/&gt;
+&lt;/choice&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="repeat"&gt;
+&lt;sequence&gt;
+&lt;ref label="times"/&gt;
+&lt;hedgeRef label="actionElm"/&gt;
+&lt;/sequence&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="times" type="string"/&gt;
+
+&lt;hedgeRule label="fireElm"&gt;
+&lt;choice&gt;
+&lt;ref label="fire"/&gt;
+&lt;ref label="fireRef"/&gt;
+&lt;/choice&gt;
+&lt;/hedgeRule&gt;
+
+&lt;elementRule role="fireRef"&gt;
+&lt;choice occurs="*"&gt;
+&lt;ref label="param"/&gt;
+&lt;/choice&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="fire"&gt;
+&lt;sequence&gt;
+&lt;ref label="direction" occurs="?"/&gt;
+&lt;ref label="speed" occurs="?"/&gt;
+&lt;hedgeRef label="bulletElm"/&gt;
+&lt;/sequence&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="changeSpeed"&gt;
+&lt;sequence&gt;
+&lt;ref label="speed"/&gt;
+&lt;ref label="term"/&gt;
+&lt;/sequence&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="changeDirection"&gt;
+&lt;sequence&gt;
+&lt;ref label="direction"/&gt;
+&lt;ref label="term"/&gt;
+&lt;/sequence&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="accel"&gt;
+&lt;sequence&gt;
+&lt;ref label="horizontal" occurs="?"/&gt;
+&lt;ref label="vertical" occurs="?"/&gt;
+&lt;ref label="term"/&gt;
+&lt;/sequence&gt;
+&lt;/elementRule&gt;
+
+&lt;elementRule role="horizontal" type="string"/&gt;
+
+&lt;elementRule role="vertical" type="string"/&gt;
+
+&lt;elementRule role="term" type="string"/&gt;
+
+&lt;elementRule role="wait" type="string"/&gt;
+
+&lt;elementRule role="vanish" type="emptyString"/&gt;
+
+
+&lt;tag name="bulletml"&gt;
+&lt;attribute name="xmlns" type="string"/&gt;
+&lt;attribute name="type" type="string"&gt;
+&lt;enumeration value="none"/&gt;
+&lt;enumeration value="vertical"/&gt;
+&lt;enumeration value="horizontal"/&gt;
+&lt;/attribute&gt;
+&lt;/tag&gt;
+
+&lt;tag name="bullet"&gt;
+&lt;attribute name="label" type="string"/&gt;
+&lt;/tag&gt;
+
+&lt;tag name="bulletRef"&gt;
+&lt;attribute name="label" required="true" type="string"/&gt;
+&lt;/tag&gt;
+
+&lt;tag name="direction"&gt;
+&lt;attribute name="type" type="string"&gt;
+&lt;enumeration value="aim"/&gt;
+&lt;enumeration value="absolute"/&gt;
+&lt;enumeration value="relative"/&gt;
+&lt;enumeration value="sequence"/&gt;
+&lt;/attribute&gt;
+&lt;/tag&gt;
+
+&lt;tag name="speed"&gt;
+&lt;attribute name="type" type="string"&gt;
+&lt;enumeration value="absolute"/&gt;
+&lt;enumeration value="relative"/&gt;
+&lt;enumeration value="sequence"/&gt;
+&lt;/attribute&gt;
+&lt;/tag&gt;
+
+&lt;tag name="action"&gt;
+&lt;attribute name="label" type="string"/&gt;
+&lt;/tag&gt;
+
+&lt;tag name="actionRef"&gt;
+&lt;attribute name="label" required="true" type="string"/&gt;
+&lt;/tag&gt;
+
+&lt;tag name="fire"&gt;
+&lt;attribute name="label" type="string"/&gt;
+&lt;/tag&gt;
+
+&lt;tag name="fireRef"&gt;
+&lt;attribute name="label" required="true" type="string"/&gt;
+&lt;/tag&gt;
+
+&lt;tag name="repeat"/&gt;
+&lt;tag name="changeSpeed"/&gt;
+&lt;tag name="changeDirection"/&gt;
+&lt;tag name="accel"/&gt;
+&lt;tag name="wait"/&gt;
+&lt;tag name="vanish"/&gt;
+
+&lt;tag name="horizontal"&gt;
+&lt;attribute name="type" type="string"&gt;
+&lt;enumeration value="absolute"/&gt;
+&lt;enumeration value="relative"/&gt;
+&lt;enumeration value="sequence"/&gt;
+&lt;/attribute&gt;
+&lt;/tag&gt;
+
+&lt;tag name="vertical"&gt;
+&lt;attribute name="type" type="string"&gt;
+&lt;enumeration value="absolute"/&gt;
+&lt;enumeration value="relative"/&gt;
+&lt;enumeration value="sequence"/&gt;
+&lt;/attribute&gt;
+&lt;/tag&gt;
+
+&lt;tag name="term"/&gt;
+
+&lt;tag name="times"/&gt;
+
+&lt;tag name="param"/&gt;
+
+&lt;/module&gt;
+</pre>
+
+<table summary="return to top" width="100%" border="0" bgcolor="#bbaaee">
+<tbody><tr><td>
+-
+</td></tr>
+</tbody></table>
+
+
+
+
+</body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+ <meta http-equiv="CONTENT-TYPE" content="text/html; charset=EUC-JP">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>弾幕360度 - 技術的な話</title>
+ <link rev="MADE" href="mailto:shinichiro.hamaji _at_ gmail.com">
+ <link rel="INDEX" href="http://shinh.skr.jp/bulletss/">
+ <link rel="stylesheet" type="text/css" href="bulletss_dev_j_files/site.css">
+</head>
+
+<body>
+
+<h1>弾幕360度 - 技術的な話</h1>
+
+<div class="update" align="right">
+since: 2003-09-20
+update: 2003-09-20
+count: 
+</div>
+
+<p>
+<a href="http://shinh.skr.jp/bulletss/index.html">user side</a> はこちら。
+</p>
+
+<h3>説明</h3>
+
+<p>
+たぶん今をときめく D 言語で書かれています。
+</p>
+
+<p>
+拙作 <a href="http://shinh.skr.jp/d/cpplink.html">d_cpp</a> や
+それを用いて、
+<a href="http://shinh.skr.jp/libbulletml/">libBulletML</a>、
+<a href="http://shinh.skr.jp/diet">議会制弾幕回避機関</a>
+が動いているサンプルになるかと思います。
+</p>
+
+<h3>だらだらと説明</h3>
+
+<p>
+Windows で
+D の部分をコンパイルするには、
+D コンパイラ dmd、DigitalMars の C コンパイラ sc、
+DigitalMars もしくは BorlandC++ 付属の
+(つまるところ OMF を扱える) implib、
+GNU make が必要です。
+GNU make は私が cygwin でコンパイルするために使っているものですが、
+適当に Makefile.win32 を書きかえれば他の環境でもなんとかなるでしょう。
+また import library であるところの
+SDL.lib と opengl32.lib は
+<a href="http://int19h.tamb.ru/files.html">DedicateD</a>
+から持ってきて下さい。
+user32.lib や kernel32.lib は dmc 付属のもの、
+phobos.lib は dmd 付属のものをお使い下さい。
+</p>
+
+<p>
+一方 bulletml や cpu ディレクトリの下は BorlandC++ でコンパイルします。
+本当は DigitalMars のものでやりたかったのですが、
+C++ の対応がいまひとつだったように見受けられたので、
+BorlandC++ でコンパイルし、dll を作り、
+その import library を作って本体とリンクします。
+この場合のビルドは bulletml/tinyxml, bulletml, cpu の
+三つのディレクトリで BorlandC++ 付属の make を
+Makefile.bcc32 を使って起動すれば OK です。
+</p>
+
+<p>
+Linux では恐らく随分簡単で、
+gcc と dmd が入ってれば後は make 一発じゃないかと思います。
+</p>
+
+<p>
+さらにだらだらと説明します。
+</p>
+
+<p>
+cpu.d, bulletml.d は perl で生成されています。
+perl があれば cpu/cpu_d.cpp, bulletml/bulletml_d.cpp から
+d_cpp を用いて生成できると思います。
+Linux の Makefile を見ればいくらかわかるかと。
+</p>
+
+<p>
+d_cpp は def ファイルも吐くと便利だと思いました。
+</p>
+
+<p>
+opengl.d は linux のことを考えてくれてなかったので書きかえてます。
+</p>
+
+<p>
+mesaglu.d は glu32.lib が動くまでの間に合わせです。
+Mesa を使ったため MIT ライセンスに従って下さい。
+</p>
+
+<p>
+libBulletML は例のごとく修正 BSD ライセンスです。
+</p>
+
+<p>
+残りは GPL2 です。
+ですが、winmain.d は DigitalMars のサイトを全面的に参考にしてますし、
+こいつはご自由にご利用下さい。
+</p>
+<hr>
+
+<p>
+<a href="http://shinh.skr.jp/">home</a>
+/
+<a href="http://shinh.skr.jp/bulletss/">index</a>
+
+</p><p>
+全てリンクフリーです。
+コード片は自由に使用していただいて構いません。
+その他のものはGPL扱いであればあらゆる使用に関して文句は言いません。
+なにかあれば下記メールアドレスへ。
+</p>
+<div align="right">
+shinichiro.hamaji _at_ gmail.com
+/
+shinichiro.h
+</div>
+
+
+</body></html>
