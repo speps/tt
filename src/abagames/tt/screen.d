@@ -28,10 +28,10 @@ public class Screen: Screen3D {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     glEnable(GL_LINE_SMOOTH);
     glEnable(GL_BLEND);
-    glDisable(GL_COLOR_MATERIAL);
+    // glDisable(GL_COLOR_MATERIAL);
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
-    glDisable(GL_LIGHTING);
+    // glDisable(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
     setClearColor(0, 0, 0, 1);
     if (luminous > 0) {

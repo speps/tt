@@ -293,12 +293,12 @@ public class Letter {
   }
 
   private static void drawBoxPart(float width, float height) {
-    glVertex3f(-width / 2, 0, 0);
-    glVertex3f(-width / 3 * 1, -height / 2, 0);
-    glVertex3f( width / 3 * 1, -height / 2, 0);
-    glVertex3f( width / 2, 0, 0);
-    glVertex3f( width / 3 * 1,  height / 2, 0);
-    glVertex3f(-width / 3 * 1,  height / 2, 0);
+    GL.vertex(-width / 2, 0, 0);
+    GL.vertex(-width / 3 * 1, -height / 2, 0);
+    GL.vertex( width / 3 * 1, -height / 2, 0);
+    GL.vertex( width / 2, 0, 0);
+    GL.vertex( width / 3 * 1,  height / 2, 0);
+    GL.vertex(-width / 3 * 1,  height / 2, 0);
   }
   
   private static float[5][16][] spData = 

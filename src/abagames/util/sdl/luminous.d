@@ -88,21 +88,21 @@ public class LuminousScreen {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, luminousTexture);
     viewOrtho();
-    glColor4f(1, 0.8, 0.9, luminous);
-    GL.begin(GL_QUADS);
-    //for (int i = 0; i < 5; i++) {
-    //for (int i = 1; i < 5; i++) {
-    for (int i = 0; i < 2; i++) {
-      glTexCoord2f(0, 1);
-      glVertex2f(0 + lmOfs[i][0] * lmOfsBs, 0 + lmOfs[i][1] * lmOfsBs);
-      glTexCoord2f(0, 0);
-      glVertex2f(0 + lmOfs[i][0] * lmOfsBs, screenHeight + lmOfs[i][1] * lmOfsBs);
-      glTexCoord2f(1, 0);
-      glVertex2f(screenWidth + lmOfs[i][0] * lmOfsBs, screenHeight + lmOfs[i][0] * lmOfsBs);
-      glTexCoord2f(1, 1);
-      glVertex2f(screenWidth + lmOfs[i][0] * lmOfsBs, 0 + lmOfs[i][0] * lmOfsBs);
-    }
-    GL.end();
+    GL.color(1, 0.8, 0.9, luminous);
+    // GL.begin(GL_QUADS);
+    // //for (int i = 0; i < 5; i++) {
+    // //for (int i = 1; i < 5; i++) {
+    // for (int i = 0; i < 2; i++) {
+    //   GL.texCoord(0, 1);
+    //   GL.vertex(0 + lmOfs[i][0] * lmOfsBs, 0 + lmOfs[i][1] * lmOfsBs, 0);
+    //   GL.texCoord(0, 0);
+    //   GL.vertex(0 + lmOfs[i][0] * lmOfsBs, screenHeight + lmOfs[i][1] * lmOfsBs, 0);
+    //   GL.texCoord(1, 0);
+    //   GL.vertex(screenWidth + lmOfs[i][0] * lmOfsBs, screenHeight + lmOfs[i][0] * lmOfsBs, 0);
+    //   GL.texCoord(1, 1);
+    //   GL.vertex(screenWidth + lmOfs[i][0] * lmOfsBs, 0 + lmOfs[i][0] * lmOfsBs, 0);
+    // }
+    // GL.end();
     viewPerspective();
     glDisable(GL_TEXTURE_2D);
   }

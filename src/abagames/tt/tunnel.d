@@ -563,20 +563,20 @@ public class Slice {
     radOfs += _centerPos;
     Screen.setColor(1 * lightBn, 1 * lightBn, 0.6 * lightBn);
     GL.begin(GL_LINE_LOOP);
-    glVertex3f(radOfs.x - 0.5, radOfs.y - 0.5, radOfs.z);
-    glVertex3f(radOfs.x + 0.5, radOfs.y - 0.5, radOfs.z);
-    glVertex3f(radOfs.x + 0.5, radOfs.y + 0.5, radOfs.z);
-    glVertex3f(radOfs.x - 0.5, radOfs.y + 0.5, radOfs.z);
+    GL.vertex(radOfs.x - 0.5, radOfs.y - 0.5, radOfs.z);
+    GL.vertex(radOfs.x + 0.5, radOfs.y - 0.5, radOfs.z);
+    GL.vertex(radOfs.x + 0.5, radOfs.y + 0.5, radOfs.z);
+    GL.vertex(radOfs.x - 0.5, radOfs.y + 0.5, radOfs.z);
     GL.end();
     GL.begin(GL_TRIANGLE_FAN);
     Screen.setColor(0.5 * lightBn, 0.5 * lightBn, 0.3 * lightBn);
-    glVertex3f(radOfs.x, radOfs.y, radOfs.z);
+    GL.vertex(radOfs.x, radOfs.y, radOfs.z);
     Screen.setColor(0.9 * lightBn, 0.9 * lightBn, 0.6 * lightBn);
-    glVertex3f(radOfs.x - 0.5, radOfs.y - 0.5, radOfs.z);
-    glVertex3f(radOfs.x - 0.5, radOfs.y + 0.5, radOfs.z);
-    glVertex3f(radOfs.x + 0.5, radOfs.y + 0.5, radOfs.z);
-    glVertex3f(radOfs.x + 0.5, radOfs.y - 0.5, radOfs.z);
-    glVertex3f(radOfs.x - 0.5, radOfs.y - 0.5, radOfs.z);
+    GL.vertex(radOfs.x - 0.5, radOfs.y - 0.5, radOfs.z);
+    GL.vertex(radOfs.x - 0.5, radOfs.y + 0.5, radOfs.z);
+    GL.vertex(radOfs.x + 0.5, radOfs.y + 0.5, radOfs.z);
+    GL.vertex(radOfs.x + 0.5, radOfs.y - 0.5, radOfs.z);
+    GL.vertex(radOfs.x - 0.5, radOfs.y - 0.5, radOfs.z);
     GL.end();
   }
 

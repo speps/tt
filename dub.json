@@ -38,7 +38,7 @@
       },
       "versions": [
         "SDL_Mixer",
-        "GL_AllowDeprecated"
+        "GL_32"
       ],
       "subConfigurations": {
         "bindbc-opengl": "dynamicBC",

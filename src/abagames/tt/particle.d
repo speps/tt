@@ -185,22 +185,22 @@ public class Particle: LuminousActor {
     Screen.setColor(r, g, b, 0.5);
     Screen.glVertex(psp);
     Screen.setColor(r, g, b, 0);
-    glVertex3f(sp.x - SIZE, sp.y - SIZE, sp.z);
-    glVertex3f(sp.x + SIZE, sp.y - SIZE, sp.z);
-    glVertex3f(sp.x + SIZE, sp.y + SIZE, sp.z);
-    glVertex3f(sp.x - SIZE, sp.y + SIZE, sp.z);
-    glVertex3f(sp.x - SIZE, sp.y - SIZE, sp.z);
+    GL.vertex(sp.x - SIZE, sp.y - SIZE, sp.z);
+    GL.vertex(sp.x + SIZE, sp.y - SIZE, sp.z);
+    GL.vertex(sp.x + SIZE, sp.y + SIZE, sp.z);
+    GL.vertex(sp.x - SIZE, sp.y + SIZE, sp.z);
+    GL.vertex(sp.x - SIZE, sp.y - SIZE, sp.z);
     GL.end();
     if (inCourse) {
       GL.begin(GL_TRIANGLE_FAN);
       Screen.setColor(r, g, b, 0.2);
       Screen.glVertex(rpsp);
       Screen.setColor(r, g, b, 0);
-      glVertex3f(rsp.x - SIZE, rsp.y - SIZE, sp.z);
-      glVertex3f(rsp.x + SIZE, rsp.y - SIZE, sp.z);
-      glVertex3f(rsp.x + SIZE, rsp.y + SIZE, sp.z);
-      glVertex3f(rsp.x - SIZE, rsp.y + SIZE, sp.z);
-      glVertex3f(rsp.x - SIZE, rsp.y - SIZE, sp.z);
+      GL.vertex(rsp.x - SIZE, rsp.y - SIZE, sp.z);
+      GL.vertex(rsp.x + SIZE, rsp.y - SIZE, sp.z);
+      GL.vertex(rsp.x + SIZE, rsp.y + SIZE, sp.z);
+      GL.vertex(rsp.x - SIZE, rsp.y + SIZE, sp.z);
+      GL.vertex(rsp.x - SIZE, rsp.y - SIZE, sp.z);
       GL.end();
     }
   }
@@ -221,17 +221,17 @@ public class Particle: LuminousActor {
     GL.rotate(d2, 0, 1, 0);
     GL.begin(GL_LINE_LOOP);
     Screen.setColor(r, g, b, 0.5);
-    glVertex3f(width, 0, height);
-    glVertex3f(-width, 0, height);
-    glVertex3f(-width, 0, -height);
-    glVertex3f(width, 0, -height);
+    GL.vertex(width, 0, height);
+    GL.vertex(-width, 0, height);
+    GL.vertex(-width, 0, -height);
+    GL.vertex(width, 0, -height);
     GL.end();
     GL.begin(GL_TRIANGLE_FAN);
     Screen.setColor(r, g, b, 0.2);
-    glVertex3f(width, 0, height);
-    glVertex3f(-width, 0, height);
-    glVertex3f(-width, 0, -height);
-    glVertex3f(width, 0, -height);
+    GL.vertex(width, 0, height);
+    GL.vertex(-width, 0, height);
+    GL.vertex(-width, 0, -height);
+    GL.vertex(width, 0, -height);
     GL.end();
     GL.popMatrix();
   }
@@ -242,11 +242,11 @@ public class Particle: LuminousActor {
     Screen.setColor(r, g, b, lumAlp * 0.6);
     Screen.glVertex(psp);
     Screen.setColor(r, g, b, 0);
-    glVertex3f(sp.x - SIZE, sp.y - SIZE, sp.z);
-    glVertex3f(sp.x + SIZE, sp.y - SIZE, sp.z);
-    glVertex3f(sp.x + SIZE, sp.y + SIZE, sp.z);
-    glVertex3f(sp.x - SIZE, sp.y + SIZE, sp.z);
-    glVertex3f(sp.x - SIZE, sp.y - SIZE, sp.z);
+    GL.vertex(sp.x - SIZE, sp.y - SIZE, sp.z);
+    GL.vertex(sp.x + SIZE, sp.y - SIZE, sp.z);
+    GL.vertex(sp.x + SIZE, sp.y + SIZE, sp.z);
+    GL.vertex(sp.x - SIZE, sp.y + SIZE, sp.z);
+    GL.vertex(sp.x - SIZE, sp.y - SIZE, sp.z);
     GL.end();
   }
 }

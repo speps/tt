@@ -1,6 +1,8 @@
 module abagames.util.gl;
 
+import std.conv;
 import std.math;
+import std.stdio;
 import bindbc.opengl;
 
 static class GL
@@ -18,8 +20,7 @@ static class GL
   }
 
 private:
-  struct MatrixState
-  {
+  struct MatrixState {
     static const int StackDepth = 16;
     Matrix[StackDepth] stack = [
       Identity[], Identity[], Identity[], Identity[],
@@ -31,6 +32,22 @@ private:
   }
   static MatrixState[MatrixMode.max + 1] states;
   static MatrixMode currentMode = MatrixMode.ModelView;
+
+  struct Vertex {
+  align(1):
+    float x, y, z;
+    float r, g, b, a;
+  }
+
+  static GLuint program;
+  static GLint vertPositionLocation, vertColorLocation, projectionLocation, modelViewLocation;
+  static GLuint vertArrayIndex, vertBufferIndex;
+
+  static Vertex[1024] vertices;
+  static int currentVertexCount = 0;
+
+  static int currentPrimitiveType = -1;
+  static float[4] currentColor = [1, 1, 1, 1];
 
   static void normalize(ref float[3] v) {
     float r;
@@ -49,7 +66,123 @@ private:
     result[2] = v1[0]*v2[1] - v1[1]*v2[0];
   }
 
+  static GLuint compileProgram(string vsSource, string fsSource) {
+    char[1024] infoLog;
+    GLsizei infoLogLength = 0;
+    GLint status = 0;
+
+    auto vsIndex = glCreateShader(GL_VERTEX_SHADER);
+    {
+      auto sourcePtr = cast(char*)vsSource.ptr;
+      glShaderSource(vsIndex, 1, &sourcePtr, null);
+      glCompileShader(vsIndex);
+      glGetShaderiv(vsIndex, GL_COMPILE_STATUS, &status);
+      if (status == 0) {
+        glGetShaderInfoLog(vsIndex, infoLog.length, &infoLogLength, infoLog.ptr);
+        assert(false, );
+      }
+    }
+
+    auto fsIndex = glCreateShader(GL_FRAGMENT_SHADER);
+    {
+      auto sourcePtr = cast(char*)fsSource.ptr;
+      glShaderSource(fsIndex, 1, &sourcePtr, null);
+      glCompileShader(fsIndex);
+      glGetShaderiv(fsIndex, GL_COMPILE_STATUS, &status);
+      if (status == 0) {
+        glGetShaderInfoLog(fsIndex, infoLog.length, &infoLogLength, infoLog.ptr);
+        assert(false, infoLog[0..infoLogLength]);
+      }
+    }
+
+    auto progIndex = glCreateProgram();
+    {
+      glAttachShader(progIndex, vsIndex);
+      glAttachShader(progIndex, fsIndex);
+      glLinkProgram(progIndex);
+
+      {
+        glGetProgramiv(progIndex, GL_LINK_STATUS, &status);
+        if (status == 0) {
+          glGetProgramInfoLog(progIndex, infoLog.length, &infoLogLength, infoLog.ptr);
+          assert(false, infoLog[0..infoLogLength]);
+        }
+      }
+
+      glValidateProgram(progIndex);
+
+      {
+        glGetProgramiv(progIndex, GL_VALIDATE_STATUS, &status);
+        if (status == 0) {
+          glGetProgramInfoLog(progIndex, infoLog.length, &infoLogLength, infoLog.ptr);
+          assert(false, infoLog[0..infoLogLength]);
+        }
+      }
+    }
+
+    return progIndex;
+  }
+
+  static void createBuffer(ref GLuint arrayIndex, ref GLuint bufferIndex, Vertex[1024] buffer) {
+    glGenVertexArrays(1, &arrayIndex);
+    glBindVertexArray(arrayIndex);
+
+    glGenBuffers(1, &bufferIndex);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferIndex);
+    glBufferData(GL_ARRAY_BUFFER, buffer.sizeof, buffer.ptr, GL_DYNAMIC_DRAW);
+
+    glVertexAttribPointer(vertPositionLocation, 3, GL_FLOAT, GL_FALSE, 7 * float.sizeof, cast(void*)0);
+    glVertexAttribPointer(vertColorLocation, 4, GL_FLOAT, GL_FALSE, 7 * float.sizeof, cast(void*)(3 * float.sizeof));
+
+    glEnableVertexAttribArray(vertPositionLocation);
+    glEnableVertexAttribArray(vertColorLocation);
+
+    glBindVertexArray(0);
+  }
+
 public:
+  
+  static void init() {
+    program = compileProgram(
+      `
+        #version 120
+
+        uniform mat4 projection; 
+        uniform mat4 modelView;
+
+        attribute vec3 vertPosition;
+        attribute vec4 vertColor;
+        varying vec4 fragColor;
+
+        void main()
+        {
+          fragColor = vertColor;
+          gl_Position = projection * modelView * vec4(vertPosition, 1.0);
+        }
+      `,
+      `
+        #version 120
+
+        varying vec4 fragColor;
+
+        void main()
+        {
+          gl_FragColor = fragColor;
+        }
+      `
+    );
+
+    projectionLocation = glGetUniformLocation(program, "projection");
+    modelViewLocation = glGetUniformLocation(program, "modelView");
+
+    vertPositionLocation = glGetAttribLocation(program, "vertPosition");
+    vertColorLocation = glGetAttribLocation(program, "vertColor");
+
+    createBuffer(vertArrayIndex, vertBufferIndex, vertices);
+
+    glUseProgram(program);
+  }
+
   static void matrixMode(MatrixMode mode) {
     currentMode = mode;
   }
@@ -214,19 +347,45 @@ public:
     return states[mode].stack[states[mode].stackIndex];
   }
 
-  static void apply() {
-    glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(&getMatrix(MatrixMode.Projection)[0]);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixf(&getMatrix(MatrixMode.ModelView)[0]);
+  static Vertex transform(float x, float y, float z) {
+    Matrix c = getMatrix(MatrixMode.ModelView);
+    float w = c[12]*x+c[13]*y+c[14]*z+c[15];
+    float tx = c[0]*x+c[1]*y+c[2]*z+c[3] / w;
+    float ty = c[4]*x+c[5]*y+c[6]*z+c[7] / w;
+    float tz = c[8]*x+c[9]*y+c[10]*z+c[11] / w;
+    return Vertex(tx, ty, tz, currentColor[0], currentColor[1], currentColor[2], currentColor[3]);
   }
 
   static void begin(int primitiveType) {
-    apply();
-    glBegin(primitiveType);
+    currentPrimitiveType = primitiveType;
   }
 
+  static void vertex(float x, float y, float z) {
+    vertices[currentVertexCount] = Vertex(x, y, z, currentColor[0], currentColor[1], currentColor[2], currentColor[3]);
+    currentVertexCount++;
+  }
+
+  static void color(float r, float g, float b, float a) {
+    currentColor = [r, g, b, a];
+  }
+
+  static void texCoord(float u, float v) {}
+
   static void end() {
-    glEnd();
+    assert(currentPrimitiveType != -1);
+    if (currentVertexCount > 0) {
+      glBindVertexArray(vertArrayIndex);
+
+      glBindBuffer(GL_ARRAY_BUFFER, vertBufferIndex);
+      glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.sizeof, vertices.ptr);
+    
+      glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, getMatrix(MatrixMode.Projection).ptr);
+      glUniformMatrix4fv(modelViewLocation, 1, GL_FALSE, getMatrix(MatrixMode.ModelView).ptr);
+      glDrawArrays(currentPrimitiveType, 0, currentVertexCount);
+
+      glBindVertexArray(0);
+
+      currentVertexCount = 0;
+    }
   }
 }

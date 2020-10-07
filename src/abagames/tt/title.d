@@ -178,12 +178,12 @@ public class TitleManager {
     float rcr = _replayChangeRatio * 2;
     if (rcr > 1)
       rcr = 1;
-    GL.begin(GL_QUADS);
-    glVertex3f(450 + (640 - 450) * rcr, 0, 0);
-    glVertex3f(640, 0, 0);
-    glVertex3f(640, 480, 0);
-    glVertex3f(450 + (640 - 450) * rcr, 480, 0);
-    GL.end();
+    // GL.begin(GL_QUADS);
+    // GL.vertex(450 + (640 - 450) * rcr, 0, 0);
+    // GL.vertex(640, 0, 0);
+    // GL.vertex(640, 480, 0);
+    // GL.vertex(450 + (640 - 450) * rcr, 480, 0);
+    // GL.end();
     glEnable(GL_BLEND);
     Screen.viewPerspective();
     GL.pushMatrix();
@@ -217,14 +217,14 @@ public class TitleManager {
     glEnable(GL_TEXTURE_2D);
     titleTexture.bind();
     GL.begin(GL_TRIANGLE_FAN);
-    glTexCoord2f(0, 0);
-    glVertex3f(470, 380, 0);
-    glTexCoord2f(1, 0);
-    glVertex3f(598, 380, 0);
-    glTexCoord2f(1, 1);
-    glVertex3f(598, 428, 0);
-    glTexCoord2f(0, 1);
-    glVertex3f(470, 428, 0);
+    GL.texCoord(0, 0);
+    GL.vertex(470, 380, 0);
+    GL.texCoord(1, 0);
+    GL.vertex(598, 380, 0);
+    GL.texCoord(1, 1);
+    GL.vertex(598, 428, 0);
+    GL.texCoord(0, 1);
+    GL.vertex(470, 428, 0);
     GL.end();
     glDisable(GL_TEXTURE_2D);
     float cx, cy;
@@ -243,14 +243,14 @@ public class TitleManager {
         float l2cx, l2cy;
         calcCursorPos(l2cx, l2cy, i, 2);
         GL.begin(GL_LINES);
-        glVertex3f(cx - 29, cy + 7, 0);
-        glVertex3f(l2cx - 29, l2cy + 7, 0);
-        glVertex3f(l2cx - 29, l2cy + 7, 0);
-        glVertex3f(ecx - 29, ecy + 7, 0);
-        glVertex3f(cx + 29, cy - 7, 0);
-        glVertex3f(l2cx + 29, l2cy - 7, 0);
-        glVertex3f(l2cx + 29, l2cy - 7, 0);
-        glVertex3f(ecx + 29, ecy - 7, 0);
+        GL.vertex(cx - 29, cy + 7, 0);
+        GL.vertex(l2cx - 29, l2cy + 7, 0);
+        GL.vertex(l2cx - 29, l2cy + 7, 0);
+        GL.vertex(ecx - 29, ecy + 7, 0);
+        GL.vertex(cx + 29, cy - 7, 0);
+        GL.vertex(l2cx + 29, l2cy - 7, 0);
+        GL.vertex(l2cx + 29, l2cy - 7, 0);
+        GL.vertex(ecx + 29, ecy - 7, 0);
         GL.end();
       }
     }
@@ -314,40 +314,40 @@ public class TitleManager {
     else if (n == 1)
     {
       float d1 = 0;
-      GL.begin(GL_QUADS);
-      for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
-        cp.x = sin(d1) * (torusRad + ringRad);
-        cp.y = cos(d1) * (torusRad + ringRad);
-        Screen.glVertex(cp);
-        cp.x = sin(d1) * (torusRad + ringRad * 10);
-        cp.y = cos(d1) * (torusRad + ringRad * 10);
-        Screen.glVertex(cp);
-        cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
-        cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
-        Screen.glVertex(cp);
-        cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad);
-        cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad);
-        Screen.glVertex(cp);
-      }
-      d1 = 0;
-      for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
-        float d2 = 0;
-        for (int j = 0; j < 16; j++, d2 += PI * 2 / 16) {
-          cp.x = sin(d1) * torusRad;
-          cp.y = cos(d1) * torusRad;
-          createRingOffset(ringOfs, cp, ringRad, d1, d2);
-          Screen.glVertex(ringOfs);
-          createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
-          Screen.glVertex(ringOfs);
-          cp.x = sin(d1 + PI * 2 / 32) * torusRad;
-          cp.y = cos(d1 + PI * 2 / 32) * torusRad;
-          createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2 + PI * 2 / 16);
-          Screen.glVertex(ringOfs);
-          createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2);
-          Screen.glVertex(ringOfs);
-        }
-      }
-      GL.end();
+      // GL.begin(GL_QUADS);
+      // for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
+      //   cp.x = sin(d1) * (torusRad + ringRad);
+      //   cp.y = cos(d1) * (torusRad + ringRad);
+      //   Screen.glVertex(cp);
+      //   cp.x = sin(d1) * (torusRad + ringRad * 10);
+      //   cp.y = cos(d1) * (torusRad + ringRad * 10);
+      //   Screen.glVertex(cp);
+      //   cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
+      //   cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
+      //   Screen.glVertex(cp);
+      //   cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad);
+      //   cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad);
+      //   Screen.glVertex(cp);
+      // }
+      // d1 = 0;
+      // for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
+      //   float d2 = 0;
+      //   for (int j = 0; j < 16; j++, d2 += PI * 2 / 16) {
+      //     cp.x = sin(d1) * torusRad;
+      //     cp.y = cos(d1) * torusRad;
+      //     createRingOffset(ringOfs, cp, ringRad, d1, d2);
+      //     Screen.glVertex(ringOfs);
+      //     createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
+      //     Screen.glVertex(ringOfs);
+      //     cp.x = sin(d1 + PI * 2 / 32) * torusRad;
+      //     cp.y = cos(d1 + PI * 2 / 32) * torusRad;
+      //     createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2 + PI * 2 / 16);
+      //     Screen.glVertex(ringOfs);
+      //     createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2);
+      //     Screen.glVertex(ringOfs);
+      //   }
+      // }
+      // GL.end();
     }
     else if (n == 2) {
       float d1 = 0;
@@ -361,7 +361,7 @@ public class TitleManager {
       GL.end();
       Screen.setColor(1, 1, 1, 0.3f);
       GL.begin(GL_TRIANGLE_FAN);
-      glVertex3f(0, 0, 0);
+      GL.vertex(0, 0, 0);
       for (int i = 0; i <= 128; i++, d1 += PI * 2 / 128) {
         cp.x = sin(d1);
         cp.y = cos(d1);

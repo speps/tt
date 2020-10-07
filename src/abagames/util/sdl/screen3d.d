@@ -6,6 +6,7 @@
 module abagames.util.sdl.screen3d;
 
 import std.conv;
+import std.stdio;
 import std.string;
 import bindbc.sdl;
 import bindbc.opengl;
@@ -42,6 +43,11 @@ public class Screen3D: Screen {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
       throw new SDLInitFailedException("Unable to initialize SDL: " ~ to!string(SDL_GetError()));
     }
+
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
     // Create an OpenGL screen.
     SDL_WindowFlags videoFlags;
     if (windowMode) {
@@ -53,10 +59,12 @@ public class Screen3D: Screen {
       throw new SDLInitFailedException("Unable to create SDL screen: " ~ to!string(SDL_GetError()));
     }
     context = SDL_GL_CreateContext(window);
-    loadOpenGL();
+    auto glStatus = loadOpenGL();
     if (!isOpenGLLoaded) {
       throw new SDLInitFailedException("Unable to load OpenGL");
     }
+    writeln("OpenGL Status: ", glStatus);
+    GL.init();
     glViewport(0, 0, width, height);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     resized(width, height);
@@ -105,11 +113,11 @@ public class Screen3D: Screen {
   }
 
   public void handleError() {
-    GLenum error = glGetError();
-    if (error == GL_NO_ERROR)
-      return;
-    closeSDL();
-    throw new Exception("OpenGL error(" ~ to!string(error) ~ ")");
+    // GLenum error = glGetError();
+    // if (error == GL_NO_ERROR)
+    //   return;
+    // closeSDL();
+    // throw new Exception("OpenGL error(" ~ to!string(error) ~ ")");
   }
 
   protected void setCaption(string name) {
@@ -117,7 +125,7 @@ public class Screen3D: Screen {
   }
 
   public static void setColor(float r, float g, float b, float a = 1) {
-    glColor4f(r * brightness, g * brightness, b * brightness, a);
+    GL.color(r * brightness, g * brightness, b * brightness, a);
   }
 
   public static void setClearColor(float r, float g, float b, float a = 1) {
@@ -125,7 +133,7 @@ public class Screen3D: Screen {
   }
 
   public static void glVertex(Vector3 v) {
-    glVertex3f(v.x, v.y, v.z);
+    GL.vertex(v.x, v.y, v.z);
   }
 
   public static void glTranslate(Vector3 v) {
