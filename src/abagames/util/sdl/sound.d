@@ -11,6 +11,17 @@ import bindbc.sdl;
 import bindbc.sdl.mixer;
 import abagames.util.sdl.sdlexception;
 
+public interface Sound {
+  public void load(string name);
+  public void load(string name, int ch);
+  public void free();
+  public void play();
+  public void fade();
+  public void halt();
+}
+
+version(SDL_Mixer) {
+
 /**
  * Initialize and close SDL_mixer.
  */
@@ -60,14 +71,6 @@ public class SoundManager {
 /**
  * Music / Chunk.
  */
-public interface Sound {
-  public void load(string name);
-  public void load(string name, int ch);
-  public void free();
-  public void play();
-  public void fade();
-  public void halt();
-}
 
 public class Music: Sound {
  public:
@@ -180,4 +183,39 @@ public class Chunk: Sound {
   public void fade() {
     halt();
   }
+}
+
+} else {
+
+public class SoundManager {
+public:
+  static bool noSound = false;
+  static void init() {}
+  static void close() {}
+}
+
+public class Music: Sound {
+public:
+  public void load(string name) {}
+  public void load(string name, int ch) {}
+  public void free() {}
+  public void play() {}
+  public void playOnce() {}
+  public void fade() {}
+  public void halt() {}
+  public static void fadeMusic() {}
+  public static void haltMusic() {}
+}
+
+public class Chunk: Sound {
+public:
+  public void load(string name) {}
+  public void load(string name, int ch) {}
+  public void free() {}
+  public void play() {}
+  public void playOnce() {}
+  public void fade() {}
+  public void halt() {}
+}
+
 }
