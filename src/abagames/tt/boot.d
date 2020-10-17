@@ -33,9 +33,6 @@ MainLoop mainLoop;
 public int main(string[] args) {
   screen = new Screen;
   input = new RecordablePad;
-  try {
-    input.openJoystick();
-  } catch (Exception) {}
   gameManager = new GameManager;
   prefManager = new PrefManager;
   mainLoop = new MainLoop(screen, input, gameManager, prefManager);
