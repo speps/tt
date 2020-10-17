@@ -13,9 +13,6 @@
 	"importPaths": [
 		"lib"
 	],
-	"sourceFiles": [
-		"resource/tt.res"
-	],
 	"sourcePaths": [
 		"src",
 		"import"
@@ -24,6 +21,9 @@
     {
       "name": "win32",
       "platforms": ["windows"],
+      "sourceFiles": [
+        "resource/tt.res"
+      ],
       "copyFiles": [
         "lib/SDL2-2.0.12/lib/x86/SDL2.dll",
         "lib/SDL2-2.0.12/README-SDL.txt",
