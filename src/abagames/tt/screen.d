@@ -9,7 +9,6 @@ import std.math;
 import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.sdl.screen3d;
-import abagames.util.sdl.luminous;
 
 /**
  * Initialize an OpenGL and set the caption.
@@ -18,62 +17,25 @@ import abagames.util.sdl.luminous;
 public class Screen: Screen3D {
  public:
   static const string CAPTION = "Torus Trooper";
-  static float luminous = 0;
  private:
-  LuminousScreen luminousScreen;
-
   protected override void init() {
     setCaption(CAPTION);
-    glLineWidth(1);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-    glEnable(GL_LINE_SMOOTH);
-    glEnable(GL_BLEND);
-    // glDisable(GL_COLOR_MATERIAL);
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_DEPTH_TEST);
-    // glDisable(GL_LIGHTING);
-    glDisable(GL_TEXTURE_2D);
+    GL.lineWidth(1);
+    GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
+    GL.enable(GL_LINE_SMOOTH);
+    GL.enable(GL_BLEND);
+    // GL.disable(GL_COLOR_MATERIAL);
+    GL.disable(GL_CULL_FACE);
+    GL.disable(GL_DEPTH_TEST);
+    // GL.disable(GL_LIGHTING);
+    GL.disable(GL_TEXTURE_2D);
     setClearColor(0, 0, 0, 1);
-    if (luminous > 0) {
-      luminousScreen = new LuminousScreen;
-      luminousScreen.init(luminous, width, height);
-    } else {
-      luminousScreen = null;
-    }
     farPlane = 10000;
     screenResized();
   }
 
-  public override void close() {
-    if (luminousScreen)
-      luminousScreen.close();
-  }
-
-  public bool startRenderToLuminousScreen() {
-    if (!luminousScreen)
-      return false;
-    luminousScreen.startRender();
-    return true;
-  }
-
-  public void endRenderToLuminousScreen() {
-    if (luminousScreen)
-      luminousScreen.endRender();
-  }
-
-  public void drawLuminous() {
-    if (luminousScreen)
-      luminousScreen.draw();
-  }
-
-  public override void resized(int width, int height) {
-    if (luminousScreen)
-      luminousScreen.resized(width, height);
-    super.resized(width, height);
-  }
-
   public override void clear() {
-    glClear(GL_COLOR_BUFFER_BIT);
+    GL.clear(GL_COLOR_BUFFER_BIT);
   }
 
   public static void viewOrthoFixed() {

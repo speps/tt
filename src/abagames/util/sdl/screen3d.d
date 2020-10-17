@@ -33,7 +33,6 @@ public class Screen3D: Screen {
   SDL_GLContext context;
 
   protected abstract void init();
-  protected abstract void close();
 
   public void initSDL() {
     if (loadSDL() != sdlSupport) {
@@ -44,9 +43,11 @@ public class Screen3D: Screen {
       throw new SDLInitFailedException("Unable to initialize SDL: " ~ to!string(SDL_GetError()));
     }
 
+version(GL_32) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+}
 
     // Create an OpenGL screen.
     SDL_WindowFlags videoFlags;
@@ -65,8 +66,8 @@ public class Screen3D: Screen {
     }
     writeln("OpenGL Status: ", glStatus);
     GL.init();
-    glViewport(0, 0, width, height);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    GL.viewport(0, 0, width, height);
+    GL.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
     resized(width, height);
     SDL_ShowCursor(SDL_DISABLE);
     init();
@@ -75,7 +76,7 @@ public class Screen3D: Screen {
   // Reset viewport when the screen is resized.
 
   public void screenResized() {
-    glViewport(0, 0, width, height);
+    GL.viewport(0, 0, width, height);
     GL.matrixMode(GL.MatrixMode.Projection);
     GL.loadIdentity();
     //gluPerspective(45.0f, cast(GLfloat) width / cast(GLfloat) height, nearPlane, farPlane);
@@ -99,7 +100,6 @@ public class Screen3D: Screen {
     SDL_DestroyWindow(window);
     window = null;
     SDL_GL_DeleteContext(context);
-    close();
     SDL_ShowCursor(SDL_ENABLE);
   }
 
@@ -109,7 +109,7 @@ public class Screen3D: Screen {
   }
 
   public void clear() {
-    glClear(GL_COLOR_BUFFER_BIT);
+    GL.clear(GL_COLOR_BUFFER_BIT);
   }
 
   public void handleError() {
@@ -129,14 +129,6 @@ public class Screen3D: Screen {
   }
 
   public static void setClearColor(float r, float g, float b, float a = 1) {
-    glClearColor(r * brightness, g * brightness, b * brightness, a);
-  }
-
-  public static void glVertex(Vector3 v) {
-    GL.vertex(v.x, v.y, v.z);
-  }
-
-  public static void glTranslate(Vector3 v) {
-    GL.translate(v.x, v.y, v.z);
+    GL.clearColor(r * brightness, g * brightness, b * brightness, a);
   }
 }

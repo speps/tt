@@ -190,7 +190,7 @@ public class Shot: Actor {
   public override void draw() {
     Vector3 sp = tunnel.getPos(pos);
     GL.pushMatrix();
-    Screen.glTranslate(sp);
+    GL.translate(sp);
     GL.rotate(deg * 180 / PI, 0, 1, 10);
     GL.rotate(cnt * 7, 0, 0, 1);
     shape.draw();

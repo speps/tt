@@ -354,7 +354,7 @@ public class Enemy: Actor {
   public override void draw() {
     Vector3 sp = tunnel.getPos(pos);
     GL.pushMatrix();
-    Screen.glTranslate(sp);
+    GL.translate(sp);
     GL.rotate((pos.x - bank) * 180 / PI, 0, 0, 1);
     if (sp.z > 200) {
       float sz = 1 - (sp.z - 200) * 0.0025;
@@ -371,7 +371,7 @@ public class Enemy: Actor {
       foreach (BulletActor bb; bitBullet) {
         sp = tunnel.getPos(bb.bullet.pos);
         GL.pushMatrix();
-        Screen.glTranslate(sp);
+        GL.translate(sp);
         GL.rotate(bitCnt * 7, 0, 1, 0);
         GL.rotate(pos.x * 180 / PI, 0, 0, 1);
         ShipSpec.bitShape.draw();

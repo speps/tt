@@ -585,17 +585,17 @@ public class BulletShape: Drawable {
       else
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
       GL.begin(GL_LINE_LOOP);
-      Screen.glVertex(np1);
-      Screen.glVertex(np2);
-      Screen.glVertex(np3);
+      GL.vertex(np1);
+      GL.vertex(np2);
+      GL.vertex(np3);
       GL.end();
       if (!wireShape) {
         GL.begin(GL_TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
-        Screen.glVertex(np1);
+        GL.vertex(np1);
         Screen.setColor(COLOR_RGB[0] * 0.4, COLOR_RGB[1] * 0.4, COLOR_RGB[2] * 0.4);
-        Screen.glVertex(np2);
-        Screen.glVertex(np3);
+        GL.vertex(np2);
+        GL.vertex(np3);
         GL.end();
       }
     }
@@ -634,13 +634,13 @@ public class BulletShape: Drawable {
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
       GL.begin(GL_LINE_LOOP);
       for (int j = 0; j < 4; j++)
-        Screen.glVertex(np[j]);
+        GL.vertex(np[j]);
       GL.end();
       if (!wireShape) {
         GL.begin(GL_TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
         for (int j = 0; j < 4; j++)
-          Screen.glVertex(np[j]);
+          GL.vertex(np[j]);
         GL.end();
       }
     }
@@ -679,13 +679,13 @@ public class BulletShape: Drawable {
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
       GL.begin(GL_LINE_LOOP);
       for (int j = 0; j < 4; j++)
-        Screen.glVertex(np[j]);
+        GL.vertex(np[j]);
       GL.end();
       if (!wireShape) {
         GL.begin(GL_TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
         for (int j = 0; j < 4; j++)
-          Screen.glVertex(np[j]);
+          GL.vertex(np[j]);
         GL.end();
       }
     }

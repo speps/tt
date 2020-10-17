@@ -11,7 +11,6 @@ import abagames.util.gl;
 import abagames.util.actor;
 import abagames.util.vector;
 import abagames.util.rand;
-import abagames.util.sdl.luminous;
 import abagames.tt.tunnel;
 import abagames.tt.ship;
 import abagames.tt.screen;
@@ -19,7 +18,7 @@ import abagames.tt.screen;
 /**
  * Particles.
  */
-public class Particle: LuminousActor {
+public class Particle: Actor {
  public:
   static enum PType {
     SPARK, STAR, FRAGMENT, JET,
@@ -183,7 +182,7 @@ public class Particle: LuminousActor {
   private void drawSpark() {
     GL.begin(GL_TRIANGLE_FAN);
     Screen.setColor(r, g, b, 0.5);
-    Screen.glVertex(psp);
+    GL.vertex(psp);
     Screen.setColor(r, g, b, 0);
     GL.vertex(sp.x - SIZE, sp.y - SIZE, sp.z);
     GL.vertex(sp.x + SIZE, sp.y - SIZE, sp.z);
@@ -194,7 +193,7 @@ public class Particle: LuminousActor {
     if (inCourse) {
       GL.begin(GL_TRIANGLE_FAN);
       Screen.setColor(r, g, b, 0.2);
-      Screen.glVertex(rpsp);
+      GL.vertex(rpsp);
       Screen.setColor(r, g, b, 0);
       GL.vertex(rsp.x - SIZE, rsp.y - SIZE, sp.z);
       GL.vertex(rsp.x + SIZE, rsp.y - SIZE, sp.z);
@@ -208,9 +207,9 @@ public class Particle: LuminousActor {
   private void drawStar() {
     GL.begin(GL_LINES);
     Screen.setColor(r, g, b, 1);
-    Screen.glVertex(psp);
+    GL.vertex(psp);
     Screen.setColor(r, g, b, 0.2);
-    Screen.glVertex(sp);
+    GL.vertex(sp);
     GL.end();
   }
 
@@ -235,23 +234,9 @@ public class Particle: LuminousActor {
     GL.end();
     GL.popMatrix();
   }
-
-  public override void drawLuminous() {
-    if (lumAlp < 0.2 || type != PType.SPARK) return;
-    GL.begin(GL_TRIANGLE_FAN);
-    Screen.setColor(r, g, b, lumAlp * 0.6);
-    Screen.glVertex(psp);
-    Screen.setColor(r, g, b, 0);
-    GL.vertex(sp.x - SIZE, sp.y - SIZE, sp.z);
-    GL.vertex(sp.x + SIZE, sp.y - SIZE, sp.z);
-    GL.vertex(sp.x + SIZE, sp.y + SIZE, sp.z);
-    GL.vertex(sp.x - SIZE, sp.y + SIZE, sp.z);
-    GL.vertex(sp.x - SIZE, sp.y - SIZE, sp.z);
-    GL.end();
-  }
 }
 
-public class ParticlePool: LuminousActorPool!(Particle) {
+public class ParticlePool: ActorPool!(Particle) {
   public this(int n, Object[] args) {
     super(n, args);
   }

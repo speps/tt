@@ -173,18 +173,18 @@ public class TitleManager {
       return;
     GL.popMatrix();
     Screen.viewOrthoFixed();
-    glDisable(GL_BLEND);
+    GL.disable(GL_BLEND);
     Screen.setColor(0, 0, 0);
     float rcr = _replayChangeRatio * 2;
     if (rcr > 1)
       rcr = 1;
-    // GL.begin(GL_QUADS);
-    // GL.vertex(450 + (640 - 450) * rcr, 0, 0);
-    // GL.vertex(640, 0, 0);
-    // GL.vertex(640, 480, 0);
-    // GL.vertex(450 + (640 - 450) * rcr, 480, 0);
-    // GL.end();
-    glEnable(GL_BLEND);
+    GL.begin(GL.QUADS);
+    GL.vertex(450 + (640 - 450) * rcr, 0, 0);
+    GL.vertex(640, 0, 0);
+    GL.vertex(640, 480, 0);
+    GL.vertex(450 + (640 - 450) * rcr, 480, 0);
+    GL.end();
+    GL.enable(GL_BLEND);
     Screen.viewPerspective();
     GL.pushMatrix();
     GL.lookAt(0, 0, -1, 0, 0, 0, 0, 1, 0);
@@ -193,10 +193,10 @@ public class TitleManager {
     GL.rotate(30, 1, 0, 0);
     GL.rotate(sin(cnt * 0.005f) * 12, 0, 1, 0);
     GL.rotate(cnt * 0.2f, 0, 0, 1);
-    glDisable(GL_BLEND);
+    GL.disable(GL_BLEND);
     Screen.setColor(0, 0, 0);
     createTorusShape(1);
-    glEnable(GL_BLEND);
+    GL.enable(GL_BLEND);
     Screen.setColor(1, 1, 1, 0.5f);
     createTorusShape(0);
     GL.popMatrix();
@@ -209,12 +209,12 @@ public class TitleManager {
     GL.translate(508, 400, 0);
     GL.rotate(-20, 0, 0, 1);
     GL.scale(128, 64, 1);
-    glLineWidth(2);
+    GL.lineWidth(2);
     createTorusShape(2);
-    glLineWidth(1);
+    GL.lineWidth(1);
     GL.popMatrix();
     Screen.setColor(1, 1, 1);
-    glEnable(GL_TEXTURE_2D);
+    GL.enable(GL_TEXTURE_2D);
     titleTexture.bind();
     GL.begin(GL_TRIANGLE_FAN);
     GL.texCoord(0, 0);
@@ -226,14 +226,14 @@ public class TitleManager {
     GL.texCoord(0, 1);
     GL.vertex(470, 428, 0);
     GL.end();
-    glDisable(GL_TEXTURE_2D);
+    GL.disable(GL_TEXTURE_2D);
     float cx, cy;
     for (int i = 0; i < Ship.GRADE_NUM; i++) {
-      glLineWidth(2);
+      GL.lineWidth(2);
       calcCursorPos(cx, cy, i, 1);
       drawCursorRing(cx, cy, 15);
       Letter.drawString(Ship.GRADE_LETTER[i], cx - 4, cy - 10, 7);
-      glLineWidth(1);
+      GL.lineWidth(1);
       int ml = prefManager.prefData.getMaxLevel(i);
       if (ml > 1) {
         float ecx, ecy;
@@ -300,13 +300,13 @@ public class TitleManager {
           cp.y = cos(d1) * torusRad;
           GL.begin(GL_LINE_STRIP);
           createRingOffset(ringOfs, cp, ringRad, d1, d2);
-          Screen.glVertex(ringOfs);
+          GL.vertex(ringOfs);
           createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
-          Screen.glVertex(ringOfs);
+          GL.vertex(ringOfs);
           cp.x = sin(d1 + PI * 2 / 32) * torusRad;
           cp.y = cos(d1 + PI * 2 / 32) * torusRad;
           createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2 + PI * 2 / 16);
-          Screen.glVertex(ringOfs);
+          GL.vertex(ringOfs);
           GL.end();
         }
       }
@@ -314,40 +314,41 @@ public class TitleManager {
     else if (n == 1)
     {
       float d1 = 0;
-      // GL.begin(GL_QUADS);
-      // for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
-      //   cp.x = sin(d1) * (torusRad + ringRad);
-      //   cp.y = cos(d1) * (torusRad + ringRad);
-      //   Screen.glVertex(cp);
-      //   cp.x = sin(d1) * (torusRad + ringRad * 10);
-      //   cp.y = cos(d1) * (torusRad + ringRad * 10);
-      //   Screen.glVertex(cp);
-      //   cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
-      //   cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
-      //   Screen.glVertex(cp);
-      //   cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad);
-      //   cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad);
-      //   Screen.glVertex(cp);
-      // }
-      // d1 = 0;
-      // for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
-      //   float d2 = 0;
-      //   for (int j = 0; j < 16; j++, d2 += PI * 2 / 16) {
-      //     cp.x = sin(d1) * torusRad;
-      //     cp.y = cos(d1) * torusRad;
-      //     createRingOffset(ringOfs, cp, ringRad, d1, d2);
-      //     Screen.glVertex(ringOfs);
-      //     createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
-      //     Screen.glVertex(ringOfs);
-      //     cp.x = sin(d1 + PI * 2 / 32) * torusRad;
-      //     cp.y = cos(d1 + PI * 2 / 32) * torusRad;
-      //     createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2 + PI * 2 / 16);
-      //     Screen.glVertex(ringOfs);
-      //     createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2);
-      //     Screen.glVertex(ringOfs);
-      //   }
-      // }
-      // GL.end();
+      GL.color(1, 0, 1, 1);
+      GL.begin(GL.QUADS);
+      for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
+        cp.x = sin(d1) * (torusRad + ringRad);
+        cp.y = cos(d1) * (torusRad + ringRad);
+        GL.vertex(cp);
+        cp.x = sin(d1) * (torusRad + ringRad * 10);
+        cp.y = cos(d1) * (torusRad + ringRad * 10);
+        GL.vertex(cp);
+        cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
+        cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad * 10);
+        GL.vertex(cp);
+        cp.x = sin(d1 + PI * 2 / 32) * (torusRad + ringRad);
+        cp.y = cos(d1 + PI * 2 / 32) * (torusRad + ringRad);
+        GL.vertex(cp);
+      }
+      d1 = 0;
+      for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
+        float d2 = 0;
+        for (int j = 0; j < 16; j++, d2 += PI * 2 / 16) {
+          cp.x = sin(d1) * torusRad;
+          cp.y = cos(d1) * torusRad;
+          createRingOffset(ringOfs, cp, ringRad, d1, d2);
+          GL.vertex(ringOfs);
+          createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
+          GL.vertex(ringOfs);
+          cp.x = sin(d1 + PI * 2 / 32) * torusRad;
+          cp.y = cos(d1 + PI * 2 / 32) * torusRad;
+          createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2 + PI * 2 / 16);
+          GL.vertex(ringOfs);
+          createRingOffset(ringOfs, cp, ringRad, d1 + PI * 2 / 32, d2);
+          GL.vertex(ringOfs);
+        }
+      }
+      GL.end();
     }
     else if (n == 2) {
       float d1 = 0;
@@ -356,7 +357,7 @@ public class TitleManager {
       for (int i = 0; i < 128; i++, d1 += PI * 2 / 128) {
         cp.x = sin(d1);
         cp.y = cos(d1);
-        Screen.glVertex(cp);
+        GL.vertex(cp);
       }
       GL.end();
       Screen.setColor(1, 1, 1, 0.3f);
@@ -365,7 +366,7 @@ public class TitleManager {
       for (int i = 0; i <= 128; i++, d1 += PI * 2 / 128) {
         cp.x = sin(d1);
         cp.y = cos(d1);
-        Screen.glVertex(cp);
+        GL.vertex(cp);
       }
       GL.end();
     }

@@ -10,7 +10,6 @@ import abagames.util.actor;
 import abagames.util.vector;
 import abagames.util.bulletml.bullet;
 import abagames.util.bulletml.bulletsmanager;
-import abagames.util.sdl.luminous;
 import abagames.tt.bulletactor;
 import abagames.tt.bulletimpl;
 import abagames.tt.bullettarget;

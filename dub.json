@@ -38,7 +38,8 @@
       },
       "versions": [
         "SDL_Mixer",
-        "GL_32"
+        "GL_32",
+        "GL_Batching"
       ],
       "subConfigurations": {
         "bindbc-opengl": "dynamicBC",

@@ -75,20 +75,6 @@ private void parseArgs(string[] commandArgs) {
       }
       Screen.brightness = b;
       break;
-    case "-luminosity":
-    case "-luminous":
-      if (i >= args.length - 1) {
-        usage(progName);
-        throw new Exception("Invalid options");
-      }
-      i++;
-      float l = cast(float) to!int(args[i]) / 100;
-      if (l < 0 || l > 1) {
-        usage(progName);
-        throw new Exception("Invalid options");
-      }
-      Screen.luminous = l;
-      break;
     case "-window":
       Screen.windowMode = true;
       break;

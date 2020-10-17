@@ -356,7 +356,7 @@ public class Tunnel {
   }
 
   public void draw() {
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GL.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     float lineBn = 0.4, polyBn = 0, lightBn = 0.5 - Slice.darkLineRatio * 0.2f;
     slice[cast(int)slice.length - 1].setPointPos();
     for (int i = cast(int)slice.length - 1; i >= 1; i--) {
@@ -380,11 +380,11 @@ public class Tunnel {
         lightBn *= 1.0f + Slice.darkLineRatio * 0.02f;
       }
     }
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
   }
 
   public void drawBackward() {
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GL.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     float lineBn = 0.4, polyBn = 0, lightBn = 0.5 - Slice.darkLineRatio * 0.2f;
     sliceBackward[cast(int)sliceBackward.length - 1].setPointPos();
     for (int i = cast(int)sliceBackward.length - 1; i >= 1; i--) {
@@ -408,7 +408,7 @@ public class Tunnel {
         lightBn *= 1.0f + Slice.darkLineRatio * 0.02f;
       }
     }
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
   }
 }
 
@@ -486,23 +486,23 @@ public class Slice {
         int psPrevPi = cast(int) (prevPi * prevSlice.state.pointNum / _state.pointNum);
         Screen.setColor(lineR * lineBn, lineG * lineBn, lineB * lineBn);
         GL.begin(GL_LINE_STRIP);
-        Screen.glVertex(pointPos[cast(int) pi]);
-        Screen.glVertex(prevSlice.pointPos[psPi]);
-        Screen.glVertex(prevSlice.pointPos[psPrevPi]);
+        GL.vertex(pointPos[cast(int) pi]);
+        GL.vertex(prevSlice.pointPos[psPi]);
+        GL.vertex(prevSlice.pointPos[psPrevPi]);
         GL.end();
         if (polyBn > 0) {
           if (roundSlice || (!polyFirst && width > 0)) {
             Screen.setColor(polyR, polyG, polyB, polyBn);
             GL.begin(GL_TRIANGLE_FAN);
             polyPoint.blend(pointPos[cast(int) prevPi], prevSlice.pointPos[psPi], 0.9);
-            Screen.glVertex(polyPoint);
+            GL.vertex(polyPoint);
             polyPoint.blend(pointPos[cast(int) pi], prevSlice.pointPos[psPrevPi], 0.9);
-            Screen.glVertex(polyPoint);
+            GL.vertex(polyPoint);
             Screen.setColor(polyR, polyG, polyB, polyBn / 2);
             polyPoint.blend(pointPos[cast(int) prevPi], prevSlice.pointPos[psPi], 0.1);
-            Screen.glVertex(polyPoint);
+            GL.vertex(polyPoint);
             polyPoint.blend(pointPos[cast(int) pi], prevSlice.pointPos[psPrevPi], 0.1);
-            Screen.glVertex(polyPoint);
+            GL.vertex(polyPoint);
             GL.end();
           } else {
             polyFirst = false;
@@ -524,8 +524,8 @@ public class Slice {
       int psPi = cast(int) (pi * prevSlice.state.pointNum / _state.pointNum);
       Screen.setColor(lineBn / 3 * 2, lineBn / 3 * 2, lineBn);
       GL.begin(GL_LINE_STRIP);
-      Screen.glVertex(pointPos[cast(int) pi]);
-      Screen.glVertex(prevSlice.pointPos[psPi]);
+      GL.vertex(pointPos[cast(int) pi]);
+      GL.vertex(prevSlice.pointPos[psPi]);
       GL.end();
     }
     if (!roundSlice && lightBn > 0.2f) {
@@ -969,10 +969,10 @@ public class Ring {
       np2.blend(p2, cp, 0.7);
       np3.blend(p3, cp, 0.7);
       np4.blend(p4, cp, 0.7);
-      Screen.glVertex(np1);
-      Screen.glVertex(np2);
-      Screen.glVertex(np3);
-      Screen.glVertex(np4);
+      GL.vertex(np1);
+      GL.vertex(np2);
+      GL.vertex(np3);
+      GL.vertex(np4);
       GL.end();
       d += md;
     }
@@ -983,7 +983,7 @@ public class Ring {
   }
 
   public void draw(float a, Tunnel tunnel) {
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
     float d1, d2;
     Vector3 p = tunnel.getCenterPos(_idx, d1 ,d2);
     Screen.setColor(COLOR_RGB[type][0] * a,
@@ -1009,7 +1009,7 @@ public class Ring {
       createFinalRing(r, 1);
       GL.popMatrix();
     }
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GL.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 
   public int idx() {

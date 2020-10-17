@@ -6,6 +6,7 @@
 module abagames.util.sdl.mainloop;
 
 import bindbc.sdl;
+import abagames.util.gl;
 import abagames.util.logger;
 import abagames.util.rand;
 import abagames.util.prefmanager;
@@ -105,7 +106,9 @@ public class MainLoop {
 	      gameManager.move();
       }
       screen.clear();
+      GL.frameStart();
       gameManager.draw();
+      GL.frameEnd();
       screen.flip();
     }
     quitLast();
