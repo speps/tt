@@ -36,16 +36,16 @@ public class Pad: Input {
     int x = 0, y = 0;
     int dir = 0;
     if (keys[SDL_SCANCODE_RIGHT] == SDL_PRESSED || keys[SDL_SCANCODE_KP_6] == SDL_PRESSED || 
-        keys[SDL_SCANCODE_D] == SDL_PRESSED || x > JOYSTICK_AXIS)
+        keys[SDL_SCANCODE_D] == SDL_PRESSED)
       dir |= Dir.RIGHT;
     if (keys[SDL_SCANCODE_LEFT] == SDL_PRESSED || keys[SDL_SCANCODE_KP_4] == SDL_PRESSED ||
-        keys[SDL_SCANCODE_A] == SDL_PRESSED || x < -JOYSTICK_AXIS)
+        keys[SDL_SCANCODE_A] == SDL_PRESSED)
       dir |= Dir.LEFT;
     if (keys[SDL_SCANCODE_DOWN] == SDL_PRESSED || keys[SDL_SCANCODE_KP_2] == SDL_PRESSED ||
-        keys[SDL_SCANCODE_S] == SDL_PRESSED || y > JOYSTICK_AXIS)
+        keys[SDL_SCANCODE_S] == SDL_PRESSED)
       dir |= Dir.DOWN;
     if (keys[SDL_SCANCODE_UP] == SDL_PRESSED ||  keys[SDL_SCANCODE_KP_8] == SDL_PRESSED ||
-        keys[SDL_SCANCODE_W] == SDL_PRESSED || y < -JOYSTICK_AXIS)
+        keys[SDL_SCANCODE_W] == SDL_PRESSED)
       dir |= Dir.UP;
     lastDirState = dir;
     return dir;
