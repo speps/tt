@@ -42,7 +42,11 @@ version(GL_AllowDeprecated)
   static void init() {}
 
   static void matrixMode(MatrixMode mode) {
-    glMatrixMode(mode);
+    if (mode == MatrixMode.Projection) {
+      glMatrixMode(GL_PROJECTION);
+    } else if (mode == MatrixMode.ModelView) {
+      glMatrixMode(GL_MODELVIEW);
+    }
   }
 
   static void loadIdentity() {
@@ -347,6 +351,9 @@ public:
   }
 
   static void matrixMode(MatrixMode mode) {
+    if (currentMode == MatrixMode.ModelView && mode == MatrixMode.Projection) {
+      flush();
+    }
     currentMode = mode;
   }
 
@@ -573,11 +580,6 @@ version(GL_Batching) {
   }
 
   static void begin(int primitiveType) {
-    if (primitiveType == GL_TRIANGLES || primitiveType == GL_TRIANGLE_FAN || primitiveType == GL_TRIANGLE_STRIP || primitiveType == GL.QUADS) {
-      flushLines();
-    } else if (primitiveType == GL_LINES || primitiveType == GL_LINE_LOOP || primitiveType == GL_LINE_STRIP) {
-      flushTriangles();
-    }
     currentPrimitiveType = primitiveType;
     currentTriStartIndex = currentTriCount;
     currentLineStartIndex = currentLineCount;

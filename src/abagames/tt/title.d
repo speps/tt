@@ -314,7 +314,6 @@ public class TitleManager {
     else if (n == 1)
     {
       float d1 = 0;
-      GL.color(1, 0, 1, 1);
       GL.begin(GL.QUADS);
       for (int i = 0; i < 32; i++, d1 += PI * 2 / 32) {
         cp.x = sin(d1) * (torusRad + ringRad);
