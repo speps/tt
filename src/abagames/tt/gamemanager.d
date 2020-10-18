@@ -13,7 +13,6 @@ import abagames.util.vector;
 import abagames.util.rand;
 import abagames.util.bulletml.bullet;
 import abagames.util.sdl.gamemanager;
-import abagames.util.sdl.texture;
 import abagames.util.sdl.pad;
 import abagames.util.sdl.recordablepad;
 import abagames.tt.prefmanager;

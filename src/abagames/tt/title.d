@@ -10,7 +10,6 @@ import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.gl;
 import abagames.util.vector;
-import abagames.util.sdl.texture;
 import abagames.util.sdl.pad;
 import abagames.tt.screen;
 import abagames.tt.prefmanager;
@@ -31,7 +30,6 @@ public class TitleManager {
   Ship ship;
   GameManager gameManager;
   int cnt;
-  Texture titleTexture;
   int grade, level;
   bool dirPressed, btnPressed;
   int keyRepeatCnt;
@@ -44,7 +42,6 @@ public class TitleManager {
     pad = p;
     ship = s;
     gameManager = gm;
-    titleTexture = new Texture("title.bmp");
   }
 
   public void start() {
@@ -214,19 +211,8 @@ public class TitleManager {
     GL.lineWidth(1);
     GL.popMatrix();
     Screen.setColor(1, 1, 1);
-    GL.enable(GL_TEXTURE_2D);
-    titleTexture.bind();
-    GL.begin(GL_TRIANGLE_FAN);
-    GL.texCoord(0, 0);
-    GL.vertex(470, 380, 0);
-    GL.texCoord(1, 0);
-    GL.vertex(598, 380, 0);
-    GL.texCoord(1, 1);
-    GL.vertex(598, 428, 0);
-    GL.texCoord(0, 1);
-    GL.vertex(470, 428, 0);
-    GL.end();
-    GL.disable(GL_TEXTURE_2D);
+    Letter.drawString("TORUS", 440, 370, 12);
+    Letter.drawString("TROOPER", 440, 410, 12);
     float cx, cy;
     for (int i = 0; i < Ship.GRADE_NUM; i++) {
       GL.lineWidth(2);
