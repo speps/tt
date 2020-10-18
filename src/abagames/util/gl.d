@@ -175,8 +175,6 @@ version(GL_AllowDeprecated)
     glBegin(primitiveType);
   }
 
-  static void texCoord(float u, float v) {}
-
   static void end() {
     glEnd();
   }
@@ -664,8 +662,6 @@ version(GL_Batching) {
     }
   }
 
-  static void texCoord(float u, float v) {}
-
   static void end() {
     assert(currentTriCount % 3 == 0, "end(): invalid triangle count " ~ to!string(currentTriCount));
     assert(currentLineCount % 2 == 0, "end(): invalid line count " ~ to!string(currentLineCount));
@@ -736,8 +732,6 @@ version(GL_Batching) {
     vertices[currentVertexCount] = Vertex(x, y, z, currentColor[0], currentColor[1], currentColor[2], currentColor[3]);
     currentVertexCount++;
   }
-
-  static void texCoord(float u, float v) {}
 
   static void end() {
     assert(currentPrimitiveType != -1);
