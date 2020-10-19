@@ -11,6 +11,7 @@ import abagames.util.logger;
 import abagames.util.tokenizer;
 import abagames.util.sdl.mainloop;
 import abagames.util.sdl.pad;
+import abagames.util.sdl.input;
 import abagames.util.sdl.recordablepad;
 import abagames.util.sdl.sound;
 import abagames.tt.screen;
@@ -25,17 +26,17 @@ import abagames.util.bulletml.xml;
  */
 private:
 Screen screen;
-Pad input;
+Pad pad;
 GameManager gameManager;
 PrefManager prefManager;
 MainLoop mainLoop;
 
 public int main(string[] args) {
   screen = new Screen;
-  input = new RecordablePad;
+  pad = new RecordablePad(new InputBackendSDL());
   gameManager = new GameManager;
   prefManager = new PrefManager;
-  mainLoop = new MainLoop(screen, input, gameManager, prefManager);
+  mainLoop = new MainLoop(screen, pad, gameManager, prefManager);
   try {
     parseArgs(args);
   } catch (Exception e) {
@@ -89,9 +90,6 @@ private void parseArgs(string[] commandArgs) {
       break;
     case "-nosound":
       SoundManager.noSound = true;
-      break;
-    case "-reverse":
-      (cast (Pad) input).buttonReversed = true;
       break;
     case "-accframe":
       mainLoop.accframe = 1;

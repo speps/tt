@@ -8,7 +8,7 @@ module abagames.util.sdl.gamemanager;
 import abagames.util.prefmanager;
 import abagames.util.sdl.mainloop;
 import abagames.util.sdl.screen;
-import abagames.util.sdl.input;
+import abagames.util.sdl.pad;
 
 /**
  * Manage the lifecycle of the game.
@@ -17,7 +17,7 @@ public class GameManager {
  protected:
   MainLoop mainLoop;
   Screen abstScreen;
-  Input input;
+  Pad pad;
   PrefManager abstPrefManager;
  private:
 
@@ -25,9 +25,9 @@ public class GameManager {
     this.mainLoop = mainLoop;
   }
 
-  public void setUIs(Screen screen, Input input) {
+  public void setUIs(Screen screen, Pad pad) {
     abstScreen = screen;
-    this.input = input;
+    this.pad = pad;
   }
 
   public void setPrefManager(PrefManager prefManager) {

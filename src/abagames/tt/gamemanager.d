@@ -13,6 +13,7 @@ import abagames.util.vector;
 import abagames.util.rand;
 import abagames.util.bulletml.bullet;
 import abagames.util.sdl.gamemanager;
+import abagames.util.sdl.input;
 import abagames.util.sdl.pad;
 import abagames.util.sdl.recordablepad;
 import abagames.tt.prefmanager;
@@ -38,7 +39,6 @@ import abagames.tt.replay;
  */
 public class GameManager: abagames.util.sdl.gamemanager.GameManager {
  private:
-  Pad pad;
   PrefManager prefManager;
   Screen screen;
   Tunnel tunnel;
@@ -61,7 +61,6 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
   public override void init() {
     BarrageManager.load();
     Shot.init();
-    pad = cast(Pad) input;
     prefManager = cast(PrefManager) abstPrefManager;
     screen = cast(Screen) abstScreen;
     interval = mainLoop.INTERVAL_BASE;
@@ -70,7 +69,6 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
     Object[] fargs;
     fargs ~= tunnel;
     floatLetters = new FloatLetterPool(16, fargs);
-    pad = cast(Pad) input;
     Object[] bargs;
     bargs ~= tunnel;
     bargs ~= ship;
@@ -161,7 +159,7 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
   }
 
   public override void move() {
-    if (pad.keys[SDL_SCANCODE_ESCAPE] == SDL_PRESSED) {
+    if (pad.getExitState()) {
       if (!escPressed) {
         escPressed = true;
         if (state == inGameState) {
@@ -348,7 +346,7 @@ public class InGameState: GameState {
   }
 
   public override void move() {
-    if (pad.keys[SDL_SCANCODE_P] == SDL_PRESSED) {
+    if (pad.getPauseState()) {
       if (!pausePressed) {
         if (pauseCnt <= 0 && !ship.isGameOver)
           pauseCnt = 1;
@@ -387,7 +385,7 @@ public class InGameState: GameState {
       }
       gameOverCnt++;
       int btn = pad.getButtonState();
-      if (btn & Pad.Button.A) {
+      if (btn & Input.Button.A) {
         if (gameOverCnt > 60 && !btnPressed) {
           gameManager.startTitle(true);
           return;

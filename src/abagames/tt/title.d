@@ -10,6 +10,7 @@ import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.gl;
 import abagames.util.vector;
+import abagames.util.sdl.input;
 import abagames.util.sdl.pad;
 import abagames.tt.screen;
 import abagames.tt.prefmanager;
@@ -57,15 +58,15 @@ public class TitleManager {
   public void move(bool hasReplayData) {
     int dir = pad.getDirState();
     if (!replayMode) {
-      if (dir & (Pad.Dir.RIGHT | Pad.Dir.LEFT)) {
+      if (dir & (Input.Dir.RIGHT | Input.Dir.LEFT)) {
         if (!dirPressed) {
           dirPressed = true;
-          if (dir & Pad.Dir.RIGHT) {
+          if (dir & Input.Dir.RIGHT) {
             grade++;
             if (grade >= Ship.GRADE_NUM)
               grade = 0;
           }
-          if (dir & Pad.Dir.LEFT) {
+          if (dir & Input.Dir.LEFT) {
             grade--;
             if (grade < 0)
               grade = Ship.GRADE_NUM - 1;
@@ -74,7 +75,7 @@ public class TitleManager {
             level = prefManager.prefData.getMaxLevel(grade);
         }
       }
-      if (dir & (Pad.Dir.UP | Pad.Dir.DOWN)) {
+      if (dir & (Input.Dir.UP | Input.Dir.DOWN)) {
         int mv = 0;
         if (!dirPressed) {
           dirPressed = true;
@@ -88,7 +89,7 @@ public class TitleManager {
             }
           }
         }
-        if (dir & Pad.Dir.DOWN) {
+        if (dir & Input.Dir.DOWN) {
           level += mv;
           if (level > prefManager.prefData.getMaxLevel(grade)) {
             if (keyRepeatCnt >= AUTO_REPEAT_START_TIME)
@@ -98,7 +99,7 @@ public class TitleManager {
             keyRepeatCnt = 0;
           }
         }
-        if (dir & Pad.Dir.UP) {
+        if (dir & Input.Dir.UP) {
           level -= mv;
           if (level < 1) {
             if (keyRepeatCnt >= AUTO_REPEAT_START_TIME)
@@ -110,24 +111,24 @@ public class TitleManager {
         }
       }
     } else {
-      if (dir & (Pad.Dir.RIGHT | Pad.Dir.LEFT)) {
+      if (dir & (Input.Dir.RIGHT | Input.Dir.LEFT)) {
         if (!dirPressed) {
           dirPressed = true;
-          if (dir & Pad.Dir.RIGHT) {
+          if (dir & Input.Dir.RIGHT) {
             ship.cameraMode = false;
           }
-          if (dir & Pad.Dir.LEFT) {
+          if (dir & Input.Dir.LEFT) {
             ship.cameraMode = true;
           }
         }
       }
-      if (dir & (Pad.Dir.UP | Pad.Dir.DOWN)) {
+      if (dir & (Input.Dir.UP | Input.Dir.DOWN)) {
         if (!dirPressed) {
           dirPressed = true;
-          if (dir & Pad.Dir.UP) {
+          if (dir & Input.Dir.UP) {
             ship.drawFrontMode = true;
           }
-          if (dir & Pad.Dir.DOWN) {
+          if (dir & Input.Dir.DOWN) {
             ship.drawFrontMode = false;
           }
         }
@@ -138,17 +139,17 @@ public class TitleManager {
       keyRepeatCnt = 0;
     }
     int btn = pad.getButtonState();
-    if (btn & Pad.Button.ANY) {
+    if (btn & Input.Button.ANY) {
       if (!btnPressed) {
         btnPressed = true;
-        if (btn & Pad.Button.A) {
+        if (btn & Input.Button.A) {
           if (!replayMode) {
             prefManager.prefData.recordStartGame(grade, level);
             gameManager.startInGame();
           }
         }
         if (hasReplayData)
-          if (btn & Pad.Button.B)
+          if (btn & Input.Button.B)
             _replayMode = !_replayMode;
       }
     } else {

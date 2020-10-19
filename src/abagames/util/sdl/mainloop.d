@@ -12,7 +12,7 @@ import abagames.util.rand;
 import abagames.util.prefmanager;
 import abagames.util.sdl.gamemanager;
 import abagames.util.sdl.screen;
-import abagames.util.sdl.input;
+import abagames.util.sdl.pad;
 import abagames.util.sdl.sound;
 import abagames.util.sdl.sdlexception;
 
@@ -28,16 +28,15 @@ public class MainLoop {
   SDL_Event event;
  private:
   Screen screen;
-  Input input;
+  Pad pad;
   GameManager gameManager;
   PrefManager prefManager;
 
-  public this(Screen screen, Input input,
-	      GameManager gameManager, PrefManager prefManager) {
+  public this(Screen screen, Pad pad, GameManager gameManager, PrefManager prefManager) {
     this.screen = screen;
-    this.input = input;
+    this.pad = pad;
     gameManager.setMainLoop(this);
-    gameManager.setUIs(screen, input);
+    gameManager.setUIs(screen, pad);
     gameManager.setPrefManager(prefManager);
     this.gameManager = gameManager;
     this.prefManager = prefManager;
@@ -83,7 +82,7 @@ public class MainLoop {
     while (!done) {
       if (SDL_PollEvent(&event) == 0)
 	      event.type = SDL_USEREVENT;
-      input.handleEvent(&event);
+      pad.update();
       if (event.type == SDL_QUIT)
 	      breakLoop();
       nowTick = SDL_GetTicks();

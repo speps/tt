@@ -38,7 +38,8 @@
       },
       "versions": [
         "GL_32",
-        "GL_Batching"
+        "GL_Batching",
+        "InputBackendSDL"
       ],
       "subConfigurations": {
         "bindbc-opengl": "dynamicBC",

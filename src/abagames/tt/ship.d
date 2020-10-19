@@ -11,6 +11,7 @@ import abagames.util.gl;
 import abagames.util.gl;
 import abagames.util.vector;
 import abagames.util.rand;
+import abagames.util.sdl.input;
 import abagames.util.sdl.pad;
 import abagames.util.sdl.recordablepad;
 import abagames.util.bulletml.bullet;
@@ -183,8 +184,8 @@ public class Ship: BulletTarget {
         ps = 0;
         isGameOver = true;
       }
-      dir = ps & (Pad.Dir.UP | Pad.Dir.DOWN | Pad.Dir.LEFT | Pad.Dir.RIGHT);
-      btn = ps & Pad.Button.ANY;
+      dir = ps & (Input.Dir.UP | Input.Dir.DOWN | Input.Dir.LEFT | Input.Dir.RIGHT);
+      btn = ps & Input.Button.ANY;
     }
     if (btnPressed) {
       if (btn)
@@ -204,7 +205,7 @@ public class Ship: BulletTarget {
       clearVisibleBullets();
     }
     float as = targetSpeed;
-    if (btn & Pad.Button.B) {
+    if (btn & Input.Button.B) {
       as *= 0.5f;
     } else {
       float acc = regenerativeCharge * 0.1f;
@@ -215,7 +216,7 @@ public class Ship: BulletTarget {
     if (_speed < as) {
       _speed += (as - _speed) * 0.015f;
     } else {
-      if (btn & Pad.Button.B)
+      if (btn & Input.Button.B)
         regenerativeCharge -= (as - _speed) * 0.05f;
       _speed += (as - _speed) * 0.05f;
     }
@@ -238,21 +239,21 @@ public class Ship: BulletTarget {
     pos3.y = sp.y;
     pos3.z = sp.z;
 
-    if (dir & Pad.Dir.RIGHT)
+    if (dir & Input.Dir.RIGHT)
       bank += (-bankMax - bank) * 0.1f;
-    if (dir & Pad.Dir.LEFT)
+    if (dir & Input.Dir.LEFT)
       bank += (bankMax - bank) * 0.1f;
     bool overAccel = false;
-    if (dir & Pad.Dir.UP) {
+    if (dir & Input.Dir.UP) {
       if (_relPos.y < RELPOS_MAX_Y) {
         _relPos.y += RELPOS_Y_MOVE;
       } else {
         targetSpeed += ACCEL_RATIO[grade];
-        if (!(btn & Pad.Button.B) && !_inBossMode && !_isBossModeEnd)
+        if (!(btn & Input.Button.B) && !_inBossMode && !_isBossModeEnd)
           overAccel = true;
       }
     }
-    if (dir & Pad.Dir.DOWN && _relPos.y > 0)
+    if (dir & Input.Dir.DOWN && _relPos.y > 0)
       _relPos.y -= RELPOS_Y_MOVE;
     float acc = _relPos.y * (SPEED_MAX[grade] - SPEED_DEFAULT[grade]) / RELPOS_MAX_Y +
       SPEED_DEFAULT[grade];
@@ -307,7 +308,7 @@ public class Ship: BulletTarget {
     d1 += (sl.d1 - d1) * 0.05;
     d2 += (sl.d2 - d2) * 0.05;
 
-    if (btn & Pad.Button.B) {
+    if (btn & Input.Button.B) {
       if (!chargingShot) {
         chargingShot = shots.getInstanceForced();
         chargingShot.set(true);
@@ -317,7 +318,7 @@ public class Ship: BulletTarget {
         chargingShot.release();
         chargingShot = null;
       }
-      if (btn & Pad.Button.A) {
+      if (btn & Input.Button.A) {
         if (fireCnt <= 0) {
           fireCnt = FIRE_INTERVAL;
           Shot shot = shots.getInstance();

@@ -14,63 +14,38 @@ import abagames.util.logger;
 /**
  * Keyboard input.
  */
-public class Pad: Input {
- public:
-  static enum Dir {
-    UP = 1, DOWN = 2, LEFT = 4, RIGHT = 8,
-  };
-  static enum Button {
-    A = 16, B = 32, ANY = 48,
-  };
-  Uint8 *keys;
-  bool buttonReversed = false;
- protected:
-  int lastDirState = 0, lastButtonState = 0;
- private:
+public class Pad {
+  private:
+    InputBackend _backend;
+    int _lastDirState = 0, _lastButtonState = 0;
 
-  public void handleEvent(SDL_Event *event) {
-    keys = SDL_GetKeyboardState(null);
+  public this(InputBackend backend) {
+    _backend = backend;
+  }
+
+  public void update() {
+    _backend.update();
+  }
+
+  public int getRecordState() {
+    return _lastDirState | _lastButtonState;
   }
 
   public int getDirState() {
-    int x = 0, y = 0;
-    int dir = 0;
-    if (keys[SDL_SCANCODE_RIGHT] == SDL_PRESSED || keys[SDL_SCANCODE_KP_6] == SDL_PRESSED || 
-        keys[SDL_SCANCODE_D] == SDL_PRESSED)
-      dir |= Dir.RIGHT;
-    if (keys[SDL_SCANCODE_LEFT] == SDL_PRESSED || keys[SDL_SCANCODE_KP_4] == SDL_PRESSED ||
-        keys[SDL_SCANCODE_A] == SDL_PRESSED)
-      dir |= Dir.LEFT;
-    if (keys[SDL_SCANCODE_DOWN] == SDL_PRESSED || keys[SDL_SCANCODE_KP_2] == SDL_PRESSED ||
-        keys[SDL_SCANCODE_S] == SDL_PRESSED)
-      dir |= Dir.DOWN;
-    if (keys[SDL_SCANCODE_UP] == SDL_PRESSED ||  keys[SDL_SCANCODE_KP_8] == SDL_PRESSED ||
-        keys[SDL_SCANCODE_W] == SDL_PRESSED)
-      dir |= Dir.UP;
-    lastDirState = dir;
-    return dir;
+    _lastDirState = _backend.getDirState();
+    return _lastDirState;
   }
 
   public int getButtonState() {
-    int btn = 0;
-    int btn1 = 0, btn2 = 0, btn3 = 0, btn4 = 0, btn5 = 0, btn6 = 0, btn7 = 0, btn8 = 0;
-    if (keys[SDL_SCANCODE_Z] == SDL_PRESSED || keys[SDL_SCANCODE_PERIOD] == SDL_PRESSED ||
-        keys[SDL_SCANCODE_LCTRL] == SDL_PRESSED || 
-        btn1 || btn4 || btn5 || btn8) {
-      if (!buttonReversed)
-        btn |= Button.A;
-      else
-        btn |= Button.B;
-    }
-    if (keys[SDL_SCANCODE_X] == SDL_PRESSED || keys[SDL_SCANCODE_SLASH] == SDL_PRESSED ||
-        keys[SDL_SCANCODE_LALT] == SDL_PRESSED || keys[SDL_SCANCODE_LSHIFT] == SDL_PRESSED ||
-        btn2 || btn3 || btn6 || btn7) {
-      if (!buttonReversed)
-        btn |= Button.B;
-      else
-        btn |= Button.A;
-    }
-    lastButtonState = btn;
-    return btn;
+    _lastButtonState = _backend.getButtonState();
+    return _lastButtonState;
+  }
+
+  public bool getExitState() {
+    return _backend.getExitState();
+  }
+
+  public bool getPauseState() {
+    return _backend.getPauseState();
   }
 }

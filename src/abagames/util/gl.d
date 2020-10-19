@@ -740,8 +740,8 @@ version(GL_Batching) {
 
       glBindBuffer(GL_ARRAY_BUFFER, vertBufferIndex);
       int size = currentVertexCount * Vertex.sizeof;
-      glBufferData(GL_ARRAY_BUFFER, size, null, GL_STREAM_DRAW);
-      glBufferData(GL_ARRAY_BUFFER, size, vertices.ptr, GL_STREAM_DRAW);
+      glBufferData(GL_ARRAY_BUFFER, size, null, GL_DYNAMIC_DRAW);
+      glBufferData(GL_ARRAY_BUFFER, size, vertices.ptr, GL_DYNAMIC_DRAW);
     
       glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, getMatrix(MatrixMode.Projection).ptr);
       glUniformMatrix4fv(modelViewLocation, 1, GL_FALSE, getMatrix(MatrixMode.ModelView).ptr);

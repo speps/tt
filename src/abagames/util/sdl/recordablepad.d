@@ -11,6 +11,7 @@ import std.bitmanip;
 
 import abagames.util.bytebuffer;
 import abagames.util.iterator;
+import abagames.util.sdl.input;
 import abagames.util.sdl.pad;
 
 /**
@@ -22,13 +23,17 @@ public class RecordablePad: Pad {
   PadRecord padRecord;
  private:
 
+  public this(InputBackend backend) {
+    super(backend);
+  }
+
   public void startRecord() {
     padRecord = new PadRecord;
     padRecord.clear();
   }
 
   public void record() {
-    padRecord.add(lastDirState | lastButtonState);
+    padRecord.add(getRecordState());
   }
 
   public void startReplay(PadRecord pr) {
