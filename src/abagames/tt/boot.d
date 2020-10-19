@@ -33,7 +33,7 @@ MainLoop mainLoop;
 
 public int main(string[] args) {
   screen = new Screen;
-  pad = new RecordablePad(new InputBackendSDL());
+  pad = new RecordablePad(new InputBackendImpl());
   gameManager = new GameManager;
   prefManager = new PrefManager;
   mainLoop = new MainLoop(screen, pad, gameManager, prefManager);

@@ -66,4 +66,18 @@ version (InputBackendSDL) {
       return keys[SDL_SCANCODE_P] == SDL_PRESSED;
     }
   }
+
+  alias InputBackendImpl = InputBackendSDL;
+}
+
+version(InputBackendDummy) {
+  public class InputBackendDummy : InputBackend {
+    public override void update() {}
+    public override int getDirState() { return 0; }
+    public override int getButtonState() { return 0; }
+    public override bool getExitState() { return false; }
+    public override bool getPauseState() { return false; }
+  }
+
+  alias InputBackendImpl = InputBackendDummy;
 }
