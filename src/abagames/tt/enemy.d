@@ -6,7 +6,6 @@
 module abagames.tt.enemy;
 
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.vector;
 import abagames.util.actor;

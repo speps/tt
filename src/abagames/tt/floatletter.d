@@ -6,7 +6,6 @@
 module abagames.tt.floatletter;
 
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.actor;
 import abagames.util.vector;

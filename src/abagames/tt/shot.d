@@ -7,7 +7,6 @@ module abagames.tt.shot;
 
 import std.conv;
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.actor;
 import abagames.util.vector;

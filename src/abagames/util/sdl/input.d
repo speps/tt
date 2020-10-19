@@ -5,7 +5,7 @@
  */
 module abagames.util.sdl.input;
 
-import bindbc.sdl;
+version(BindBC) { import bindbc.sdl; }
 
 static class Input {
   public static enum Dir {

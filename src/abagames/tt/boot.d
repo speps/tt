@@ -91,9 +91,6 @@ private void parseArgs(string[] commandArgs) {
     case "-nosound":
       SoundManager.noSound = true;
       break;
-    case "-accframe":
-      mainLoop.accframe = 1;
-      break;
     default:
       usage(progName);
       throw new Exception("Invalid options");

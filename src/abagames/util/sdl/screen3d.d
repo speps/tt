@@ -8,12 +8,16 @@ module abagames.util.sdl.screen3d;
 import std.conv;
 import std.stdio;
 import std.string;
-import bindbc.sdl;
-import bindbc.opengl;
+version(BindBC) {
+  import bindbc.sdl;
+  import bindbc.opengl;
+}
 import abagames.util.gl;
 import abagames.util.vector;
 import abagames.util.sdl.screen;
 import abagames.util.sdl.sdlexception;
+
+version(BindBC) {
 
 /**
  * SDL screen handler(3D, OpenGL).
@@ -34,7 +38,7 @@ public class Screen3D: Screen {
 
   protected abstract void init();
 
-  public void initSDL() {
+  public void initWindow() {
     if (loadSDL() != sdlSupport) {
       throw new SDLInitFailedException("Unable to load SDL");
     }
@@ -79,11 +83,11 @@ version(GL_32) {
     GL.viewport(0, 0, width, height);
     GL.matrixMode(GL.MatrixMode.Projection);
     GL.loadIdentity();
-    //gluPerspective(45.0f, cast(GLfloat) width / cast(GLfloat) height, nearPlane, farPlane);
+    //gluPerspective(45.0f, cast(float) width / cast(float) height, nearPlane, farPlane);
     GL.frustum(-nearPlane,
 	      nearPlane,
-	      -nearPlane * cast(GLfloat) height / cast(GLfloat) width,
-	      nearPlane * cast(GLfloat) height / cast(GLfloat) width,
+	      -nearPlane * cast(float) height / cast(float) width,
+	      nearPlane * cast(float) height / cast(float) width,
               0.1f, farPlane);
     GL.matrixMode(GL.MatrixMode.ModelView);
   }
@@ -94,13 +98,14 @@ version(GL_32) {
     screenResized();
   }
 
-  public void closeSDL() {
+  public void closeWindow() {
     SDL_DestroyRenderer(renderer);
     renderer = null;
     SDL_DestroyWindow(window);
     window = null;
     SDL_GL_DeleteContext(context);
     SDL_ShowCursor(SDL_ENABLE);
+    SDL_Quit();
   }
 
   public void flip() {
@@ -109,14 +114,14 @@ version(GL_32) {
   }
 
   public void clear() {
-    GL.clear(GL_COLOR_BUFFER_BIT);
+    GL.clear(GL.COLOR_BUFFER_BIT);
   }
 
   public void handleError() {
     // GLenum error = glGetError();
-    // if (error == GL_NO_ERROR)
+    // if (error == GL.NO_ERROR)
     //   return;
-    // closeSDL();
+    // closeWindow();
     // throw new Exception("OpenGL error(" ~ to!string(error) ~ ")");
   }
 
@@ -131,4 +136,75 @@ version(GL_32) {
   public static void setClearColor(float r, float g, float b, float a = 1) {
     GL.clearColor(r * brightness, g * brightness, b * brightness, a);
   }
+}
+
+}
+else
+{
+
+/**
+ * Generic screen handler(3D, OpenGL).
+ */
+public class Screen3D: Screen {
+ public:
+  static float brightness = 1;
+  static int width = 800;
+  static int height = 600;
+  static bool windowMode = true;
+  static float nearPlane = 0.1;
+  static float farPlane = 1000;
+ private:
+
+  protected abstract void init();
+
+  public void initWindow() {
+    GL.init();
+    GL.viewport(0, 0, width, height);
+    GL.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    resized(width, height);
+    init();
+  }
+
+  // Reset viewport when the screen is resized.
+  public void screenResized() {
+    GL.viewport(0, 0, width, height);
+    GL.matrixMode(GL.MatrixMode.Projection);
+    GL.loadIdentity();
+    //gluPerspective(45.0f, cast(GLfloat) width / cast(GLfloat) height, nearPlane, farPlane);
+    GL.frustum(-nearPlane,
+	      nearPlane,
+	      -nearPlane * cast(float) height / cast(float) width,
+	      nearPlane * cast(float) height / cast(float) width,
+              0.1f, farPlane);
+    GL.matrixMode(GL.MatrixMode.ModelView);
+  }
+
+  public void resized(int width, int height) {
+    this.width = width;
+    this.height = height;
+    screenResized();
+  }
+
+  public void closeWindow() {
+  }
+
+  public void flip() {
+  }
+
+  public void clear() {
+    GL.clear(GL.COLOR_BUFFER_BIT);
+  }
+
+  protected void setCaption(string name) {
+  }
+
+  public static void setColor(float r, float g, float b, float a = 1) {
+    GL.color(r * brightness, g * brightness, b * brightness, a);
+  }
+
+  public static void setClearColor(float r, float g, float b, float a = 1) {
+    GL.clearColor(r * brightness, g * brightness, b * brightness, a);
+  }
+}
+
 }

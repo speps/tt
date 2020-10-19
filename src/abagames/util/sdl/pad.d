@@ -6,7 +6,7 @@
 module abagames.util.sdl.pad;
 
 import std.conv;
-import bindbc.sdl;
+version(BindBC) { import bindbc.sdl; }
 import abagames.util.sdl.input;
 import abagames.util.sdl.sdlexception;
 import abagames.util.logger;

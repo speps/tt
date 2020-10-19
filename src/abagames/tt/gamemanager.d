@@ -6,9 +6,8 @@
 module abagames.tt.gamemanager;
 
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
-import bindbc.sdl;
+version(BindBC) { import bindbc.sdl; }
 import abagames.util.vector;
 import abagames.util.rand;
 import abagames.util.bulletml.bullet;
@@ -176,13 +175,14 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
   }
 
   public override void draw() {
-    SDL_Event e = mainLoop.event;
-    if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_RESIZED) {
-      int w = e.window.data1;
-      int h = e.window.data2;
-      if (w > 150 && h > 100)
-        screen.resized(w, h);
-    }
+    // TODO
+    // SDL_Event e = mainLoop.event;
+    // if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_RESIZED) {
+    //   int w = e.window.data1;
+    //   int h = e.window.data2;
+    //   if (w > 150 && h > 100)
+    //     screen.resized(w, h);
+    // }
     screen.clear();
     GL.pushMatrix();
     ship.setEyepos();
@@ -412,18 +412,18 @@ public class InGameState: GameState {
   }
 
   public override void draw() {
-    GL.enable(GL_CULL_FACE);
+    GL.enable(GL.CULL_FACE);
     tunnel.draw();
-    GL.disable(GL_CULL_FACE);
+    GL.disable(GL.CULL_FACE);
     particles.draw();
     enemies.draw();
     ship.draw();
-    GL.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
     floatLetters.draw();
-    GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
-    GL.disable(GL_BLEND);
+    GL.blendFunc(GL.SRC_ALPHA, GL.ONE);
+    GL.disable(GL.BLEND);
     bullets.draw();
-    GL.enable(GL_BLEND);
+    GL.enable(GL.BLEND);
     shots.draw();
   }
 
@@ -608,20 +608,20 @@ public class TitleState: GameState {
       GL.viewport(0, 0,
                  cast(int) (Screen.width / 4 * (3 + rcr)),
                  Screen.height);
-      GL.enable(GL_CULL_FACE);
+      GL.enable(GL.CULL_FACE);
       tunnel.draw();
       tunnel.drawBackward();
-      GL.disable(GL_CULL_FACE);
+      GL.disable(GL.CULL_FACE);
       particles.draw();
       enemies.draw();
       passedEnemies.draw();
       ship.draw();
-      GL.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
       floatLetters.draw();
-      GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
-      GL.disable(GL_BLEND);
+      GL.blendFunc(GL.SRC_ALPHA, GL.ONE);
+      GL.disable(GL.BLEND);
       bullets.draw();
-      GL.enable(GL_BLEND);
+      GL.enable(GL.BLEND);
       shots.draw();
     }
     GL.viewport(0, 0, Screen.width, Screen.height);
@@ -629,8 +629,8 @@ public class TitleState: GameState {
     GL.loadIdentity();
     GL.frustum(-Screen.nearPlane,
               Screen.nearPlane,
-              -Screen.nearPlane * cast(GLfloat) Screen.height / cast(GLfloat) Screen.width,
-              Screen.nearPlane * cast(GLfloat) Screen.height / cast(GLfloat) Screen.width,
+              -Screen.nearPlane * cast(float) Screen.height / cast(float) Screen.width,
+              Screen.nearPlane * cast(float) Screen.height / cast(float) Screen.width,
               0.1f, Screen.farPlane);
     GL.matrixMode(GL.MatrixMode.ModelView);
     titleManager.draw();

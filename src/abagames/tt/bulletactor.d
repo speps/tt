@@ -7,7 +7,6 @@ module abagames.tt.bulletactor;
 
 import core.stdc.stdarg;
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.actor;
 import abagames.util.vector;

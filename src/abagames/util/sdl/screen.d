@@ -9,8 +9,8 @@ module abagames.util.sdl.screen;
  * SDL screen handler interface.
  */
 public interface Screen {
-  public void initSDL();
-  public void closeSDL();
+  public void initWindow();
+  public void closeWindow();
   public void flip();
   public void clear();
 }

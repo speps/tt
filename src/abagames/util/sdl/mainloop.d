@@ -5,7 +5,8 @@
  */
 module abagames.util.sdl.mainloop;
 
-import bindbc.sdl;
+import std.stdio;
+version(BindBC) { import bindbc.sdl; }
 import abagames.util.gl;
 import abagames.util.logger;
 import abagames.util.rand;
@@ -23,9 +24,7 @@ public class MainLoop {
  public:
   const int INTERVAL_BASE = 16;
   int interval = INTERVAL_BASE;
-  int accframe = 0;
   int maxSkipFrame = 5;
-  SDL_Event event;
  private:
   Screen screen;
   Pad pad;
@@ -58,8 +57,7 @@ public class MainLoop {
     gameManager.close();
     SoundManager.close();
     prefManager.save();
-    screen.closeSDL();
-    SDL_Quit();
+    screen.closeWindow();
   }
 
   private bool done;
@@ -75,32 +73,38 @@ public class MainLoop {
     long nowTick;
     int frame;
     
-    screen.initSDL();
+    screen.initWindow();
     initFirst();
     gameManager.start();
 
     while (!done) {
-      if (SDL_PollEvent(&event) == 0)
-	      event.type = SDL_USEREVENT;
-      pad.update();
-      if (event.type == SDL_QUIT)
-	      breakLoop();
-      nowTick = SDL_GetTicks();
-      frame = cast(int) (nowTick-prvTickCount) / interval;
-      if (frame <= 0) {
-        frame = 1;
-        SDL_Delay(cast(uint)(prvTickCount+interval-nowTick));
-        if (accframe) {
-          prvTickCount = SDL_GetTicks();
-        } else {
+      version(BindBC) {
+        SDL_Event event;
+        if (SDL_PollEvent(&event) == 0)
+          event.type = SDL_USEREVENT;
+        if (event.type == SDL_QUIT)
+          breakLoop();
+
+        nowTick = SDL_GetTicks();
+        frame = cast(int) (nowTick-prvTickCount) / interval;
+        if (frame <= 0) {
+          frame = 1;
+          SDL_Delay(cast(uint)(prvTickCount+interval-nowTick));
           prvTickCount += interval;
+        } else if (frame > maxSkipFrame) {
+          frame = maxSkipFrame;
+          prvTickCount = nowTick;
+        } else {
+          prvTickCount += frame * interval;
         }
-      } else if (frame > maxSkipFrame) {
-        frame = maxSkipFrame;
-        prvTickCount = nowTick;
-      } else {
-	      prvTickCount += frame * interval;
       }
+      version(WebGL) {
+        frame = 1;
+      }
+
+      writeln("frame");
+
+      pad.update();
       for (i = 0; i < frame; i++) {
 	      gameManager.move();
       }

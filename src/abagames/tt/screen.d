@@ -6,7 +6,6 @@
 module abagames.tt.screen;
 
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.sdl.screen3d;
 
@@ -21,21 +20,21 @@ public class Screen: Screen3D {
   protected override void init() {
     setCaption(CAPTION);
     GL.lineWidth(1);
-    GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
-    GL.enable(GL_LINE_SMOOTH);
-    GL.enable(GL_BLEND);
-    // GL.disable(GL_COLOR_MATERIAL);
-    GL.disable(GL_CULL_FACE);
-    GL.disable(GL_DEPTH_TEST);
-    // GL.disable(GL_LIGHTING);
-    GL.disable(GL_TEXTURE_2D);
+    GL.blendFunc(GL.SRC_ALPHA, GL.ONE);
+    GL.enable(GL.LINE_SMOOTH);
+    GL.enable(GL.BLEND);
+    // GL.disable(GL.COLOR_MATERIAL);
+    GL.disable(GL.CULL_FACE);
+    GL.disable(GL.DEPTH_TEST);
+    // GL.disable(GL.LIGHTING);
+    GL.disable(GL.TEXTURE_2D);
     setClearColor(0, 0, 0, 1);
     farPlane = 10000;
     screenResized();
   }
 
   public override void clear() {
-    GL.clear(GL_COLOR_BUFFER_BIT);
+    GL.clear(GL.COLOR_BUFFER_BIT);
   }
 
   public static void viewOrthoFixed() {

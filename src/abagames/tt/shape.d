@@ -6,7 +6,6 @@
 module abagames.tt.shape;
 
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.vector;
 import abagames.util.rand;
@@ -371,20 +370,20 @@ public class Structure {
         float x12 = x11 + (1.0 / divNum) * 0.8;
         float x21 = -0.5 + (0.8 / divNum) * i;
         float x22 = x21 + (0.8 / divNum) * 0.8;
-        GL.begin(GL_LINE_LOOP);
+        GL.begin(GL.LINE_LOOP);
         GL.vertex(x21, 0, -0.5);
         GL.vertex(x22, 0, -0.5);
         GL.vertex(x12, 0, 0.5);
         GL.vertex(x11, 0, 0.5);
         GL.end();
-        GL.begin(GL_LINE_LOOP);
+        GL.begin(GL.LINE_LOOP);
         GL.vertex(x21, 0.1, -0.5);
         GL.vertex(x22, 0.1, -0.5);
         GL.vertex(x12, 0.1, 0.5);
         GL.vertex(x11, 0.1, 0.5);
         GL.end();
         Screen.setColor(COLOR_RGB[color][0], COLOR_RGB[color][1], COLOR_RGB[color][2], alp);
-        GL.begin(GL_TRIANGLE_FAN);
+        GL.begin(GL.TRIANGLE_FAN);
         GL.vertex(x21, 0, -0.5);
         GL.vertex(x22, 0, -0.5);
         GL.vertex(x12, 0, 0.5);
@@ -398,20 +397,20 @@ public class Structure {
         float x2 = x1 + (1.0 / divNum) * 0.8;
         float y1 = x1;
         float y2 = x2;
-        GL.begin(GL_LINE_LOOP);
+        GL.begin(GL.LINE_LOOP);
         GL.vertex(x1, 0, y1);
         GL.vertex(x2, 0, y2);
         GL.vertex(x2, 0, 0.5);
         GL.vertex(x1, 0, 0.5);
         GL.end();
-        GL.begin(GL_LINE_LOOP);
+        GL.begin(GL.LINE_LOOP);
         GL.vertex(x1, 0.1, y1);
         GL.vertex(x2, 0.1, y2);
         GL.vertex(x2, 0.1, 0.5);
         GL.vertex(x1, 0.1, 0.5);
         GL.end();
         Screen.setColor(COLOR_RGB[color][0], COLOR_RGB[color][1], COLOR_RGB[color][2], alp);
-        GL.begin(GL_TRIANGLE_FAN);
+        GL.begin(GL.TRIANGLE_FAN);
         GL.vertex(x1, 0, y1);
         GL.vertex(x2, 0, y2);
         GL.vertex(x2, 0, 0.5);
@@ -425,20 +424,20 @@ public class Structure {
         float x2 = x1 + (1.0 / divNum) * 0.8;
         float y1 = -0.5 + (1.0 / divNum) * fabs(cast(float)i - divNum / 2) * 2;
         float y2 = -0.5 + (1.0 / divNum) * fabs(cast(float)i + 0.8 - divNum / 2) * 2;
-        GL.begin(GL_LINE_LOOP);
+        GL.begin(GL.LINE_LOOP);
         GL.vertex(x1, 0, y1);
         GL.vertex(x2, 0, y2);
         GL.vertex(x2, 0, 0.5);
         GL.vertex(x1, 0, 0.5);
         GL.end();
-        GL.begin(GL_LINE_LOOP);
+        GL.begin(GL.LINE_LOOP);
         GL.vertex(x1, 0.1, y1);
         GL.vertex(x2, 0.1, y2);
         GL.vertex(x2, 0.1, 0.5);
         GL.vertex(x1, 0.1, 0.5);
         GL.end();
         Screen.setColor(COLOR_RGB[color][0], COLOR_RGB[color][1], COLOR_RGB[color][2], alp);
-        GL.begin(GL_TRIANGLE_FAN);
+        GL.begin(GL.TRIANGLE_FAN);
         GL.vertex(x1, 0, y1);
         GL.vertex(x2, 0, y2);
         GL.vertex(x2, 0, 0.5);
@@ -449,14 +448,14 @@ public class Structure {
     case Shape.ROCKET:
       for (int i = 0; i < 4; i++) {
         float d = i * PI / 2 + PI / 4;
-        GL.begin(GL_LINE_LOOP);
+        GL.begin(GL.LINE_LOOP);
         GL.vertex(sin(d - 0.3), cos(d - 0.3), -0.5);
         GL.vertex(sin(d + 0.3), cos(d + 0.3), -0.5);
         GL.vertex(sin(d + 0.3), cos(d + 0.3), 0.5);
         GL.vertex(sin(d - 0.3), cos(d - 0.3), 0.5);
         GL.end();
         Screen.setColor(COLOR_RGB[color][0], COLOR_RGB[color][1], COLOR_RGB[color][2], alp);
-        GL.begin(GL_TRIANGLE_FAN);
+        GL.begin(GL.TRIANGLE_FAN);
         GL.vertex(sin(d - 0.3), cos(d - 0.3), -0.5);
         GL.vertex(sin(d + 0.3), cos(d + 0.3), -0.5);
         GL.vertex(sin(d + 0.3), cos(d + 0.3), 0.5);
@@ -480,14 +479,14 @@ public class BitShape: Drawable {
     for (int i = 0; i < 4; i++) {
       float d = i * PI / 2 + PI / 4;
       Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
-      GL.begin(GL_LINE_LOOP);
+      GL.begin(GL.LINE_LOOP);
       GL.vertex(sin(d - 0.3), -0.8, cos(d - 0.3));
       GL.vertex(sin(d + 0.3), -0.8, cos(d + 0.3));
       GL.vertex(sin(d + 0.3), 0.8, cos(d + 0.3));
       GL.vertex(sin(d - 0.3), 0.8, cos(d - 0.3));
       GL.end();
       d += PI / 4;
-      GL.begin(GL_LINE_LOOP);
+      GL.begin(GL.LINE_LOOP);
       GL.vertex(sin(d - 0.3) * 2, -0.2, cos(d - 0.3) * 2);
       GL.vertex(sin(d + 0.3) * 2, -0.2, cos(d + 0.3) * 2);
       GL.vertex(sin(d + 0.3) * 2, 0.2, cos(d + 0.3) * 2);
@@ -495,14 +494,14 @@ public class BitShape: Drawable {
       GL.end();
       d -= PI / 4;
       Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2], 0.5);
-      GL.begin(GL_TRIANGLE_FAN);
+      GL.begin(GL.TRIANGLE_FAN);
       GL.vertex(sin(d - 0.3), -0.8, cos(d - 0.3));
       GL.vertex(sin(d + 0.3), -0.8, cos(d + 0.3));
       GL.vertex(sin(d + 0.3), 0.8, cos(d + 0.3));
       GL.vertex(sin(d - 0.3), 0.8, cos(d - 0.3));
       GL.end();
       d += PI / 4;
-      GL.begin(GL_TRIANGLE_FAN);
+      GL.begin(GL.TRIANGLE_FAN);
       GL.vertex(sin(d - 0.3) * 2, -0.2, cos(d - 0.3) * 2);
       GL.vertex(sin(d + 0.3) * 2, -0.2, cos(d + 0.3) * 2);
       GL.vertex(sin(d + 0.3) * 2, 0.2, cos(d + 0.3) * 2);
@@ -584,13 +583,13 @@ public class BulletShape: Drawable {
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
       else
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
-      GL.begin(GL_LINE_LOOP);
+      GL.begin(GL.LINE_LOOP);
       GL.vertex(np1);
       GL.vertex(np2);
       GL.vertex(np3);
       GL.end();
       if (!wireShape) {
-        GL.begin(GL_TRIANGLE_FAN);
+        GL.begin(GL.TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
         GL.vertex(np1);
         Screen.setColor(COLOR_RGB[0] * 0.4, COLOR_RGB[1] * 0.4, COLOR_RGB[2] * 0.4);
@@ -632,12 +631,12 @@ public class BulletShape: Drawable {
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
       else
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
-      GL.begin(GL_LINE_LOOP);
+      GL.begin(GL.LINE_LOOP);
       for (int j = 0; j < 4; j++)
         GL.vertex(np[j]);
       GL.end();
       if (!wireShape) {
-        GL.begin(GL_TRIANGLE_FAN);
+        GL.begin(GL.TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
         for (int j = 0; j < 4; j++)
           GL.vertex(np[j]);
@@ -677,12 +676,12 @@ public class BulletShape: Drawable {
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
       else
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
-      GL.begin(GL_LINE_LOOP);
+      GL.begin(GL.LINE_LOOP);
       for (int j = 0; j < 4; j++)
         GL.vertex(np[j]);
       GL.end();
       if (!wireShape) {
-        GL.begin(GL_TRIANGLE_FAN);
+        GL.begin(GL.TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
         for (int j = 0; j < 4; j++)
           GL.vertex(np[j]);
@@ -710,7 +709,7 @@ public class ShotShape: Collidable, Drawable {
     if (_charge) {
       for (int i = 0; i < 8; i++) {
         float d = i * PI / 4;
-        GL.begin(GL_TRIANGLES);
+        GL.begin(GL.TRIANGLES);
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
         GL.vertex(sin(d) * 0.1, cos(d) * 0.1, 0.2);
         GL.vertex(sin(d) * 0.5, cos(d) * 0.5, 0.5);
@@ -718,7 +717,7 @@ public class ShotShape: Collidable, Drawable {
         GL.vertex(sin(d) * 1.0, cos(d) * 1.0, -0.7);
         GL.end();
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
-        GL.begin(GL_LINE_LOOP);
+        GL.begin(GL.LINE_LOOP);
         GL.vertex(sin(d) * 0.1, cos(d) * 0.1, 0.2);
         GL.vertex(sin(d) * 0.5, cos(d) * 0.5, 0.5);
         GL.vertex(sin(d) * 1.0, cos(d) * 1.0, -0.7);
@@ -727,7 +726,7 @@ public class ShotShape: Collidable, Drawable {
     } else {
       for (int i = 0; i < 4; i++) {
         float d = i * PI / 2;
-        GL.begin(GL_TRIANGLES);
+        GL.begin(GL.TRIANGLES);
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
         GL.vertex(sin(d) * 0.1, cos(d) * 0.1, 0.4);
         GL.vertex(sin(d) * 0.3, cos(d) * 0.3, 1.0);
@@ -735,7 +734,7 @@ public class ShotShape: Collidable, Drawable {
         GL.vertex(sin(d) * 0.5, cos(d) * 0.5, -1.4);
         GL.end();
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
-        GL.begin(GL_LINE_LOOP);
+        GL.begin(GL.LINE_LOOP);
         GL.vertex(sin(d) * 0.1, cos(d) * 0.1, 0.4);
         GL.vertex(sin(d) * 0.3, cos(d) * 0.3, 1.0);
         GL.vertex(sin(d) * 0.5, cos(d) * 0.5, -1.4);

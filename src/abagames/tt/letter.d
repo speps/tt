@@ -6,7 +6,6 @@
 module abagames.tt.letter;
 
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.tt.screen;
 
@@ -262,11 +261,11 @@ public class Letter {
     GL.translate(x - width / 2, y - height / 2, 0);
     GL.rotate(deg, 0, 0, 1);
     Screen.setColor(r, g, b, 0.5);
-    GL.begin(GL_TRIANGLE_FAN);
+    GL.begin(GL.TRIANGLE_FAN);
     drawBoxPart(width, height);
     GL.end();
     Screen.setColor(r, g, b);
-    GL.begin(GL_LINE_LOOP);
+    GL.begin(GL.LINE_LOOP);
     drawBoxPart(width, height);
     GL.end();
     GL.popMatrix();
@@ -276,7 +275,7 @@ public class Letter {
     GL.pushMatrix();
     GL.translate(x - width / 2, y - height / 2, 0);
     GL.rotate(deg, 0, 0, 1);
-    GL.begin(GL_LINE_LOOP);
+    GL.begin(GL.LINE_LOOP);
     drawBoxPart(width, height);
     GL.end();
     GL.popMatrix();
@@ -286,7 +285,7 @@ public class Letter {
     GL.pushMatrix();
     GL.translate(x - width / 2, y - height / 2, 0);
     GL.rotate(deg, 0, 0, 1);
-    GL.begin(GL_TRIANGLE_FAN);
+    GL.begin(GL.TRIANGLE_FAN);
     drawBoxPart(width, height);
     GL.end();
     GL.popMatrix();

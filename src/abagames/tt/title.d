@@ -6,7 +6,6 @@
 module abagames.tt.title;
 
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.gl;
 import abagames.util.vector;
@@ -171,7 +170,7 @@ public class TitleManager {
       return;
     GL.popMatrix();
     Screen.viewOrthoFixed();
-    GL.disable(GL_BLEND);
+    GL.disable(GL.BLEND);
     Screen.setColor(0, 0, 0);
     float rcr = _replayChangeRatio * 2;
     if (rcr > 1)
@@ -182,7 +181,7 @@ public class TitleManager {
     GL.vertex(640, 480, 0);
     GL.vertex(450 + (640 - 450) * rcr, 480, 0);
     GL.end();
-    GL.enable(GL_BLEND);
+    GL.enable(GL.BLEND);
     Screen.viewPerspective();
     GL.pushMatrix();
     GL.lookAt(0, 0, -1, 0, 0, 0, 0, 1, 0);
@@ -191,10 +190,10 @@ public class TitleManager {
     GL.rotate(30, 1, 0, 0);
     GL.rotate(sin(cnt * 0.005f) * 12, 0, 1, 0);
     GL.rotate(cnt * 0.2f, 0, 0, 1);
-    GL.disable(GL_BLEND);
+    GL.disable(GL.BLEND);
     Screen.setColor(0, 0, 0);
     createTorusShape(1);
-    GL.enable(GL_BLEND);
+    GL.enable(GL.BLEND);
     Screen.setColor(1, 1, 1, 0.5f);
     createTorusShape(0);
     GL.popMatrix();
@@ -229,7 +228,7 @@ public class TitleManager {
         Letter.drawNum(ml, ecx + 7, ecy - 8, 6);
         float l2cx, l2cy;
         calcCursorPos(l2cx, l2cy, i, 2);
-        GL.begin(GL_LINES);
+        GL.begin(GL.LINES);
         GL.vertex(cx - 29, cy + 7, 0);
         GL.vertex(l2cx - 29, l2cy + 7, 0);
         GL.vertex(l2cx - 29, l2cy + 7, 0);
@@ -285,7 +284,7 @@ public class TitleManager {
         for (int j = 0; j < 16; j++, d2 += PI * 2 / 16) {
           cp.x = sin(d1) * torusRad;
           cp.y = cos(d1) * torusRad;
-          GL.begin(GL_LINE_STRIP);
+          GL.begin(GL.LINE_STRIP);
           createRingOffset(ringOfs, cp, ringRad, d1, d2);
           GL.vertex(ringOfs);
           createRingOffset(ringOfs, cp, ringRad, d1, d2 + PI * 2 / 16);
@@ -339,7 +338,7 @@ public class TitleManager {
     else if (n == 2) {
       float d1 = 0;
       Screen.setColor(1, 1, 1);
-      GL.begin(GL_LINE_LOOP);
+      GL.begin(GL.LINE_LOOP);
       for (int i = 0; i < 128; i++, d1 += PI * 2 / 128) {
         cp.x = sin(d1);
         cp.y = cos(d1);
@@ -347,7 +346,7 @@ public class TitleManager {
       }
       GL.end();
       Screen.setColor(1, 1, 1, 0.3f);
-      GL.begin(GL_TRIANGLE_FAN);
+      GL.begin(GL.TRIANGLE_FAN);
       GL.vertex(0, 0, 0);
       for (int i = 0; i <= 128; i++, d1 += PI * 2 / 128) {
         cp.x = sin(d1);

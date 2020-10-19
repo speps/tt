@@ -6,7 +6,6 @@
 module abagames.tt.ship;
 
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.gl;
 import abagames.util.vector;
@@ -443,8 +442,8 @@ public class Ship: BulletTarget {
       float np = Screen.nearPlane * camera.zoom;
       GL.frustum(-np,
                 np,
-                -np * cast(GLfloat) Screen.height / cast(GLfloat) Screen.width,
-                np * cast(GLfloat) Screen.height / cast(GLfloat) Screen.width,
+                -np * cast(float) Screen.height / cast(float) Screen.width,
+                np * cast(float) Screen.height / cast(float) Screen.width,
                 0.1f, Screen.farPlane);
       GL.matrixMode(GL.MatrixMode.ModelView);
     }

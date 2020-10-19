@@ -6,7 +6,6 @@
 module abagames.tt.particle;
 
 import std.math;
-import bindbc.opengl;
 import abagames.util.gl;
 import abagames.util.actor;
 import abagames.util.vector;
@@ -180,7 +179,7 @@ public class Particle: Actor {
   }
 
   private void drawSpark() {
-    GL.begin(GL_TRIANGLE_FAN);
+    GL.begin(GL.TRIANGLE_FAN);
     Screen.setColor(r, g, b, 0.5);
     GL.vertex(psp);
     Screen.setColor(r, g, b, 0);
@@ -191,7 +190,7 @@ public class Particle: Actor {
     GL.vertex(sp.x - SIZE, sp.y - SIZE, sp.z);
     GL.end();
     if (inCourse) {
-      GL.begin(GL_TRIANGLE_FAN);
+      GL.begin(GL.TRIANGLE_FAN);
       Screen.setColor(r, g, b, 0.2);
       GL.vertex(rpsp);
       Screen.setColor(r, g, b, 0);
@@ -205,7 +204,7 @@ public class Particle: Actor {
   }
 
   private void drawStar() {
-    GL.begin(GL_LINES);
+    GL.begin(GL.LINES);
     Screen.setColor(r, g, b, 1);
     GL.vertex(psp);
     Screen.setColor(r, g, b, 0.2);
@@ -218,14 +217,14 @@ public class Particle: Actor {
     GL.translate(sp.x, sp.y, sp.z);
     GL.rotate(d1, 0, 0, 1);
     GL.rotate(d2, 0, 1, 0);
-    GL.begin(GL_LINE_LOOP);
+    GL.begin(GL.LINE_LOOP);
     Screen.setColor(r, g, b, 0.5);
     GL.vertex(width, 0, height);
     GL.vertex(-width, 0, height);
     GL.vertex(-width, 0, -height);
     GL.vertex(width, 0, -height);
     GL.end();
-    GL.begin(GL_TRIANGLE_FAN);
+    GL.begin(GL.TRIANGLE_FAN);
     Screen.setColor(r, g, b, 0.2);
     GL.vertex(width, 0, height);
     GL.vertex(-width, 0, height);

@@ -5,7 +5,6 @@
  */
 module abagames.tt.tunnel;
 
-import bindbc.opengl;
 import abagames.util.gl;
 import std.math;
 import abagames.util.vector;
@@ -356,7 +355,7 @@ public class Tunnel {
   }
 
   public void draw() {
-    GL.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
     float lineBn = 0.4, polyBn = 0, lightBn = 0.5 - Slice.darkLineRatio * 0.2f;
     slice[cast(int)slice.length - 1].setPointPos();
     for (int i = cast(int)slice.length - 1; i >= 1; i--) {
@@ -380,11 +379,11 @@ public class Tunnel {
         lightBn *= 1.0f + Slice.darkLineRatio * 0.02f;
       }
     }
-    GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
+    GL.blendFunc(GL.SRC_ALPHA, GL.ONE);
   }
 
   public void drawBackward() {
-    GL.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
     float lineBn = 0.4, polyBn = 0, lightBn = 0.5 - Slice.darkLineRatio * 0.2f;
     sliceBackward[cast(int)sliceBackward.length - 1].setPointPos();
     for (int i = cast(int)sliceBackward.length - 1; i >= 1; i--) {
@@ -408,7 +407,7 @@ public class Tunnel {
         lightBn *= 1.0f + Slice.darkLineRatio * 0.02f;
       }
     }
-    GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
+    GL.blendFunc(GL.SRC_ALPHA, GL.ONE);
   }
 }
 
@@ -485,7 +484,7 @@ public class Slice {
         int psPi = cast(int) (pi * prevSlice.state.pointNum / _state.pointNum);
         int psPrevPi = cast(int) (prevPi * prevSlice.state.pointNum / _state.pointNum);
         Screen.setColor(lineR * lineBn, lineG * lineBn, lineB * lineBn);
-        GL.begin(GL_LINE_STRIP);
+        GL.begin(GL.LINE_STRIP);
         GL.vertex(pointPos[cast(int) pi]);
         GL.vertex(prevSlice.pointPos[psPi]);
         GL.vertex(prevSlice.pointPos[psPrevPi]);
@@ -493,7 +492,7 @@ public class Slice {
         if (polyBn > 0) {
           if (roundSlice || (!polyFirst && width > 0)) {
             Screen.setColor(polyR, polyG, polyB, polyBn);
-            GL.begin(GL_TRIANGLE_FAN);
+            GL.begin(GL.TRIANGLE_FAN);
             polyPoint.blend(pointPos[cast(int) prevPi], prevSlice.pointPos[psPi], 0.9);
             GL.vertex(polyPoint);
             polyPoint.blend(pointPos[cast(int) pi], prevSlice.pointPos[psPrevPi], 0.9);
@@ -523,7 +522,7 @@ public class Slice {
       pi = _pointFrom;
       int psPi = cast(int) (pi * prevSlice.state.pointNum / _state.pointNum);
       Screen.setColor(lineBn / 3 * 2, lineBn / 3 * 2, lineBn);
-      GL.begin(GL_LINE_STRIP);
+      GL.begin(GL.LINE_STRIP);
       GL.vertex(pointPos[cast(int) pi]);
       GL.vertex(prevSlice.pointPos[psPi]);
       GL.end();
@@ -562,13 +561,13 @@ public class Slice {
     radOfs.rollX(_d2);
     radOfs += _centerPos;
     Screen.setColor(1 * lightBn, 1 * lightBn, 0.6 * lightBn);
-    GL.begin(GL_LINE_LOOP);
+    GL.begin(GL.LINE_LOOP);
     GL.vertex(radOfs.x - 0.5, radOfs.y - 0.5, radOfs.z);
     GL.vertex(radOfs.x + 0.5, radOfs.y - 0.5, radOfs.z);
     GL.vertex(radOfs.x + 0.5, radOfs.y + 0.5, radOfs.z);
     GL.vertex(radOfs.x - 0.5, radOfs.y + 0.5, radOfs.z);
     GL.end();
-    GL.begin(GL_TRIANGLE_FAN);
+    GL.begin(GL.TRIANGLE_FAN);
     Screen.setColor(0.5 * lightBn, 0.5 * lightBn, 0.3 * lightBn);
     GL.vertex(radOfs.x, radOfs.y, radOfs.z);
     Screen.setColor(0.9 * lightBn, 0.9 * lightBn, 0.6 * lightBn);
@@ -950,7 +949,7 @@ public class Ring {
   private void drawRing(float r, float rr1, float rr2, int num) {
     float d = 0, md = 0.2;
     for (int i = 0; i < num; i++) {
-      GL.begin(GL_LINE_LOOP);
+      GL.begin(GL.LINE_LOOP);
       auto p1 = new Vector3(sin(d) * r * rr1, cos(d) * r * rr1, 0);
       auto p2 = new Vector3(sin(d) * r * rr2, cos(d) * r * rr2, 0);
       auto p3 = new Vector3(sin(d + md) * r * rr2, cos(d + md) * r * rr2, 0);
@@ -983,7 +982,7 @@ public class Ring {
   }
 
   public void draw(float a, Tunnel tunnel) {
-    GL.blendFunc(GL_SRC_ALPHA, GL_ONE);
+    GL.blendFunc(GL.SRC_ALPHA, GL.ONE);
     float d1, d2;
     Vector3 p = tunnel.getCenterPos(_idx, d1 ,d2);
     Screen.setColor(COLOR_RGB[type][0] * a,
@@ -1009,7 +1008,7 @@ public class Ring {
       createFinalRing(r, 1);
       GL.popMatrix();
     }
-    GL.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
   }
 
   public int idx() {

@@ -7,8 +7,8 @@ module abagames.util.sdl.sound;
 
 import std.conv;
 import std.string;
-import bindbc.sdl;
-import bindbc.sdl.mixer;
+version(BindBC) { import bindbc.sdl; }
+version(BindBC) { import bindbc.sdl.mixer; }
 import abagames.util.sdl.sdlexception;
 
 public interface Sound {
