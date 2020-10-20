@@ -5,7 +5,7 @@
  */
 module abagames.tt.stagemanager;
 
-import std.math;
+import abagames.util.math;
 import abagames.util.vector;
 import abagames.util.bulletml.bullet;
 import abagames.util.rand;

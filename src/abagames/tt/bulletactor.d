@@ -5,9 +5,8 @@
  */
 module abagames.tt.bulletactor;
 
-import core.stdc.stdarg;
-import std.math;
 import abagames.util.gl;
+import abagames.util.math;
 import abagames.util.actor;
 import abagames.util.vector;
 import abagames.util.bulletml.bullet;

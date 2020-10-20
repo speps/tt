@@ -5,7 +5,6 @@
  */
 module abagames.tt.gamemanager;
 
-import std.math;
 import abagames.util.gl;
 version(BindBC) { import bindbc.sdl; }
 import abagames.util.vector;

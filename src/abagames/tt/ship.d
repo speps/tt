@@ -5,9 +5,8 @@
  */
 module abagames.tt.ship;
 
-import std.math;
 import abagames.util.gl;
-import abagames.util.gl;
+import abagames.util.math;
 import abagames.util.vector;
 import abagames.util.rand;
 import abagames.util.sdl.input;

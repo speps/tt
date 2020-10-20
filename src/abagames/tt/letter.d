@@ -5,8 +5,8 @@
  */
 module abagames.tt.letter;
 
-import std.math;
 import abagames.util.gl;
+import abagames.util.math;
 import abagames.tt.screen;
 
 /**

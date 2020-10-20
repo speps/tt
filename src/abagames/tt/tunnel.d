@@ -6,7 +6,7 @@
 module abagames.tt.tunnel;
 
 import abagames.util.gl;
-import std.math;
+import abagames.util.math;
 import abagames.util.vector;
 import abagames.util.rand;
 import abagames.tt.ship;

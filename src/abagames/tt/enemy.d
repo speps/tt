@@ -5,7 +5,7 @@
  */
 module abagames.tt.enemy;
 
-import std.math;
+import abagames.util.math;
 import abagames.util.gl;
 import abagames.util.vector;
 import abagames.util.actor;

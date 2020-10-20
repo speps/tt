@@ -1,9 +1,10 @@
 module abagames.util.gl;
 
 import std.conv;
-import std.math;
 import std.stdio;
 version(BindBC) { import bindbc.opengl; }
+
+import abagames.util.math;
 import abagames.util.vector;
 
 static class GL

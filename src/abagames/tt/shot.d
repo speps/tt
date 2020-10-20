@@ -6,8 +6,8 @@
 module abagames.tt.shot;
 
 import std.conv;
-import std.math;
 import abagames.util.gl;
+import abagames.util.math;
 import abagames.util.actor;
 import abagames.util.vector;
 import abagames.util.rand;

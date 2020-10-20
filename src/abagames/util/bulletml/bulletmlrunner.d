@@ -1,6 +1,6 @@
 module abagames.util.bulletml.bulletmlrunner;
 
-import std.math;
+import abagames.util.math;
 import abagames.util.bulletml.bulletmlnode;
 import abagames.util.bulletml.bulletmlparser;
 
@@ -202,7 +202,7 @@ private class BulletMLRunnerImpl {
       double dirSpace2;
       if (dirSpace1 > 0) dirSpace2 = dirSpace1 - 360;
       else dirSpace2 = dirSpace1 + 360;
-      if (abs(dirSpace1) < abs(dirSpace2)) dirSpace = dirSpace1;
+      if (fabs(dirSpace1) < fabs(dirSpace2)) dirSpace = dirSpace1;
       else dirSpace = dirSpace2;
 
       _changeDir = new LinearFunc!(int, double)(_actTurn, finalTurn, dirFirst, dirFirst + dirSpace);

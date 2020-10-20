@@ -10,16 +10,20 @@
 	"targetPath": "dist",
 	"targetType": "executable",
 	"workingDirectory": "dist",
-	"importPaths": [
-		"lib"
-	],
-	"sourcePaths": [
-		"src",
-		"import"
+	"sourceFiles": [
+    "src/**.d"
   ],
   "configurations": [
     {
       "name": "wasm",
+      "sourceFiles": [
+        "runtime/object.d"
+      ],
+      "importPaths": [
+        "runtime"
+      ],
+      "toolchainRequirements": ["ldc >= 1.23"],
+      "dflags": ["-i=.", "-i=std"],
       "versions": [
         "WebGL",
         "GL_Batching",
@@ -31,6 +35,9 @@
       "platforms": ["windows"],
       "sourceFiles": [
         "resource/tt.res"
+      ],
+      "importPaths": [
+        "lib"
       ],
       "copyFiles": [
         "lib/SDL2-2.0.12/lib/x86/SDL2.dll",

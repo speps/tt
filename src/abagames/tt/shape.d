@@ -5,8 +5,8 @@
  */
 module abagames.tt.shape;
 
-import std.math;
 import abagames.util.gl;
+import abagames.util.math;
 import abagames.util.vector;
 import abagames.util.rand;
 import abagames.util.sdl.screen3d;

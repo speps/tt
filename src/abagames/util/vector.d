@@ -6,7 +6,7 @@
 module abagames.util.vector;
 
 import std.conv;
-import std.math;
+import abagames.util.math;
 
 /**
  * Vector.

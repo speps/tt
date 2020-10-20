@@ -5,7 +5,6 @@
  */
 module abagames.tt.screen;
 
-import std.math;
 import abagames.util.gl;
 import abagames.util.sdl.screen3d;
 

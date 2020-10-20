@@ -5,10 +5,10 @@
  */
 module abagames.tt.barrage;
 
-import std.math;
 import std.string;
 import std.path;
 import abagames.util.bulletml.bullet;
+import abagames.util.math;
 import abagames.util.rand;
 import abagames.util.logger;
 import abagames.util.listdir;
