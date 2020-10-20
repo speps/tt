@@ -5,8 +5,6 @@
  */
 module abagames.tt.soundmanager;
 
-import std.path;
-import std.file;
 import abagames.util.rand;
 import abagames.util.logger;
 import abagames.util.listdir;
@@ -46,6 +44,7 @@ public class SoundManager: abagames.util.sdl.sound.SoundManager {
   private static Music[] loadMusics() {
   version(SDL_Mixer) {
     Music[] musics;
+    import std.path;
     string[] files = listdir(Music.dir);
     foreach (string fileName; files) {
       string ext = fileName.extension;

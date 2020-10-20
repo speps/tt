@@ -5,10 +5,6 @@
  */
 module abagames.util.sdl.sound;
 
-import std.conv;
-import std.string;
-version(BindBC) { import bindbc.sdl; }
-version(BindBC) { import bindbc.sdl.mixer; }
 import abagames.util.sdl.sdlexception;
 
 public interface Sound {
@@ -21,6 +17,11 @@ public interface Sound {
 }
 
 version(SDL_Mixer) {
+
+import std.conv;
+import std.string;
+import bindbc.sdl;
+import bindbc.sdl.mixer;
 
 /**
  * Initialize and close SDL_mixer.
