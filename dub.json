@@ -25,7 +25,7 @@
       "toolchainRequirements": ["ldc >= 1.23"],
       "dflags": ["-i=.", "-i=std"],
       "versions": [
-        "WebGL",
+        "WASM",
         "GL_Batching",
         "InputBackendDummy"
       ]

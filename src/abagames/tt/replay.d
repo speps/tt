@@ -6,7 +6,6 @@
 module abagames.tt.replay;
 
 import std.file;
-import std.array;
 import std.bitmanip;
 
 import abagames.util.bytebuffer;

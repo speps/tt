@@ -5,7 +5,6 @@
  */
 module abagames.tt.barrage;
 
-import std.string;
 import std.path;
 import abagames.util.bulletml.bullet;
 import abagames.util.math;

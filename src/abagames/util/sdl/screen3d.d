@@ -5,10 +5,10 @@
  */
 module abagames.util.sdl.screen3d;
 
-import std.conv;
-import std.stdio;
-import std.string;
 version(BindBC) {
+  import std.conv;
+  import std.stdio;
+  import std.string;
   import bindbc.sdl;
   import bindbc.opengl;
 }
@@ -122,7 +122,7 @@ version(GL_32) {
     // if (error == GL.NO_ERROR)
     //   return;
     // closeWindow();
-    // throw new Exception("OpenGL error(" ~ to!string(error) ~ ")");
+    // throw new Exception("OpenGL error(" ~ convString(error) ~ ")");
   }
 
   protected void setCaption(string name) {

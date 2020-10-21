@@ -1,11 +1,12 @@
 module abagames.util.bulletml.bulletmlparser;
 
+import std.conv;
+import abagames.util.conv;
 import abagames.util.logger;
 import abagames.util.bulletml.bulletmlnode;
 import abagames.util.bulletml.idpool;
 import abagames.util.bulletml.xml;
 import std.file;
-import std.conv;
 import std.stdio;
 
 class BulletMLParser {

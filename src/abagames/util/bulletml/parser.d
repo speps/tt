@@ -1,6 +1,6 @@
 module abagames.util.bulletml.parser;
 
-import std.conv;
+import abagames.util.conv;
 import std.stdio;
 import std.string;
 
@@ -35,20 +35,20 @@ public:
 protected:
     int next()
     {
-        if (_pos >= _input.length) {
-            return -1;
-        }
-        _width++;
-        char c = _input[_pos];
-        _pos += 1;
-        return c;
+      if (_pos >= _input.length) {
+          return -1;
+      }
+      _width++;
+      char c = _input[_pos];
+      _pos += 1;
+      return c;
     }
 
     void backup(int n)
     {
-      assert(_width >= n, "width=" ~ to!string(_width) ~ " n=" ~ to!string(n));
-        _pos -= n;
-        _width -= n;
+      assert(_width >= n, "width=" ~ convString(_width) ~ " n=" ~ convString(n));
+      _pos -= n;
+      _width -= n;
     }
 
     bool acceptExact(string valid)
@@ -68,26 +68,26 @@ protected:
 
     bool acceptRun(string valid)
     {
-        auto prevPos = _pos;
-        for (int c = next(); c != -1; c = next()) {
-          if (valid.indexOf(c) == -1) {
-            backup(1);
-            break;
-          }
+      auto prevPos = _pos;
+      for (int c = next(); c != -1; c = next()) {
+        if (valid.indexOf(c) == -1) {
+          backup(1);
+          break;
         }
-        return _pos != prevPos;
+      }
+      return _pos != prevPos;
     }
 
     bool acceptRunExclude(string invalid)
     {
-        auto prevPos = _pos;
-        for (int c = next(); c != -1; c = next()) {
-          if (invalid.indexOf(c) != -1) {
-            backup(1);
-            break;
-          }
+      auto prevPos = _pos;
+      for (int c = next(); c != -1; c = next()) {
+        if (invalid.indexOf(c) != -1) {
+          backup(1);
+          break;
         }
-        return _pos != prevPos;
+      }
+      return _pos != prevPos;
     }
 
     string currentValue() {
@@ -96,9 +96,9 @@ protected:
 
     Token emit(TokenType type)
     {
-        string value = currentValue();
-        discard();
-        return Token(type, value);
+      string value = currentValue();
+      discard();
+      return Token(type, value);
     }
 
     void discard()
@@ -153,7 +153,7 @@ public:
         Token token = consume();
 
         auto prefix = token.type in _prefixParselets;
-        assert(prefix !is null, to!string(token.type) ~ " " ~ _lexer.input);
+        assert(prefix !is null, convString(token.type) ~ " " ~ _lexer.input);
 
         auto left = prefix.parse(this, token);
 

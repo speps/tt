@@ -1,8 +1,8 @@
 module abagames.util.bulletml.formula;
 
-import std.conv;
 import std.string;
 
+import abagames.util.conv;
 import abagames.util.bulletml.bulletmlrunner;
 import abagames.util.bulletml.parser;
 import abagames.util.logger;
@@ -19,29 +19,29 @@ struct Context {
 }
 
 interface AbstractNumber {
-  double getValue(Context context) const;
+  float getValue(Context context) const;
 }
 
 class Rank : AbstractNumber {
-  double getValue(Context context) const {
+  float getValue(Context context) const {
     return BulletMLRunner.getRank(context.runner);
   }
 }
 
 class Random : AbstractNumber {
-  double getValue(Context context) const {
+  float getValue(Context context) const {
     return BulletMLRunner.getRand(context.runner);
   }
 }
 
 class Param : AbstractNumber {
-  double function(int id) getParam;
+  float function(int id) getParam;
 
   this(int id) {
     _id = id;
   }
 
-  double getValue(Context context) const {
+  float getValue(Context context) const {
     return context.parameters[_id];
   }
 
@@ -50,16 +50,16 @@ private:
 }
 
 class Number : AbstractNumber {
-  this(double v) {
+  this(float v) {
     _value = v;
   }
 
-  double getValue(Context context) const {
+  float getValue(Context context) const {
     return _value;
   }
 
 private:
-  double _value;
+  float _value;
 }
 
 class Formula : AbstractNumber {
@@ -81,7 +81,7 @@ class Formula : AbstractNumber {
     _headSub = false;
   }
 
-  double getValue(Context context) const {
+  float getValue(Context context) const {
     return _headSub ? -computeValue(context) : computeValue(context);
   }
   @property void headSub(bool v) {
@@ -89,7 +89,7 @@ class Formula : AbstractNumber {
   }
 
 private:
-  double computeValue(Context context) const {
+  float computeValue(Context context) const {
     final switch (_op) {
       case Operator.nil:
         return _lhs.getValue(context);
@@ -209,7 +209,7 @@ public:
             }
         }
         else if (param.type == TokenType.Num) {
-            int paramId = to!int(param.value);
+            int paramId = convInt(param.value);
             return new Formula(new Param(paramId));
         }
         assert(false);
@@ -261,7 +261,7 @@ class NumberParselet : PrefixParselet!(TokenType, Formula)
 {
 public:
     Formula parse(Parser!(TokenType, Formula) parser, Token token) {
-      double v = to!double(token.value);
+      float v = convFloat(token.value);
       return new Formula(new Number(v));
     }
 }

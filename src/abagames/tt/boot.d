@@ -5,10 +5,8 @@
  */
 module abagames.tt.boot;
 
-import std.conv;
-import core.stdc.stdlib;
+import abagames.util.conv;
 import abagames.util.logger;
-import abagames.util.tokenizer;
 import abagames.util.sdl.mainloop;
 import abagames.util.sdl.pad;
 import abagames.util.sdl.input;
@@ -40,7 +38,7 @@ public int main(string[] args) {
   try {
     parseArgs(args);
   } catch (Exception e) {
-    return EXIT_FAILURE;
+    return 1;
   }
   try {
     mainLoop.loop();
@@ -50,13 +48,11 @@ public int main(string[] args) {
     } catch (Throwable) {}
     throw t;
   }
-  return EXIT_SUCCESS;
+  return 0;
 }
 
 private void parseArgs(string[] commandArgs) {
-  string[] args = readOptionsIniFile();
-  for (int i = 1; i < commandArgs.length; i++)
-    args ~= commandArgs[i];
+  string[] args = commandArgs[1..$];
   string progName = commandArgs[0];
   for (int i = 0; i < args.length; i++) {
     switch (args[i]) {
@@ -66,7 +62,7 @@ private void parseArgs(string[] commandArgs) {
         throw new Exception("Invalid options");
       }
       i++;
-      float b = cast(float) to!int(args[i]) / 100;
+      float b = cast(float) convInt(args[i]) / 100;
       if (b < 0 || b > 1) {
         usage(args[0]);
         throw new Exception("Invalid options");
@@ -82,9 +78,9 @@ private void parseArgs(string[] commandArgs) {
         throw new Exception("Invalid options");
       }
       i++;
-      int w = to!int(args[i]);
+      int w = convInt(args[i]);
       i++;
-      int h = to!int(args[i]);
+      int h = convInt(args[i]);
       Screen.width = w;
       Screen.height = h;
       break;
@@ -95,16 +91,6 @@ private void parseArgs(string[] commandArgs) {
       usage(progName);
       throw new Exception("Invalid options");
     }
-  }
-}
-
-private const string OPTIONS_INI_FILE = "options.ini";
-
-private string[] readOptionsIniFile() {
-  try {
-    return Tokenizer.readFile(OPTIONS_INI_FILE, " ");
-  } catch (Throwable) {
-    return null;
   }
 }
 

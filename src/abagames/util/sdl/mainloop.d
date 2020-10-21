@@ -44,11 +44,7 @@ public class MainLoop {
   // Initialize and load preference.
   private void initFirst() {
     prefManager.load();
-    try {
-      SoundManager.init();
-    } catch (SDLInitFailedException e) {
-      Logger.error(e);
-    }
+    SoundManager.init();
     gameManager.init();
   }
 
@@ -98,11 +94,10 @@ public class MainLoop {
           prvTickCount += frame * interval;
         }
       }
-      version(WebGL) {
+      version(WASM) {
         frame = 1;
+        writeln("frame");
       }
-
-      writeln("frame");
 
       pad.update();
       for (i = 0; i < frame; i++) {

@@ -164,3 +164,51 @@ float atan2(float y, float x) @safe pure nothrow @nogc
 {
   return atan2Impl(y, x);
 }
+
+float pow(float x, int n) @nogc @trusted pure nothrow
+{
+    real p = 1.0, v = void;
+    uint m = n;
+    alias n2 = n;
+
+    if (n < 0)
+    {
+        switch (n2)
+        {
+        case -1:
+            return 1 / x;
+        case -2:
+            return 1 / (x * x);
+        default:
+        }
+
+        m = cast(uint)(0 - n);
+        v = p / x;
+    }
+    else
+    {
+        switch (n)
+        {
+        case 0:
+            return 1.0;
+        case 1:
+            return x;
+        case 2:
+            return x * x;
+        default:
+        }
+
+        v = x;
+    }
+
+    while (1)
+    {
+        if (m & 1)
+            p *= v;
+        m >>= 1;
+        if (!m)
+            break;
+        v *= v;
+    }
+    return p;
+}

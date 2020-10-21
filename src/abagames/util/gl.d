@@ -1,9 +1,9 @@
 module abagames.util.gl;
 
-import std.conv;
 import std.stdio;
 version(BindBC) { import bindbc.opengl; }
 
+import abagames.util.conv;
 import abagames.util.math;
 import abagames.util.vector;
 
@@ -797,27 +797,27 @@ version(GL_Batching) {
   }
 
   static void pushTriVertex(float x, float y, float z) {
-    assert(currentTriCount < triangles.length, "pushTriVertex(x, y, z): vertex count is " ~ to!string(currentTriCount));
+    assert(currentTriCount < triangles.length, "pushTriVertex(x, y, z): vertex count is " ~ convString(currentTriCount));
     triangles[currentTriCount] = transform(x, y, z);
     currentTriCount++;
   }
 
   static void pushTriVertex(int n) {
-    assert(currentTriCount < triangles.length, "pushTriVertex(n): vertex count is " ~ to!string(currentTriCount));
-    assert(n >= 0 && n < triangles.length, "pushTriVertex(n): invalid index " ~ to!string(n));
+    assert(currentTriCount < triangles.length, "pushTriVertex(n): vertex count is " ~ convString(currentTriCount));
+    assert(n >= 0 && n < triangles.length, "pushTriVertex(n): invalid index " ~ convString(n));
     triangles[currentTriCount] = triangles[n];
     currentTriCount++;
   }
 
   static void pushLineVertex(float x, float y, float z) {
-    assert(currentLineCount < lines.length, "pushLineVertex(x, y, z): vertex count is " ~ to!string(currentLineCount));
+    assert(currentLineCount < lines.length, "pushLineVertex(x, y, z): vertex count is " ~ convString(currentLineCount));
     lines[currentLineCount] = transform(x, y, z);
     currentLineCount++;
   }
 
   static void pushLineVertex(int n) {
-    assert(currentLineCount < lines.length, "pushLineVertex(n): vertex count is " ~ to!string(currentLineCount));
-    assert(n >= 0 && n < lines.length, "pushLineVertex(n): invalid index " ~ to!string(n));
+    assert(currentLineCount < lines.length, "pushLineVertex(n): vertex count is " ~ convString(currentLineCount));
+    assert(n >= 0 && n < lines.length, "pushLineVertex(n): invalid index " ~ convString(n));
     lines[currentLineCount] = lines[n];
     currentLineCount++;
   }
@@ -876,8 +876,8 @@ version(GL_Batching) {
   }
 
   static void end() {
-    assert(currentTriCount % 3 == 0, "end(): invalid triangle count " ~ to!string(currentTriCount));
-    assert(currentLineCount % 2 == 0, "end(): invalid line count " ~ to!string(currentLineCount));
+    assert(currentTriCount % 3 == 0, "end(): invalid triangle count " ~ convString(currentTriCount));
+    assert(currentLineCount % 2 == 0, "end(): invalid line count " ~ convString(currentLineCount));
     if (currentPrimitiveType == GL.LINE_LOOP) {
       pushLineVertex(currentLineCount - 1);
       pushLineVertex(currentLineStartIndex);
@@ -969,7 +969,7 @@ version(GL_Batching) {
 }
 }
 
-version(WebGL) {
+version(WASM) {
   extern (C) {
     int glGetAttribLocation(uint, const(char)*) { return 0; }
     int glGetUniformLocation(uint, const(char)*) { return 0; }

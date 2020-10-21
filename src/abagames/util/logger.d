@@ -5,7 +5,6 @@
  */
 module abagames.util.logger;
 
-import std.conv;
 import std.stdio;
 
 /**
@@ -22,13 +21,6 @@ public class Logger {
       stderr.writeln(msg);
     else
       stderr.write(msg);
-  }
-
-  public static void info(double n, bool nline = true) {
-    if (nline)
-      stderr.writeln(to!string(n));
-    else
-      stderr.write(to!string(n));
   }
 
   private static void putMessage(string msg) {
@@ -55,22 +47,10 @@ public class Logger {
       stderr.write(msg);
   }
 
-  public static void info(double n, bool nline = true) {
-    if (nline)
-      stderr.writeln(to!string(n));
-    else
-      stderr.write(to!string(n) ~ " ");
-  }
-
   public static void error(string msg) {
     stderr.writeln("Error: " ~ msg);
   }
 
-  public static void error(Throwable e) {
-    stderr.writeln("Error: " ~ e.toString());
-    if (e.next)
-      error(e.next);
-  }
 }
 
 }

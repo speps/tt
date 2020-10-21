@@ -18,7 +18,6 @@ public interface Sound {
 
 version(SDL_Mixer) {
 
-import std.conv;
 import std.string;
 import bindbc.sdl;
 import bindbc.sdl.mixer;
@@ -41,7 +40,7 @@ public class SoundManager {
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
       noSound = true;
       throw new SDLInitFailedException
-        ("Unable to initialize SDL_AUDIO: " ~ to!string(SDL_GetError()));
+        ("Unable to initialize SDL_AUDIO: " ~ convString(SDL_GetError()));
     }
     if (loadSDLMixer() != sdlMixerSupport) {
       noSound = true;
@@ -54,7 +53,7 @@ public class SoundManager {
     if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) < 0) {
       noSound = true;
       throw new SDLInitFailedException
-        ("Couldn't open audio: " ~ to!string(SDL_GetError()));
+        ("Couldn't open audio: " ~ convString(SDL_GetError()));
     }
     Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
   }
@@ -88,7 +87,7 @@ public class Music: Sound {
     if (!music) {
       SoundManager.noSound = true;
       throw new SDLException("Couldn't load: " ~ fileName ~ 
-                             " (" ~ to!string(Mix_GetError()) ~ ")");
+                             " (" ~ convString(Mix_GetError()) ~ ")");
     }
   }
   
@@ -157,7 +156,7 @@ public class Chunk: Sound {
     if (!chunk) {
       SoundManager.noSound = true;
       throw new SDLException("Couldn't load: " ~ fileName ~ 
-                             " (" ~ to!string(Mix_GetError()) ~ ")");
+                             " (" ~ convString(Mix_GetError()) ~ ")");
     }
     chunkChannel = ch;
   }

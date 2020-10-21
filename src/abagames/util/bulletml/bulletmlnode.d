@@ -1,7 +1,6 @@
 module abagames.util.bulletml.bulletmlnode;
 
 import std.conv;
-
 import abagames.util.bulletml.bulletmlrunner;
 import abagames.util.bulletml.formula;
 
