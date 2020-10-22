@@ -6,7 +6,6 @@
 module abagames.tt.replay;
 
 import std.file;
-import std.bitmanip;
 
 import abagames.util.bytebuffer;
 import abagames.util.sdl.recordablepad;
@@ -25,23 +24,23 @@ public class ReplayData {
  private:
 
   public void save(string fileName) {
-    auto buffer = new ByteBuffer();
-    buffer.append!(int, Endian.littleEndian)(VERSION_NUM);
-    buffer.append!(float, Endian.littleEndian)(level);
-    buffer.append!(int, Endian.littleEndian)(grade);
-    buffer.append!(long, Endian.littleEndian)(seed);
+    ubyte[] buffer;
+    buffer.append(VERSION_NUM);
+    buffer.append(level);
+    buffer.append(grade);
+    buffer.append(seed);
     padRecord.save(buffer);
-    std.file.write(dir ~ "/" ~ fileName, buffer.data);
+    std.file.write(dir ~ "/" ~ fileName, buffer);
   }
 
   public void load(string fileName) {
     auto buffer = cast(ubyte[])std.file.read(dir ~ "/" ~ fileName);
-    int ver = buffer.read!(int, Endian.littleEndian);
+    int ver = buffer.readInt;
     if (ver != VERSION_NUM)
       throw new Error("Wrong version num");
-    level = buffer.read!(float, Endian.littleEndian);
-    grade = buffer.read!(int, Endian.littleEndian);
-    seed = buffer.read!(long, Endian.littleEndian);
+    level = buffer.readFloat();
+    grade = buffer.readInt();
+    seed = buffer.readLong();
     padRecord = new PadRecord;
     padRecord.load(buffer);
   }

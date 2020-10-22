@@ -6,7 +6,6 @@
 module abagames.tt.prefmanager;
 
 import std.file;
-import std.bitmanip;
 
 import abagames.util.bytebuffer;
 import abagames.util.prefmanager;
@@ -28,7 +27,7 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
   public void load() {
     try {
       auto buffer = cast(ubyte[])std.file.read(PREF_FILE);
-      int ver = buffer.read!(int, Endian.littleEndian);
+      int ver = buffer.readInt();
       if (ver != VERSION_NUM)
         throw new Error("Wrong version num");
       _prefData.load(buffer);
@@ -38,10 +37,10 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
   }
 
   public void save() {
-    auto buffer = new ByteBuffer();
-    buffer.append!(int, Endian.littleEndian)(VERSION_NUM);
+    ubyte[] buffer;
+    buffer.append(VERSION_NUM);
     _prefData.save(buffer);
-    std.file.write(PREF_FILE, buffer.data);
+    std.file.write(PREF_FILE, buffer);
   }
 
   public PrefData prefData() {
@@ -70,15 +69,15 @@ public class PrefData {
   public void load(ref ubyte[] buffer) {
     foreach (GradeData gd; gradeData)
       gd.load(buffer);
-    _selectedGrade = buffer.read!(int, Endian.littleEndian);
-    _selectedLevel = buffer.read!(int, Endian.littleEndian);
+    _selectedGrade = buffer.readInt();
+    _selectedLevel = buffer.readInt();
   }
 
-  public void save(ByteBuffer buffer) {
+  public void save(ref ubyte[] buffer) {
     foreach (GradeData gd; gradeData)
       gd.save(buffer);
-    buffer.append!(int, Endian.littleEndian)(_selectedGrade);
-    buffer.append!(int, Endian.littleEndian)(_selectedLevel);
+    buffer.append(_selectedGrade);
+    buffer.append(_selectedLevel);
   }
 
   public void recordStartGame(int gd, int lv) {
@@ -129,16 +128,16 @@ public class GradeData {
   }
 
   public void load(ref ubyte[] buffer) {
-    reachedLevel = buffer.read!(int, Endian.littleEndian);
-    hiScore = buffer.read!(int, Endian.littleEndian);
-    startLevel = buffer.read!(int, Endian.littleEndian);
-    endLevel = buffer.read!(int, Endian.littleEndian);
+    reachedLevel = buffer.readInt();
+    hiScore = buffer.readInt();
+    startLevel = buffer.readInt();
+    endLevel = buffer.readInt();
   }
 
-  public void save(ByteBuffer buffer) {
-    buffer.append!(int, Endian.littleEndian)(reachedLevel);
-    buffer.append!(int, Endian.littleEndian)(hiScore);
-    buffer.append!(int, Endian.littleEndian)(startLevel);
-    buffer.append!(int, Endian.littleEndian)(endLevel);
+  public void save(ref ubyte[] buffer) {
+    buffer.append(reachedLevel);
+    buffer.append(hiScore);
+    buffer.append(startLevel);
+    buffer.append(endLevel);
   }
 }

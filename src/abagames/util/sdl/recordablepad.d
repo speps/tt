@@ -5,7 +5,6 @@
  */
 module abagames.util.sdl.recordablepad;
 
-import std.bitmanip;
 
 import abagames.util.bytebuffer;
 import abagames.util.iterator;
@@ -95,21 +94,21 @@ public class PadRecord {
     return rsl;
   }
 
-  public void save(ByteBuffer buffer) {
-    buffer.append!(int, Endian.littleEndian)(record.length);
+  public void save(ref ubyte[] buffer) {
+    buffer.append(record.length);
     foreach (Record r; record) {
-      buffer.append!(int, Endian.littleEndian)(r.series);
-      buffer.append!(int, Endian.littleEndian)(r.data);
+      buffer.append(r.series);
+      buffer.append(r.data);
     }
   }
 
   public void load(ref ubyte[] buffer) {
     clear();
-    int len = buffer.read!(int, Endian.littleEndian);
+    int len = buffer.readInt();
     for (int i = 0; i < len; i++) {
       Record r;
-      r.series = buffer.read!(int, Endian.littleEndian);
-      r.data = buffer.read!(int, Endian.littleEndian);
+      r.series = buffer.readInt();
+      r.data = buffer.readInt();
       record ~= r;
     }
   }
