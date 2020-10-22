@@ -1,6 +1,5 @@
 module abagames.util.bulletml.bulletmlnode;
 
-import std.conv;
 import abagames.util.bulletml.bulletmlrunner;
 import abagames.util.bulletml.formula;
 
@@ -11,6 +10,18 @@ enum Type {
   relative,
   sequence,
   typeSize
+}
+
+Type toType(string type) {
+  switch(type) {
+    case "none": return Type.none;
+    case "aim": return Type.aim;
+    case "absolute": return Type.absolute;
+    case "relative": return Type.relative;
+    case "sequence": return Type.sequence;
+    case "typeSize": return Type.typeSize;
+    default: assert(false, "invalid type: " ~ type);
+  }
 }
 
 enum Name {
@@ -37,10 +48,37 @@ enum Name {
   nameSize
 }
 
+Name toName(string name) {
+  switch(name) {
+    case "bullet": return Name.bullet;
+    case "action": return Name.action;
+    case "fire": return Name.fire;
+    case "changeDirection": return Name.changeDirection;
+    case "changeSpeed": return Name.changeSpeed;
+    case "accel": return Name.accel;
+    case "wait": return Name.wait;
+    case "repeat": return Name.repeat;
+    case "bulletRef": return Name.bulletRef;
+    case "actionRef": return Name.actionRef;
+    case "fireRef": return Name.fireRef;
+    case "vanish": return Name.vanish;
+    case "horizontal": return Name.horizontal;
+    case "vertical": return Name.vertical;
+    case "term": return Name.term;
+    case "times": return Name.times;
+    case "direction": return Name.direction;
+    case "speed": return Name.speed;
+    case "param": return Name.param;
+    case "bulletml": return Name.bulletml;
+    case "nameSize": return Name.nameSize;
+    default: assert(false, "invalid name: " ~ name);
+  }
+}
+
 class BulletMLNode {
 
   this(string name) {
-    _name = to!Name(name);
+    _name = toName(name);
     _type = Type.none;
     _refID = 0;
   }

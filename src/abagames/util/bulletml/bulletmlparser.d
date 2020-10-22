@@ -85,7 +85,7 @@ private:
   }
 
   BulletMLNode addContent(string name) {
-    if (name == to!string(Name.bulletml)) {
+    if (name == "bulletml") {
       _bulletml = new BulletMLNode(name);
       return _bulletml;
     }
@@ -95,7 +95,7 @@ private:
 
   void addAttribute(IDPool idPool, BulletMLNode node, string key, string val) {
     if (key == "type") {
-      node.type = to!Type(val);
+      node.type = toType(val);
     }
     else if (key == "label") {
       Name domain = node.name;
