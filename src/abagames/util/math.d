@@ -49,7 +49,7 @@ bool isInfinity(float x) @nogc @trusted pure nothrow
 
 private float poly(float x, in float[] A) @trusted pure nothrow @nogc
 {
-    ptrdiff_t i = A.length - 1;
+    uint i = A.length - 1;
     float r = A[i];
     while (--i >= 0)
     {

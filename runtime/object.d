@@ -1,6 +1,8 @@
 // Minimal druntime for webassembly. Assumes your program has a main function.
 module object;
 
+static import wasm;
+
 alias string = immutable(char)[];
 alias size_t = uint;
 
@@ -17,7 +19,7 @@ ubyte[] malloc(size_t sz) {
 	// lol bumping that pointer
 	if(nextFree is null) {
 		nextFree = &__heap_base;
-		memorySize = arsd.webassembly.memorySize();
+		memorySize = wasm.memorySize();
 	}
 
 	auto ret = nextFree;
@@ -52,7 +54,7 @@ extern(C) void _d_array_slice_copy(void* dst, size_t dstlen, void* src, size_t s
 }
 
 extern(C) void _d_arraybounds(string file, size_t line) {
-	arsd.webassembly.abort();
+	wasm.abort();
 }
 
 extern(C) void* memset(void* s, int c, size_t n) {
@@ -79,13 +81,34 @@ extern (C) void _d_callfinalizer(void* p) {
 
 }
 
+bool __equals(T1, T2)(T1[] lhs, T2[] rhs)
+{
+  if (lhs.length != rhs.length)
+    return false;
+
+  if (lhs.length == 0 && rhs.length == 0)
+    return true;
+
+  foreach (const u; 0 .. lhs.length)
+  {
+    if (lhs[u] != rhs[u])
+      return false;
+  }
+  return true;
+}
+
+int __switch(T, caseLabels...)(/*in*/ const scope T[] condition) pure nothrow @safe @nogc
+{
+  static immutable T[][caseLabels.length] cases = [caseLabels];
+  foreach (const u; 0 .. cases.length) {
+    if (cases[u] == condition) {
+      return u;
+    }
+  }
+  return int.min;
+}
+
 class Object {
-	bool opEquals(Object o) const {
-		assert(false);
-	}
-	int opCmp(Object o) const {
-		assert(false);
-	}
 	size_t toHash() const {
 		assert(false);
 	}
@@ -106,6 +129,19 @@ class Throwable : Object
 }
 
 class Exception : Throwable
+{
+	@nogc @safe pure nothrow this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable nextInChain = null)
+	{
+		super(msg, file, line, nextInChain);
+	}
+
+	@nogc @safe pure nothrow this(string msg, Throwable nextInChain, string file = __FILE__, size_t line = __LINE__)
+	{
+		super(msg, file, line, nextInChain);
+	}
+}
+
+class Error : Throwable
 {
 	@nogc @safe pure nothrow this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable nextInChain = null)
 	{

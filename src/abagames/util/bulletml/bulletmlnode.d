@@ -123,7 +123,7 @@ class BulletMLNode {
   BulletMLNode getNext() {
     if (parent !is null) {
       foreach (idx, child; parent.children) {
-        if (child == this && (idx + 1) < parent.children.length) {
+        if (child is this && (idx + 1) < parent.children.length) {
           return parent.children[idx + 1];
         }
       }

@@ -70,18 +70,18 @@ class BulletMLParser {
   }
 
 private:
-  void dump(int level, BulletMLNode node) const {
-    if (level == 0) {
-      writeln(fileName);
-    }
-    for (int i = 0; i < level; i++) {
-      write("\t");
-    }
-    writeln(node.name, " ", node.type, " ", node.refID, " ", node.getValueStr());
-    foreach (child; node.children) {
-      dump(level + 1, child);
-    }
-  }
+  // void dump(int level, BulletMLNode node) const {
+  //   if (level == 0) {
+  //     writeln(fileName);
+  //   }
+  //   for (int i = 0; i < level; i++) {
+  //     write("\t");
+  //   }
+  //   writeln(node.name, " ", node.type, " ", node.refID, " ", node.getValueStr());
+  //   foreach (child; node.children) {
+  //     dump(level + 1, child);
+  //   }
+  // }
 
   BulletMLNode addContent(string name) {
     if (name == "bulletml") {

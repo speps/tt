@@ -36,7 +36,6 @@ public class GameManager {
 
   public abstract void init();
   public abstract void start();
-  public abstract void close();
   public abstract void move();
   public abstract void draw();
 }

@@ -42,13 +42,13 @@ public class Logger {
 
   public static void info(string msg, bool nline = true) {
     if (nline)
-      stderr.writeln(msg);
+      writeln(msg);
     else
-      stderr.write(msg);
+      write(msg);
   }
 
   public static void error(string msg) {
-    stderr.writeln("Error: " ~ msg);
+    writeln("Error: " ~ msg);
   }
 
 }

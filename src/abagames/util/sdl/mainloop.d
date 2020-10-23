@@ -50,7 +50,6 @@ public class MainLoop {
 
   // Quit and save preference.
   private void quitLast() {
-    gameManager.close();
     SoundManager.close();
     prefManager.save();
     screen.closeWindow();

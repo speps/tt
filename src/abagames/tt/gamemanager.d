@@ -133,12 +133,8 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
     state.start();
   }
 
-  public override void close() {
-    BarrageManager.unload();
-  }
-
   public void saveErrorReplay() {
-    if (state == inGameState)
+    if (state is inGameState)
       inGameState.saveReplay("error.rpl");
   }
 
@@ -160,7 +156,7 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
     if (pad.getExitState()) {
       if (!escPressed) {
         escPressed = true;
-        if (state == inGameState) {
+        if (state is inGameState) {
           startTitle();
         } else {
           mainLoop.breakLoop();

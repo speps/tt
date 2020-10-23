@@ -8,6 +8,6 @@ string readText(string path) {
   return "";
 }
 
-void write(string path, ubyte[] data) {
+void write(string path, const(ubyte[]) data) {
 
 }
