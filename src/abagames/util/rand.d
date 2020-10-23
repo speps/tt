@@ -5,15 +5,18 @@
  */
 module abagames.util.rand;
 
-import std.datetime.systime;
-
 /**
  * Random number generator.
  */
 public class Rand {
   
   public this() {
-    init_genrand(cast(uint)Clock.currTime().toUnixTime!int);
+    version(WASM) {
+      init_genrand(0);
+    } else {
+      import std.datetime.systime;
+      init_genrand(cast(uint)Clock.currTime().toUnixTime!int);
+    }
   }
 
   public void setSeed(long n) {

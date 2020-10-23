@@ -124,8 +124,4 @@ public class BarrageManager {
     }
     return pl;
   }
-
-  public static void unload() {
-    parser.clear();
-  }
 }

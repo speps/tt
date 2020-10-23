@@ -2,11 +2,16 @@ module abagames.util.math;
 
 version (LDC)
 {
-    alias cos = llvm_cos!float;
-    alias sin = llvm_sin!float;
-    alias fabs = llvm_fabs!float;
+    pragma(LDC_intrinsic, "llvm.cos.f#")
+    float cos(float x);
+    pragma(LDC_intrinsic, "llvm.sin.f#")
+    float sin(float x);
+    pragma(LDC_intrinsic, "llvm.fabs.f#")
+    float fabs(float x);
+    pragma(LDC_intrinsic, "llvm.sqrt.f#")
+    float llvm_sqrt(float x);
     pragma(inline, true):
-    float sqrt(float  x) { return x < 0 ? float.nan  : llvm_sqrt(x); }
+    float sqrt(float x) { return x < 0 ? float.nan  : llvm_sqrt(x); }
 }
 else
 {

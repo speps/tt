@@ -1,6 +1,5 @@
 module abagames.util.bulletml.bulletmlparser;
 
-import std.conv;
 import abagames.util.conv;
 import abagames.util.logger;
 import abagames.util.bulletml.bulletmlnode;

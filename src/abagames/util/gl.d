@@ -979,7 +979,7 @@ version(WASM) {
     void glBindBuffer(uint, uint) {}
     void glBindVertexArray(uint) {}
     void glBlendFunc(uint, uint) {}
-    void glBufferData(uint, ptrdiff_t, const(void)*, uint) {}
+    void glBufferData(uint, int, const(void)*, uint) {}
     void glClear(uint) {}
     void glClearColor(float, float, float, float) {}
     void glCompileShader(uint) {}
