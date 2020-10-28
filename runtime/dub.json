@@ -1,0 +1,13 @@
+{
+	"authors": [
+		"Remi Gillig"
+	],
+	"copyright": "Copyright © 2020 - Remi Gillig",
+	"description": "Barebones runtime",
+	"license": "BSD 2-clause",
+	"name": "runtime",
+	"targetType": "staticLibrary",
+  "sourceFiles": [
+    "object.d"
+  ]
+}

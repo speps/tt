@@ -18,6 +18,7 @@ tt.exe
 tt-test-*
 *.exe
 *.o
+*.a
 *.obj
 *.lst
 *.sln

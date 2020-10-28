@@ -10,19 +10,13 @@
 	"targetPath": "dist",
 	"targetType": "executable",
 	"workingDirectory": "dist",
-	"sourceFiles": [
-    "src/**.d"
-  ],
   "configurations": [
     {
       "name": "wasm",
       "sourceFiles": [
-        "runtime/object.d"
+        "src/**.d"
       ],
-      "importPaths": [
-        "runtime"
-      ],
-      "toolchainRequirements": ["ldc >= 1.23"],
+      "dependencies": {"runtime": {"path": "runtime"}},
       "dflags": ["-i=.", "-i=std"],
       "versions": [
         "WASM",
@@ -32,8 +26,9 @@
     },
     {
       "name": "win32",
-      "platforms": ["windows"],
+      "platforms": ["windows-x86"],
       "sourceFiles": [
+        "src/**.d",
         "resource/tt.res"
       ],
       "importPaths": [

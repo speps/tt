@@ -1,30 +1,30 @@
 module abagames.util.math;
 
-version (LDC)
+version(WASM)
 {
-    pragma(LDC_intrinsic, "llvm.cos.f#")
-    float cos(float x);
-    pragma(LDC_intrinsic, "llvm.sin.f#")
-    float sin(float x);
-    pragma(LDC_intrinsic, "llvm.fabs.f#")
-    float fabs(float x);
-    pragma(LDC_intrinsic, "llvm.sqrt.f#")
-    float llvm_sqrt(float x);
-    pragma(inline, true):
-    float sqrt(float x) { return x < 0 ? float.nan  : llvm_sqrt(x); }
+    extern(C) float extern_cos(float x);
+    extern(C) float extern_sin(float x);
+    extern(C) float extern_sqrt(float x);
+
+    float cos(float x) { return extern_cos(x); }
+    float sin(float x) { return extern_sin(x); }
+    float sqrt(float x) { return extern_sqrt(x); }
 }
 else
 {
     import std.math;
     alias cos = std.math.cos;
     alias sin = std.math.sin;
-    alias fabs = std.math.fabs;
     alias sqrt = std.math.sqrt;
 }
 
 enum real PI = 0x1.921fb54442d18469898cc51701b84p+1L;
 enum real PI_2 =       PI/2;
 enum real PI_4 =       PI/4;
+
+float fabs(float x) {
+  return x < 0.0f ? -x : x;
+}
 
 bool isNaN(float x) @nogc @trusted pure nothrow
 {
