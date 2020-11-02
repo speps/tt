@@ -25,15 +25,15 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
   }
 
   public void load() {
-    try {
-      auto buffer = cast(ubyte[])std.file.read(PREF_FILE);
-      int ver = buffer.readInt();
-      if (ver != VERSION_NUM)
-        throw new Error("Wrong version num");
-      _prefData.load(buffer);
-    } catch (Throwable) {
+    auto buffer = cast(ubyte[])std.file.read(PREF_FILE);
+    if (buffer == null) {
       _prefData.init();
+      return;
     }
+    int ver = buffer.readInt();
+    if (ver != VERSION_NUM)
+      throw new Error("Wrong version num");
+    _prefData.load(buffer);
   }
 
   public void save() {

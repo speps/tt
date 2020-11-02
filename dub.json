@@ -12,12 +12,25 @@
 	"workingDirectory": "dist",
   "configurations": [
     {
-      "name": "wasm",
+      "name": "wasm-debug",
       "sourceFiles": [
         "src/**.d"
       ],
       "dependencies": {"runtime": {"path": "runtime"}},
       "dflags": ["-i=.", "-i=std"],
+      "versions": [
+        "WASM",
+        "GL_Batching",
+        "InputBackendDummy"
+      ]
+    },
+    {
+      "name": "wasm",
+      "sourceFiles": [
+        "src/**.d"
+      ],
+      "dependencies": {"runtime": {"path": "runtime"}},
+      "dflags": ["-i=.", "-i=std", "-L=-allow-undefined"],
       "versions": [
         "WASM",
         "GL_Batching",

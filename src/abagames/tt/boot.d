@@ -35,10 +35,12 @@ public int main(string[] args) {
   gameManager = new GameManager;
   prefManager = new PrefManager;
   mainLoop = new MainLoop(screen, pad, gameManager, prefManager);
-  try {
-    parseArgs(args);
-  } catch (Exception e) {
-    return 1;
+  version(WASM) {} else {
+    try {
+      parseArgs(args);
+    } catch (Exception e) {
+      return 1;
+    }
   }
   try {
     mainLoop.loop();

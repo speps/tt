@@ -1,4 +1,10 @@
 module std.stdio;
 
-void writeln(T...)(T t) {}
-void write(T...)(T t) {}
+import wasm;
+
+void writeln(string s) {
+  wasm.write(s);
+}
+void write(string s) {
+  wasm.write(s);
+}

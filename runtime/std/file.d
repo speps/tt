@@ -1,11 +1,11 @@
 module std.file;
 
 ubyte[] read(string path) {
-  return [];
+  return null;
 }
 
 string readText(string path) {
-  return "";
+  return null;
 }
 
 void write(string path, const(ubyte[]) data) {

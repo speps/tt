@@ -3,11 +3,19 @@ module abagames.util.math;
 version(WASM)
 {
   private:
-  extern(C) float wasm_cos(float x);
-  extern(C) float wasm_sin(float x);
-  extern(C) float wasm_sqrt(float x);
-  extern(C) float wasm_atan2(float y, float x);
-  extern(C) float wasm_pow(float x, float y);
+  version(X86) {
+    extern(C) float wasm_cos(float x) { return 0.0f; }
+    extern(C) float wasm_sin(float x) { return 0.0f; }
+    extern(C) float wasm_sqrt(float x) { return 0.0f; }
+    extern(C) float wasm_atan2(float y, float x) { return 0.0f; }
+    extern(C) float wasm_pow(float x, float y) { return 0.0f; }
+  } else {
+    extern(C) float wasm_cos(float x);
+    extern(C) float wasm_sin(float x);
+    extern(C) float wasm_sqrt(float x);
+    extern(C) float wasm_atan2(float y, float x);
+    extern(C) float wasm_pow(float x, float y);
+  }
 
   public:
   float cos(float x) { return wasm_cos(x); }

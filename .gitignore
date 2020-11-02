@@ -5,12 +5,6 @@ __dummy.html
 docs/
 dist/*.dll
 dist/README-SDL.txt
-/tt
-tt.so
-tt.dylib
-tt.dll
-tt.a
-tt.lib
 *.prf
 *.rpl
 tt.exe
@@ -19,6 +13,8 @@ tt-test-*
 *.exe
 *.o
 *.a
+*.lib
+*.wasm
 *.obj
 *.lst
 *.sln
