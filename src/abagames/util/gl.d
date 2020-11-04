@@ -487,7 +487,7 @@ version(GL_Batching) {
     return progIndex;
   }
 
-  static void createBuffer(ref uint arrayIndex, ref uint bufferIndex, Vertex[MaxNumVertices] buffer) {
+  static void createBuffer(ref uint arrayIndex, ref uint bufferIndex, ref Vertex[MaxNumVertices] buffer) {
     glGenVertexArrays(1, &arrayIndex);
     glBindVertexArray(arrayIndex);
 
