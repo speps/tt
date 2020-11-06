@@ -1,6 +1,7 @@
 // Minimal druntime for webassembly. Assumes your program has a main function.
 module object;
 
+static import hash;
 static import wasm;
 
 alias string = immutable(char)[];
@@ -64,6 +65,7 @@ class Error : Throwable
 }
 
 class TypeInfo {
+  size_t getHash(scope const void* value) @trusted nothrow const { assert(false, "getHash unimplemented"); }
   @property size_t tsize() nothrow pure const @safe @nogc { return 0; }
   @property inout(TypeInfo) next() nothrow pure inout @nogc { return null; }
   const(void)[] initializer() nothrow pure const @trusted @nogc
@@ -188,6 +190,11 @@ class TypeInfo_Ah : TypeInfo_Array {
   }
 }
 class TypeInfo_Aa : TypeInfo_Ah {
+  override size_t getHash(scope const void* p) @trusted nothrow const
+  {
+      char[] s = *cast(char[]*)p;
+      return hash.calcHash(s);
+  }
   override @property inout(TypeInfo) next() nothrow pure inout @nogc
   {
     return cast(inout)typeid(char);
@@ -247,6 +254,20 @@ class TypeInfo_Class : TypeInfo {
 class TypeInfo_Array : TypeInfo {
   TypeInfo value;
 
+  override size_t getHash(scope const void* p) @trusted nothrow const {
+    const void[] a = *cast(void[]*)p;
+    size_t tsize = value.tsize;
+    if (tsize == 0) {
+      return 0;
+    }
+    size_t h = 0;
+    foreach (size_t i; 0..a.length) {
+      size_t elemHash = value.getHash(a.ptr + i * tsize);
+      h = hash.mixHash(h, elemHash);
+    }
+    return h;
+  }
+
   override @property size_t tsize() nothrow pure const
   {
     return (void[]).sizeof;
@@ -292,7 +313,6 @@ class TypeInfo_Interface : TypeInfo {
 }
 
 class TypeInfo_Const : TypeInfo {
-  size_t getHash(in void*) nothrow { return 0; }
   TypeInfo base;
 
   override @property size_t tsize() nothrow pure const { return base.tsize; }
@@ -520,6 +540,12 @@ extern(C) Object _d_allocclass(TypeInfo_Class ti) {
   return cast(Object) obj.ptr;
 }
 
+extern (C) void* _d_newitemT(TypeInfo ti) {
+  auto buffer = malloc(ti.tsize);
+  memset(buffer.ptr, 0, buffer.length);
+  return buffer.ptr;
+}
+
 extern(C) void* _d_allocmemory(size_t sz) {
   return malloc(sz).ptr;
 }
@@ -566,7 +592,7 @@ size_t hashOf(T)(const T val, size_t seed = 0) {
   assert(false);
 }
 
-extern(C) void[] _d_newarrayT(const TypeInfo ti, size_t length) {
+extern (C) void[] _d_newarrayT(const TypeInfo ti, size_t length) {
   auto tinext = unqualify(ti.next);
   auto size = tinext.tsize;
   auto buffer = malloc(size * length);
@@ -574,22 +600,30 @@ extern(C) void[] _d_newarrayT(const TypeInfo ti, size_t length) {
   return buffer;
 }
 extern (C) void[] _d_arrayappendT(const TypeInfo ti, ref byte[] x, byte[] y) {
-  auto size = ti.tsize;
-  ubyte[] tmp = malloc((x.length + y.length) * size);
-  _d_array_slice_copy(&tmp[0], x.length, x.ptr, x.length, 1);
-  _d_array_slice_copy(&tmp[x.length], y.length, y.ptr, y.length, 1);
-  return tmp;
+  auto tinext = unqualify(ti.next);
+  auto size = tinext.tsize;
+  _d_arrayappendcTX(ti, x, y.length);
+  memcpy(&x[x.length * size], y.ptr, y.length * size);
+  return x;
 }
 extern (C) byte[] _d_arrayappendcTX(const TypeInfo ti, ref byte[] px, size_t n) {
-  assert(false);
+  auto tinext = unqualify(ti.next);
+  auto size = tinext.tsize;
+  auto length = px.length + n;
+  ubyte[] tmp = malloc(length * size);
+  memcpy(&tmp[0], px.ptr, px.length * size);
+  memset(&tmp[px.length * size], 0, n * size);
+  (cast(void **)(&px))[1] = tmp.ptr;
+  *cast(size_t *)&px = length;
+  return px;
 }
 extern (C) byte[] _d_arraycatT(const TypeInfo ti, byte[] x, byte[] y) {
   auto tinext = unqualify(ti.next);
   auto size = tinext.tsize;
   size_t length = x.length + y.length;
-  byte[] buffer = cast(byte[]) malloc(size * length);
-  memcpy(&buffer[0], x.ptr, size * x.length);
-  memcpy(&buffer[x.length], y.ptr, size * y.length);
+  byte[] buffer = cast(byte[]) malloc(length * size);
+  memcpy(&buffer[0], x.ptr, x.length * size);
+  memcpy(&buffer[x.length * size], y.ptr, y.length * size);
   return buffer;
 }
 extern (C) void[] _d_arraycatnTX(const TypeInfo ti, byte[][] arrs) {
@@ -599,12 +633,12 @@ extern (C) void[] _d_arraycatnTX(const TypeInfo ti, byte[][] arrs) {
   foreach (b; arrs) {
     length += b.length;
   }
-  auto buffer = malloc(size * length);
+  auto buffer = malloc(length * size);
   ubyte* dst = buffer.ptr;
   foreach (b; arrs) {
     if (b.length) {
-      memcpy(dst, b.ptr, size * b.length);
-      dst += size * b.length;
+      memcpy(dst, b.ptr, b.length * size);
+      dst += b.length * size;
     }
   }
   return buffer;
@@ -612,20 +646,61 @@ extern (C) void[] _d_arraycatnTX(const TypeInfo ti, byte[][] arrs) {
 extern (C) void[] _d_newarrayU(const TypeInfo ti, size_t length) {
   auto tinext = unqualify(ti.next);
   auto size = tinext.tsize;
-  return malloc(size * length);
+  return malloc(length * size);
 }
 
-struct AA {}
+struct AA {
+  AAImpl* impl;
+  alias impl this;
 
-extern (C) void* _aaGetY(AA* aa, const TypeInfo aati, in size_t valuesize, in void* pkey) {
-  return null;
+  private @property bool empty() const pure nothrow @nogc {
+    return impl is null || !impl.length;
+  }
+}
+
+private struct AAImpl {
+private:
+  @property size_t length() const pure nothrow @nogc {
+    return entries.length;
+  }
+
+  struct Entry {
+    size_t key;
+    ubyte[] value;
+  }
+  Entry[] entries;
+}
+
+extern (C) void* _aaGetY(AA* aa, const TypeInfo_AssociativeArray aati, in size_t valuesize, in void* pkey) {
+  if (aa.impl is null) {
+    aa.impl = new AAImpl();
+  }
+  const hash = aati.key.getHash(pkey);
+  foreach (entry; aa.entries) {
+    if (entry.key == hash) {
+      return entry.value.ptr;
+    }
+  }
+  auto buffer = malloc(valuesize);
+  memset(buffer.ptr, 0, valuesize);
+  aa.entries ~= AAImpl.Entry(hash, buffer);
+  return buffer.ptr;
 }
 
 extern (C) inout(void)* _aaInX(inout AA aa, in TypeInfo keyti, in void* pkey) {
+  if (aa.empty) {
+    return null;
+  }
+  const hash = keyti.getHash(pkey);
+  foreach (entry; aa.entries) {
+    if (entry.key == hash) {
+      return entry.value.ptr;
+    }
+  }
   return null;
 }
 
 extern (D) alias dg_t = int delegate(void*);
 extern (C) int _aaApply(AA aa, const size_t keysz, dg_t dg) {
-  return 0;
+  assert(false, "aa apply");
 }
