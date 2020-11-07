@@ -506,10 +506,6 @@ extern(C) void _d_arraybounds(string file, size_t line) {
 }
 
 extern(C) void* memset(void* s, int c, size_t n) {
-  wasm.write("memset");
-  wasm.write(cast(int) s);
-  wasm.write(c);
-  wasm.write(n);
   auto d = cast(ubyte*) s;
   while(n) {
     *d = cast(ubyte) c;
@@ -520,10 +516,6 @@ extern(C) void* memset(void* s, int c, size_t n) {
 }
 
 extern(C) void* memcpy(void* d, void* s, size_t n) {
-  wasm.write("memcpy");
-  wasm.write(cast(int) d);
-  wasm.write(cast(int) s);
-  wasm.write(n);
   auto td = cast(ubyte*) d, ts = cast(ubyte*) s;
   while(n) {
     *td = *ts;
@@ -536,12 +528,7 @@ extern(C) void* memcpy(void* d, void* s, size_t n) {
 
 void __switch_error(string file, size_t line) {}
 
-extern(C) void wasm_writeString(immutable(char*) msgptr, size_t msglen);
-
 extern(C) Object _d_allocclass(TypeInfo_Class ti) {
-  auto ptr = ti.name.ptr;
-  auto len = ti.name.length;
-  wasm_writeString(ptr, len);
   auto obj = malloc(ti.m_init.length);
   obj[] = ti.m_init[];
   return cast(Object) obj.ptr;
@@ -561,12 +548,58 @@ extern (C) void _d_callfinalizer(void* p) {
 }
 
 extern (C) void* _d_interface_cast(void* p, TypeInfo_Class c) {
-  assert(false, "iface cast");
+  if (!p)
+    return null;
+  Interface* pi = **cast(Interface***) p;
+  return _d_dynamic_cast(cast(Object)(p - pi.offset), c);
 }
 
 extern (C) void* _d_dynamic_cast(Object o, TypeInfo_Class c) {
-  assert(false, "dyn cast");
+  void* res = null;
+  size_t offset = 0;
+  if (o && _d_isbaseof2(typeid(o), c, offset)) {
+      res = cast(void*) o + offset;
+  }
+  return res;
 }
+
+int _d_isbaseof2(scope TypeInfo_Class oc, scope const TypeInfo_Class c, scope ref size_t offset) @safe {
+  if (oc is c) {
+    return true;
+  }
+  do {
+    if (oc.base is c) {
+      return true;
+    }
+    foreach (iface; oc.interfaces) {
+        if (iface.classinfo is c || _d_isbaseof2(iface.classinfo, c, offset)) {
+            offset += iface.offset;
+            return true;
+        }
+    }
+    oc = oc.base;
+  } while (oc);
+  return false;
+}
+
+int _d_isbaseof(scope TypeInfo_Class oc, scope const TypeInfo_Class c) @safe {
+  if (oc is c) {
+    return true;
+  }
+  do {
+    if (oc.base is c) {
+      return true;
+    }
+    foreach (iface; oc.interfaces) {
+      if (iface.classinfo is c || _d_isbaseof(iface.classinfo, c)) {
+        return true;
+      }
+    }
+    oc = oc.base;
+  } while (oc);
+  return false;
+}
+
 
 bool __equals(T1, T2)(T1[] lhs, T2[] rhs)
 {
