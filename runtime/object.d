@@ -632,6 +632,12 @@ size_t hashOf(T)(const T val, size_t seed = 0) {
   assert(false);
 }
 
+struct Array
+{
+  size_t len;
+  void* ptr;
+}
+
 extern (C) void[] _d_newarrayT(const TypeInfo ti, size_t length) {
   auto tinext = unqualify(ti.next);
   auto size = tinext.tsize;
@@ -642,8 +648,9 @@ extern (C) void[] _d_newarrayT(const TypeInfo ti, size_t length) {
 extern (C) void[] _d_arrayappendT(const TypeInfo ti, ref byte[] x, byte[] y) {
   auto tinext = unqualify(ti.next);
   auto size = tinext.tsize;
+  auto length = x.length;
   _d_arrayappendcTX(ti, x, y.length);
-  memcpy(&x[x.length * size], y.ptr, y.length * size);
+  memcpy(x.ptr + length * size, y.ptr, y.length * size);
   return x;
 }
 extern (C) byte[] _d_arrayappendcTX(const TypeInfo ti, ref byte[] px, size_t n) {
@@ -651,10 +658,9 @@ extern (C) byte[] _d_arrayappendcTX(const TypeInfo ti, ref byte[] px, size_t n) 
   auto size = tinext.tsize;
   auto length = px.length + n;
   ubyte[] tmp = malloc(length * size);
-  memcpy(&tmp[0], px.ptr, px.length * size);
-  memset(&tmp[px.length * size], 0, n * size);
-  (cast(void **)(&px))[1] = tmp.ptr;
-  *cast(size_t *)&px = length;
+  memcpy(tmp.ptr, px.ptr, px.length * size);
+  memset(tmp.ptr + px.length * size, 0, n * size);
+  *cast(Array*)&px = Array(length, tmp.ptr);
   return px;
 }
 extern (C) byte[] _d_arraycatT(const TypeInfo ti, byte[] x, byte[] y) {
@@ -662,8 +668,8 @@ extern (C) byte[] _d_arraycatT(const TypeInfo ti, byte[] x, byte[] y) {
   auto size = tinext.tsize;
   size_t length = x.length + y.length;
   byte[] buffer = cast(byte[]) malloc(length * size);
-  memcpy(&buffer[0], x.ptr, x.length * size);
-  memcpy(&buffer[x.length * size], y.ptr, y.length * size);
+  memcpy(buffer.ptr, x.ptr, x.length * size);
+  memcpy(buffer.ptr + x.length * size, y.ptr, y.length * size);
   return buffer;
 }
 extern (C) void[] _d_arraycatnTX(const TypeInfo ti, byte[][] arrs) {

@@ -33,8 +33,11 @@ public class ReplayData {
     std.file.write(dir ~ "/" ~ fileName, buffer);
   }
 
-  public void load(string fileName) {
+  public bool load(string fileName) {
     auto buffer = cast(ubyte[])std.file.read(dir ~ "/" ~ fileName);
+    if (buffer is null) {
+      return false;
+    }
     int ver = buffer.readInt;
     if (ver != VERSION_NUM)
       throw new Error("Wrong version num");
@@ -43,5 +46,6 @@ public class ReplayData {
     seed = buffer.readLong();
     padRecord = new PadRecord;
     padRecord.load(buffer);
+    return true;
   }
 }

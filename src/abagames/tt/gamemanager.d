@@ -146,7 +146,9 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
 
   private void loadLastReplay() {
     try {
-      inGameState.loadReplay("last.rpl");
+      if (!inGameState.loadReplay("last.rpl")) {
+        inGameState.resetReplay();
+      }
     } catch (Throwable) {
       inGameState.resetReplay();
     }
@@ -487,9 +489,9 @@ public class InGameState: GameState {
     _replayData.save(fileName);
   }
 
-  public void loadReplay(string fileName) {
+  public bool loadReplay(string fileName) {
     _replayData = new ReplayData;
-    _replayData.load(fileName);
+    return _replayData.load(fileName);
   }
 
   public void resetReplay() {

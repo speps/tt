@@ -26,7 +26,7 @@ public class PrefManager: abagames.util.prefmanager.PrefManager {
 
   public void load() {
     auto buffer = cast(ubyte[])std.file.read(PREF_FILE);
-    if (buffer == null) {
+    if (buffer is null) {
       _prefData.init();
       return;
     }
