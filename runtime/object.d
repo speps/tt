@@ -65,7 +65,7 @@ class Error : Throwable
 }
 
 class TypeInfo {
-  size_t getHash(scope const void* value) @trusted nothrow const { assert(false, "getHash unimplemented"); }
+  size_t getHash(scope const void* p) @trusted nothrow const { assert(false, "getHash unimplemented"); }
   @property size_t tsize() nothrow pure const @safe @nogc { return 0; }
   @property inout(TypeInfo) next() nothrow pure inout @nogc { return null; }
   const(void)[] initializer() nothrow pure const @trusted @nogc
@@ -127,6 +127,9 @@ class TypeInfo_d : TypeInfo {
   }
 }
 class TypeInfo_i : TypeInfo {
+  override size_t getHash(scope const void* p) @trusted nothrow const {
+    return *cast(const int*)p;
+  }
   override @property size_t tsize() nothrow pure const @safe @nogc
   {
     return int.sizeof;
@@ -365,6 +368,10 @@ class TypeInfo_Enum : TypeInfo {
   TypeInfo base;
   string   name;
   void[]   m_init;
+
+  override size_t getHash(scope const void* p) @trusted nothrow const {
+    return base.getHash(p);
+  }
 
   override @property size_t tsize() nothrow pure const { return base.tsize; }
 

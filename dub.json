@@ -1,15 +1,16 @@
 {
-	"authors": [
-		"Kenta Cho",
-		"Remi Gillig"
-	],
-	"copyright": "Copyright © 2004 - Kenta Cho, 2020 - Remi Gillig",
-	"description": "Torus Trooper (Reboot)",
-	"license": "BSD 2-clause",
-	"name": "tt",
-	"targetPath": "dist",
-	"targetType": "executable",
-	"workingDirectory": "dist",
+  "authors": [
+    "Kenta Cho",
+    "Remi Gillig"
+  ],
+  "copyright": "Copyright © 2004 - Kenta Cho, 2020 - Remi Gillig",
+  "description": "Torus Trooper (Reboot)",
+  "license": "BSD 2-clause",
+  "name": "tt",
+  "targetPath": "dist",
+  "targetType": "executable",
+  "workingDirectory": "dist",
+  "stringImportPaths": ["dist"],
   "configurations": [
     {
       "name": "wasm-debug",
