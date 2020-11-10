@@ -696,8 +696,7 @@ extern (C) void[] _d_newarrayU(const TypeInfo ti, size_t length) {
 }
 
 struct AA {
-  AAImpl* impl;
-  alias impl this;
+  AAImpl* impl = null;
 
   private @property bool empty() const pure nothrow @nogc {
     return impl is null || !impl.length;
@@ -717,33 +716,37 @@ private:
   Entry[] entries;
 }
 
-extern (C) void* _aaGetY(AA* aa, const TypeInfo_AssociativeArray aati, in size_t valuesize, in void* pkey) {
+extern (C) void* _aaGetY(ref AA* aa, const TypeInfo_AssociativeArray aati, in size_t valuesize, in void* pkey) {
   if (aa.impl is null) {
     aa.impl = new AAImpl();
   }
   const hash = aati.key.getHash(pkey);
-  foreach (entry; aa.entries) {
+  foreach (entry; aa.impl.entries) {
     if (entry.key == hash) {
       return entry.value.ptr;
     }
   }
   auto buffer = malloc(valuesize);
   memset(buffer.ptr, 0, valuesize);
-  aa.entries ~= AAImpl.Entry(hash, buffer);
+  aa.impl.entries ~= AAImpl.Entry(hash, buffer);
   return buffer.ptr;
 }
 
-extern (C) inout(void)* _aaInX(inout AA aa, in TypeInfo keyti, in void* pkey) {
+extern (C) void* _aaInX(AA aa, const TypeInfo keyti, in void* pkey) {
   if (aa.empty) {
     return null;
   }
   const hash = keyti.getHash(pkey);
-  foreach (entry; aa.entries) {
+  foreach (entry; aa.impl.entries) {
     if (entry.key == hash) {
       return entry.value.ptr;
     }
   }
   return null;
+}
+
+extern (C) size_t _aaLen(const AA aa) pure nothrow @nogc {
+    return aa.impl ? aa.impl.length : 0;
 }
 
 extern (D) alias dg_t = int delegate(void*);
