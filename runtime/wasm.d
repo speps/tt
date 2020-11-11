@@ -9,7 +9,7 @@ extern(C) void wasm_assert(cstr_t msgptr, size_t msglen, cstr_t fileptr, size_t 
 extern(C) void wasm_abort();
 
 version(X86) {
-  static const size_t SIZE = 1966080;
+  static const size_t SIZE = 10 * 1024 * 1024;
   static const auto newline = "\n";
 
   pragma(lib, "kernel32");
@@ -30,6 +30,9 @@ version(X86) {
   extern(C) ubyte[SIZE] __heap_base;
   extern(C) size_t wasm_memorySize() {
     return SIZE;
+  }
+  extern(C) size_t wasm_growMemory(size_t by) {
+    assert(false, "growing memory not supported");
   }
   extern(C) void wasm_writeString(cstr_t msgptr, size_t msglen) {
     stdOut(msgptr, msglen);
@@ -60,6 +63,7 @@ version(X86) {
   }
 } else {
   extern(C) size_t wasm_memorySize();
+  extern(C) size_t wasm_growMemory(size_t by);
   extern(C) void wasm_writeString(cstr_t msgptr, size_t msglen);
   extern(C) void wasm_writeInt(int n);
   extern(C) void wasm_assert(cstr_t msgptr, size_t msglen, cstr_t fileptr, size_t filelen, size_t line);
@@ -68,6 +72,7 @@ version(X86) {
 
 public:
 size_t memorySize() { return wasm_memorySize(); }
+size_t growMemory(size_t by) { return wasm_growMemory(by); }
 void write(string s) { return wasm_writeString(s.ptr, s.length); }
 void write(int n) { return wasm_writeInt(n); }
 void assertMessage(string msg, string file, int line) { return wasm_assert(msg.ptr, msg.length, file.ptr, file.length, line); }

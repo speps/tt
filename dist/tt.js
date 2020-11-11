@@ -4,12 +4,14 @@ var memory;
 var importObject = {
   env: {
     wasm_memorySize: function() {
-      console.log("memorySize = " + memory.buffer.byteLength);
+      console.log("memorySize is " + memory.buffer.byteLength + " bytes");
       return memory.buffer.byteLength;
     },
     wasm_growMemory: function(by) {
       const bytesPerPage = 64 * 1024;
-      memory.grow((by + bytesPerPage) / bytesPerPage);
+      const numPages = ((by * bytesPerPage) / bytesPerPage) >> 0;
+      memory.grow(numPages);
+      console.log("growMemory by " + by + " > " + (numPages * bytesPerPage) + " bytes to " + memory.buffer.byteLength + " bytes");
       return memory.buffer.byteLength;
     },
     wasm_writeString: function(ptr, len) {
