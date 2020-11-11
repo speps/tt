@@ -244,7 +244,8 @@ public class Letter {
       length *= 1.05;
       x = -x;
       y = y;
-      deg %= 180;
+      while (deg < -180) deg += 180;
+      while (deg > 180) deg -= 180;
       if (c == 2)
         drawBoxLine(x, y, size, length, deg);
       else if (c == 3)

@@ -42,9 +42,9 @@ float fabs(float x) {
   return x < 0.0f ? -x : x;
 }
 
-// to fix undefined symbol, not sure where this is linked from
+// to fix undefined symbol, required for some reason
 extern(C) float fmodf(float x, float y) {
-  assert(false);
+  assert(false, "fmodf unsupported");
 }
 
 bool isNaN(float x) @nogc @trusted pure nothrow {
