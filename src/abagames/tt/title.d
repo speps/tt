@@ -271,9 +271,9 @@ public class TitleManager {
   }
 
   private void createTorusShape(int n) {
-    Vector3 cp = new Vector3;
+    scope Vector3 cp = new Vector3;
     cp.z = 0;
-    Vector3 ringOfs = new Vector3;
+    scope Vector3 ringOfs = new Vector3;
     float torusRad = 5;
     float ringRad = 0.7;
     if (n == 0) {

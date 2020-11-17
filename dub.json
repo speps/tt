@@ -13,7 +13,7 @@
   "stringImportPaths": ["dist"],
   "configurations": [
     {
-      "name": "wasm-debug",
+      "name": "wasm_debug",
       "sourceFiles": [
         "src/**.d"
       ],

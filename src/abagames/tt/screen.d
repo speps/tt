@@ -20,13 +20,13 @@ public class Screen: Screen3D {
     setCaption(CAPTION);
     GL.lineWidth(1);
     GL.blendFunc(GL.SRC_ALPHA, GL.ONE);
-    GL.enable(GL.LINE_SMOOTH);
+    // GL.enable(GL.LINE_SMOOTH);
     GL.enable(GL.BLEND);
     // GL.disable(GL.COLOR_MATERIAL);
     GL.disable(GL.CULL_FACE);
     GL.disable(GL.DEPTH_TEST);
     // GL.disable(GL.LIGHTING);
-    GL.disable(GL.TEXTURE_2D);
+    // GL.disable(GL.TEXTURE_2D);
     setClearColor(0, 0, 0, 1);
     farPlane = 10000;
     screenResized();

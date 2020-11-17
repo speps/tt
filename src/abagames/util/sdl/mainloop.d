@@ -55,33 +55,28 @@ public class MainLoop {
     screen.closeWindow();
   }
 
-  private bool done;
+  private bool done = false;
 
   public void breakLoop() {
     done = true;
   }
 
-  public void loop() {
-    done = false;
-    long prvTickCount = 0;
-    int i;
-    long nowTick;
-    int frame;
-    
-    screen.initWindow();
-    initFirst();
-    gameManager.start();
+  version(BindBC) {
+    public void loop() {
+      screen.initWindow();
+      initFirst();
+      gameManager.start();
 
-    while (!done) {
-      version(BindBC) {
+      long prvTickCount = 0;
+      while (true) {
         SDL_Event event;
         if (SDL_PollEvent(&event) == 0)
           event.type = SDL_USEREVENT;
         if (event.type == SDL_QUIT)
           breakLoop();
 
-        nowTick = SDL_GetTicks();
-        frame = cast(int) (nowTick-prvTickCount) / interval;
+        long nowTick = SDL_GetTicks();
+        int frame = cast(int) (nowTick-prvTickCount) / interval;
         if (frame <= 0) {
           frame = 1;
           SDL_Delay(cast(uint)(prvTickCount+interval-nowTick));
@@ -92,22 +87,34 @@ public class MainLoop {
         } else {
           prvTickCount += frame * interval;
         }
-      }
-      version(WASM) {
-        frame = 1;
-        writeln("frame");
-      }
 
-      pad.update();
-      for (i = 0; i < frame; i++) {
-	      gameManager.move();
+        if (innerLoop(frame)) {
+          break;
+        }
       }
-      screen.clear();
-      GL.frameStart();
-      gameManager.draw();
-      GL.frameEnd();
-      screen.flip();
+      quitLast();
     }
-    quitLast();
+  }
+
+  version(WASM) {
+    public void loopStart() {
+      writeln("start");
+      screen.initWindow();
+      initFirst();
+      gameManager.start();
+    }
+  }
+
+  public bool innerLoop(int frame) {
+    pad.update();
+    for (int i = 0; i < frame; i++) {
+      gameManager.move();
+    }
+    screen.clear();
+    GL.frameStart();
+    gameManager.draw();
+    GL.frameEnd();
+    screen.flip();
+    return done;
   }
 }

@@ -29,26 +29,34 @@ GameManager gameManager;
 PrefManager prefManager;
 MainLoop mainLoop;
 
+version(WASM) {
+  export extern (C) bool _loop() {
+    return mainLoop.innerLoop(1);
+  }
+}
+
 public int main(string[] args) {
   screen = new Screen;
   pad = new RecordablePad(new InputBackendImpl());
   gameManager = new GameManager;
   prefManager = new PrefManager;
   mainLoop = new MainLoop(screen, pad, gameManager, prefManager);
-  version(WASM) {} else {
+  version(WASM) {
+    mainLoop.loopStart();
+  } else {
     try {
       parseArgs(args);
     } catch (Exception e) {
       return 1;
     }
-  }
-  try {
-    mainLoop.loop();
-  } catch (Throwable t) {
     try {
-      gameManager.saveErrorReplay();
-    } catch (Throwable) {}
-    throw t;
+      mainLoop.loop();
+    } catch (Throwable t) {
+      try {
+        gameManager.saveErrorReplay();
+      } catch (Throwable) {}
+      throw t;
+    }
   }
   return 0;
 }

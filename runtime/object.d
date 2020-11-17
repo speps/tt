@@ -450,10 +450,10 @@ inout(TypeInfo) unqualify(inout(TypeInfo) cti) pure nothrow @nogc
 
 
 // ldc defines this, used to find where wasm memory begins
-private extern extern(C) ubyte __heap_base;
+private extern extern (C) ubyte __heap_base;
 //                                           ---unused--- -- stack grows down -- -- heap here --
 // this is less than __heap_base. memory map 0 ... __data_end ... __heap_base ... end of memory
-private extern extern(C) ubyte __data_end;
+private extern extern (C) ubyte __data_end;
 
 private ubyte* nextFree;
 private size_t memorySize;
@@ -474,9 +474,9 @@ ubyte[] malloc(size_t sz) {
 }
 
 // then the entry point just for convenience so main works.
-extern(C) int _Dmain(string[] args);
-extern(C) void _start() { _Dmain(null); }
-extern(C) int main(int argc, immutable(char**) argv) {
+extern (C) int _Dmain(string[] args);
+extern (C) void _start() { _Dmain(null); }
+extern (C) int main(int argc, immutable(char**) argv) {
   return _Dmain(null);
 }
 
@@ -484,33 +484,37 @@ extern (C) int _adEq2(void[] a1, void[] a2, TypeInfo ti) {
   assert(false, "array equality");
 }
 
-extern(C) bool _xopEquals(in void*, in void*) { return false; }
+extern (C) bool _xopEquals(in void*, in void*) { return false; }
 
-extern(C) void _d_array_slice_copy(void* dst, size_t dstlen, void* src, size_t srclen, size_t elemsz) {
+extern (C) void _d_array_slice_copy(void* dst, size_t dstlen, void* src, size_t srclen, size_t elemsz) {
   memcpy(dst, src, dstlen * elemsz);
 }
 
-extern(C) void _d_throw_exception(Throwable throwable) {
+extern (C) void _d_throw_exception(Throwable throwable) {
   wasm.assertMessage(throwable.msg, throwable.file, throwable.line);
   wasm.abort();
 }
-extern(C) Throwable _d_eh_enter_catch(void* exceptionObject) {
+extern (C) Throwable _d_eh_enter_catch(void* exceptionObject) {
   assert(false, "enter catch");
 }
 
-extern(C) void _d_assert(string file, uint line) {
+extern (C) void _d_assert(string file, uint line) {
   wasm.assertMessage("", file, line);
 }
 
-extern(C) void _d_assert_msg(string msg, string file, uint line) {
+extern (C) void _d_assert_msg(string msg, string file, uint line) {
   wasm.assertMessage(msg, file, line);
 }
 
-extern(C) void _d_arraybounds(string file, size_t line) {
+extern (C) void _Unwind_Resume(void*) {
+  assert(false, "unwind resume");
+}
+
+extern (C) void _d_arraybounds(string file, size_t line) {
   wasm.assertMessage("out of bounds", file, line);
 }
 
-extern(C) void* memset(void* s, int c, size_t n) {
+extern (C) void* memset(void* s, int c, size_t n) {
   auto d = cast(ubyte*) s;
   while(n) {
     *d = cast(ubyte) c;
@@ -520,7 +524,7 @@ extern(C) void* memset(void* s, int c, size_t n) {
   return s;
 }
 
-extern(C) void* memcpy(void* d, void* s, size_t n) {
+extern (C) void* memcpy(void* d, void* s, size_t n) {
   auto td = cast(ubyte*) d, ts = cast(ubyte*) s;
   while(n) {
     *td = *ts;
@@ -533,7 +537,7 @@ extern(C) void* memcpy(void* d, void* s, size_t n) {
 
 void __switch_error(string file, size_t line) {}
 
-extern(C) Object _d_allocclass(TypeInfo_Class ti) {
+extern (C) Object _d_allocclass(TypeInfo_Class ti) {
   auto obj = malloc(ti.m_init.length);
   obj[] = ti.m_init[];
   return cast(Object) obj.ptr;
@@ -545,7 +549,7 @@ extern (C) void* _d_newitemT(TypeInfo ti) {
   return buffer.ptr;
 }
 
-extern(C) void* _d_allocmemory(size_t sz) {
+extern (C) void* _d_allocmemory(size_t sz) {
   return malloc(sz).ptr;
 }
 

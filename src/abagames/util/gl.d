@@ -438,7 +438,8 @@ version(GL_Batching) {
     auto vsIndex = glCreateShader(GL.VERTEX_SHADER);
     {
       auto sourcePtr = cast(char*)vsSource.ptr;
-      glShaderSource(vsIndex, 1, &sourcePtr, null);
+      int sourceLen = vsSource.length;
+      glShaderSource(vsIndex, 1, &sourcePtr, &sourceLen);
       glCompileShader(vsIndex);
       glGetShaderiv(vsIndex, GL.COMPILE_STATUS, &status);
       if (status == 0) {
@@ -450,7 +451,8 @@ version(GL_Batching) {
     auto fsIndex = glCreateShader(GL.FRAGMENT_SHADER);
     {
       auto sourcePtr = cast(char*)fsSource.ptr;
-      glShaderSource(fsIndex, 1, &sourcePtr, null);
+      int sourceLen = fsSource.length;
+      glShaderSource(fsIndex, 1, &sourcePtr, &sourceLen);
       glCompileShader(fsIndex);
       glGetShaderiv(fsIndex, GL.COMPILE_STATUS, &status);
       if (status == 0) {
@@ -464,23 +466,17 @@ version(GL_Batching) {
       glAttachShader(progIndex, vsIndex);
       glAttachShader(progIndex, fsIndex);
       glLinkProgram(progIndex);
-
-      {
-        glGetProgramiv(progIndex, GL.LINK_STATUS, &status);
-        if (status == 0) {
-          glGetProgramInfoLog(progIndex, infoLog.length, &infoLogLength, infoLog.ptr);
-          assert(false, infoLog[0..infoLogLength]);
-        }
+      glGetProgramiv(progIndex, GL.LINK_STATUS, &status);
+      if (status == 0) {
+        glGetProgramInfoLog(progIndex, infoLog.length, &infoLogLength, infoLog.ptr);
+        assert(false, infoLog[0..infoLogLength]);
       }
 
       glValidateProgram(progIndex);
-
-      {
-        glGetProgramiv(progIndex, GL.VALIDATE_STATUS, &status);
-        if (status == 0) {
-          glGetProgramInfoLog(progIndex, infoLog.length, &infoLogLength, infoLog.ptr);
-          assert(false, infoLog[0..infoLogLength]);
-        }
+      glGetProgramiv(progIndex, GL.VALIDATE_STATUS, &status);
+      if (status == 0) {
+        glGetProgramInfoLog(progIndex, infoLog.length, &infoLogLength, infoLog.ptr);
+        assert(false, infoLog[0..infoLogLength]);
       }
     }
 
@@ -495,11 +491,10 @@ version(GL_Batching) {
     glBindBuffer(GL.ARRAY_BUFFER, bufferIndex);
     glBufferData(GL.ARRAY_BUFFER, buffer.sizeof, null, GL.STREAM_DRAW);
 
-    glVertexAttribPointer(vertPositionLocation, 3, GL.FLOAT, GL.FALSE, 7 * float.sizeof, cast(void*)0);
-    glVertexAttribPointer(vertColorLocation, 4, GL.FLOAT, GL.FALSE, 7 * float.sizeof, cast(void*)(3 * float.sizeof));
-
     glEnableVertexAttribArray(vertPositionLocation);
+    glVertexAttribPointer(vertPositionLocation, 3, GL.FLOAT, GL.FALSE, 7 * float.sizeof, cast(void*)0);
     glEnableVertexAttribArray(vertColorLocation);
+    glVertexAttribPointer(vertColorLocation, 4, GL.FLOAT, GL.FALSE, 7 * float.sizeof, cast(void*)(3 * float.sizeof));
 
     glBindVertexArray(0);
   }
@@ -521,34 +516,65 @@ version(GL_Batching) {
 public:
   
   static void init() {
-    program = compileProgram(
-      `
-        #version 120
+    version(WASM) {
+      program = compileProgram(
+        `
+          precision mediump float;
 
-        uniform mat4 projection; 
-        uniform mat4 modelView;
+          uniform mat4 projection; 
+          uniform mat4 modelView;
 
-        attribute vec3 vertPosition;
-        attribute vec4 vertColor;
-        varying vec4 fragColor;
+          attribute vec3 vertPosition;
+          attribute vec4 vertColor;
+          varying vec4 fragColor;
 
-        void main()
-        {
-          fragColor = vertColor;
-          gl_Position = projection * modelView * vec4(vertPosition, 1.0);
-        }
-      `,
-      `
-        #version 120
+          void main()
+          {
+            fragColor = vertColor;
+            gl_Position = projection * modelView * vec4(vertPosition, 1.0);
+          }
+        `,
+        `
+          precision mediump float;
 
-        varying vec4 fragColor;
+          varying vec4 fragColor;
 
-        void main()
-        {
-          gl_FragColor = fragColor;
-        }
-      `
-    );
+          void main()
+          {
+            gl_FragColor = fragColor;
+          }
+        `
+      );
+    } else {
+      program = compileProgram(
+        `
+          #version 120
+
+          uniform mat4 projection; 
+          uniform mat4 modelView;
+
+          attribute vec3 vertPosition;
+          attribute vec4 vertColor;
+          varying vec4 fragColor;
+
+          void main()
+          {
+            fragColor = vertColor;
+            gl_Position = projection * modelView * vec4(vertPosition, 1.0);
+          }
+        `,
+        `
+          #version 120
+
+          varying vec4 fragColor;
+
+          void main()
+          {
+            gl_FragColor = fragColor;
+          }
+        `
+      );
+    }
 
     projectionLocation = glGetUniformLocation(program, "projection");
     modelViewLocation = glGetUniformLocation(program, "modelView");
@@ -971,35 +997,74 @@ version(GL_Batching) {
 
 version(WASM) {
   extern (C) {
-    int glGetAttribLocation(uint, const(char)*) { return 0; }
-    int glGetUniformLocation(uint, const(char)*) { return 0; }
-    uint glCreateProgram() { return 0; }
-    uint glCreateShader(uint) { return 0; }
-    void glAttachShader(uint, uint) {}
-    void glBindBuffer(uint, uint) {}
-    void glBindVertexArray(uint) {}
-    void glBlendFunc(uint, uint) {}
-    void glBufferData(uint, int, const(void)*, uint) {}
-    void glClear(uint) {}
-    void glClearColor(float, float, float, float) {}
-    void glCompileShader(uint) {}
-    void glDisable(uint) {}
-    void glDrawArrays(uint, int, int) {}
-    void glEnable(uint) {}
-    void glEnableVertexAttribArray(int) {}
-    void glGenBuffers(int, uint*) {}
-    void glGenVertexArrays(int, uint*) {}
-    void glGetProgramInfoLog(uint, int, int*, char*) {}
-    void glGetProgramiv(uint, uint, int* v) { *v = 1; }
-    void glGetShaderInfoLog(uint, int, int*, char*) {}
-    void glGetShaderiv(uint, uint, int* v) { *v = 1; }
-    void glLineWidth(float) {}
-    void glLinkProgram(uint) {}
-    void glShaderSource(uint, int, const(char*)*, const(int)*) {}
-    void glUniformMatrix4fv(int, int, ubyte, const(float)*) {}
-    void glUseProgram(uint) {}
-    void glValidateProgram(uint) {}
-    void glVertexAttribPointer(uint, int, uint, ubyte, int, const(void)*) {}
-    void glViewport(int, int, int, int) {}
+    version(X86) {
+      int glGetAttribLocation(uint, const(char)*) { return 0; }
+      int glGetUniformLocation(uint, const(char)*) { return 0; }
+      uint glCreateProgram() { return 0; }
+      uint glCreateShader(uint) { return 0; }
+      void glAttachShader(uint, uint) {}
+      void glBindBuffer(uint, uint) {}
+      void glBindVertexArray(uint) {}
+      void glBlendFunc(uint, uint) {}
+      void glBufferData(uint, int, const(void)*, uint) {}
+      void glClear(uint) {}
+      void glClearColor(float, float, float, float) {}
+      void glCompileShader(uint) {}
+      void glDisable(uint) {}
+      void glDrawArrays(uint, int, int) {}
+      void glEnable(uint) {}
+      void glEnableVertexAttribArray(int) {}
+      void glGenBuffers(int, uint*) {}
+      void glGenVertexArrays(int, uint*) {}
+      void glGetProgramInfoLog(uint, int, int*, char*) {}
+      void glGetProgramiv(uint, uint, int* v) { *v = 0; }
+      void glGetShaderInfoLog(uint, int, int*, char*) {}
+      void glGetShaderiv(uint, uint, int* v) { *v = 0; }
+      void glLineWidth(float) {}
+      void glLinkProgram(uint) {}
+      void glShaderSource(uint, int, const(char*)*, const(int)*) {}
+      void glUniformMatrix4fv(int, int, ubyte, const(float)*) {}
+      void glUseProgram(uint) {}
+      void glValidateProgram(uint) {}
+      void glVertexAttribPointer(uint, int, uint, ubyte, int, const(void)*) {}
+      void glViewport(int, int, int, int) {}
+    } else {
+      int glGetAttribLocationWithLen(uint, const(char*), uint);
+      int glGetAttribLocation(uint p, string n) {
+        return glGetAttribLocationWithLen(p, n.ptr, n.length);
+      }
+      int glGetUniformLocationWithLen(uint, const(char*), uint);
+      int glGetUniformLocation(uint p, string n) {
+        return glGetUniformLocationWithLen(p, n.ptr, n.length);
+      }
+      uint glCreateProgram();
+      uint glCreateShader(uint);
+      void glAttachShader(uint, uint);
+      void glBindBuffer(uint, uint);
+      void glBindVertexArray(uint);
+      void glBlendFunc(uint, uint);
+      void glBufferData(uint, int, const(void)*, uint);
+      void glClear(uint);
+      void glClearColor(float, float, float, float);
+      void glCompileShader(uint);
+      void glDisable(uint);
+      void glDrawArrays(uint, int, int);
+      void glEnable(uint);
+      void glEnableVertexAttribArray(int);
+      void glGenBuffers(int, uint*);
+      void glGenVertexArrays(int, uint*);
+      void glGetProgramInfoLog(uint, int, int*, char*);
+      void glGetProgramiv(uint, uint, int*);
+      void glGetShaderInfoLog(uint, int, int*, char*);
+      void glGetShaderiv(uint, uint, int*);
+      void glLineWidth(float);
+      void glLinkProgram(uint);
+      void glShaderSource(uint, int, const(char*)*, const(int)*);
+      void glUniformMatrix4fv(int, int, ubyte, const(float)*);
+      void glUseProgram(uint);
+      void glValidateProgram(uint);
+      void glVertexAttribPointer(uint, int, uint, ubyte, int, const(void)*);
+      void glViewport(int, int, int, int);
+    }
   }
 }
