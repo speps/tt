@@ -35,7 +35,7 @@
       "versions": [
         "WASM",
         "GL_Batching",
-        "InputBackendDummy"
+        "InputBackendWASM"
       ]
     },
     {

@@ -8,6 +8,7 @@ extern (C) void wasm_writeString(cstr_t msgptr, size_t msglen);
 extern (C) void wasm_writeInt(int n);
 extern (C) void wasm_assert(cstr_t msgptr, size_t msglen, cstr_t fileptr, size_t filelen, size_t line);
 extern (C) void wasm_abort();
+extern (C) uint wasm_inputState();
 
 version(X86) {
   static const size_t SIZE = 10 * 1024 * 1024;
@@ -62,6 +63,9 @@ version(X86) {
     DebugBreak();
     ExitProcess(-1);
   }
+  extern (C) uint wasm_inputState() {
+    return 0;
+  }
 }
 
 public:
@@ -71,3 +75,4 @@ void write(string s) { return wasm_writeString(s.ptr, s.length); }
 void write(int n) { return wasm_writeInt(n); }
 void assertMessage(string msg, string file, int line) { return wasm_assert(msg.ptr, msg.length, file.ptr, file.length, line); }
 void abort() { wasm_abort(); }
+uint inputState() { return wasm_inputState(); }

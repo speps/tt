@@ -81,3 +81,20 @@ version(InputBackendDummy) {
 
   alias InputBackendImpl = InputBackendDummy;
 }
+
+version(InputBackendWASM) {
+  public class InputBackendWASM : InputBackend {
+    uint state = 0;
+
+    public override void update() {
+      import wasm;
+      state = wasm.inputState();
+    }
+    public override int getDirState() { return state & 0xF; }
+    public override int getButtonState() { return state & 0x30; }
+    public override bool getExitState() { return (state & 0x40) != 0; }
+    public override bool getPauseState() { return (state & 0x80) != 0; }
+  }
+
+  alias InputBackendImpl = InputBackendWASM;
+}

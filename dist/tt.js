@@ -20,6 +20,8 @@ var glCreateId = function(obj) {
   return id;
 }
 
+var inputState = 0;
+
 /* Uncomment to log all WebGL calls */
 // function logGLCall(functionName, args) {
 //   console.log("gl." + functionName, Array.from(args));
@@ -53,6 +55,9 @@ var importObject = {
     },
     wasm_abort: function() {
       throw "abort";
+    },
+    wasm_inputState: function() {
+      return inputState;
     },
     wasm_cos: Math.cos,
     wasm_sin: Math.sin,
@@ -165,6 +170,42 @@ function loop(timestamp) {
     requestAnimationFrame(loop);
   }
 }
+
+function maskInput(code, enable) {
+  const masks = {
+    ArrowUp: 0x1,
+    ArrowDown: 0x2,
+    ArrowLeft: 0x4,
+    ArrowRight: 0x8,
+    ControlLeft: 0x10,
+    ShiftLeft: 0x20,
+    Escape: 0x40,
+    KeyP: 0x80
+  };
+  if (code in masks) {
+    const mask = masks[code];
+    if (enable) {
+      inputState |= mask; 
+    } else {
+      inputState &= ~mask;
+    }
+    console.log(inputState);
+  }
+}
+
+window.addEventListener("keydown", function(event) {
+  if (!event.defaultPrevented) {
+    maskInput(event.code, true);
+  }
+  event.preventDefault();
+}, true);
+
+window.addEventListener("keyup", function(event) {
+  if (!event.defaultPrevented) {
+    maskInput(event.code, false);
+  }
+  event.preventDefault();
+}, true);
 
 WebAssembly.instantiateStreaming(fetch('./tt.wasm'), importObject)
   .then(function(obj) {
