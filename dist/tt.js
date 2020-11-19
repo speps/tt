@@ -64,6 +64,7 @@ var importObject = {
     wasm_atan2: Math.atan2,
     wasm_sqrt: Math.sqrt,
     wasm_pow: Math.pow,
+    wasm_fmodf: function(x, y) { return x % y; },
     glCreateProgram: function() {
       const id = glCreateId(gl.createProgram());
       return id;

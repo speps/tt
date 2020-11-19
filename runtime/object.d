@@ -755,6 +755,14 @@ extern (C) size_t _aaLen(const AA aa) pure nothrow @nogc {
 }
 
 extern (D) alias dg_t = int delegate(void*);
-extern (C) int _aaApply(AA aa, const size_t keysz, dg_t dg) {
-  assert(false, "aa apply");
+extern (C) int _aaApply(AAImpl* aa, const size_t keysz, dg_t dg) {
+  if (aa is null || !aa.length) {
+    return 0;
+  }
+  foreach (entry; aa.entries) {
+    if (auto res = dg(entry.value.ptr)) {
+      return res;
+    }
+  }
+  return 0;
 }

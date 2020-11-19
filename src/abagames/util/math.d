@@ -9,12 +9,14 @@ version(WASM)
     extern (C) float wasm_sqrt(float x) { return 0.0f; }
     extern (C) float wasm_atan2(float y, float x) { return 0.0f; }
     extern (C) float wasm_pow(float x, float y) { return 0.0f; }
+    extern (C) float wasm_fmodf(float x, float y) { return 0.0f; }
   } else {
     extern (C) float wasm_cos(float x);
     extern (C) float wasm_sin(float x);
     extern (C) float wasm_sqrt(float x);
     extern (C) float wasm_atan2(float y, float x);
     extern (C) float wasm_pow(float x, float y);
+    extern (C) float wasm_fmodf(float x, float y);
   }
 
   public:
@@ -23,6 +25,8 @@ version(WASM)
   float sqrt(float x) { return wasm_sqrt(x); }
   float atan2(float y, float x) { return wasm_atan2(y, x); }
   float pow(float x, float y) { return wasm_pow(x, y); }
+  
+  extern(C) float fmodf(float x, float y) { return wasm_fmodf(x, y); }
 }
 else
 {
@@ -40,11 +44,6 @@ enum real PI_4 =       PI/4;
 
 float fabs(float x) {
   return x < 0.0f ? -x : x;
-}
-
-// to fix undefined symbol, required for some reason
-extern (C) float fmodf(float x, float y) {
-  assert(false, "fmodf unsupported");
 }
 
 bool isNaN(float x) @nogc @trusted pure nothrow {

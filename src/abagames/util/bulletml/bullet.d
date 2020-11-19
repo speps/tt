@@ -31,11 +31,10 @@ public class Bullet {
   BulletMLRunnerType runner;
   float _rank;
 
-  public static this() {
-    rand = new Rand;
-  }
-
   public static void setRandSeed(long s) {
+    if (!rand) {
+      rand = new Rand;
+    }
     rand.setSeed(s);
   }
 

@@ -56,11 +56,10 @@ public class Enemy: Actor {
   bool passed;
   EnemyPool passedEnemies;
 
-  public static this() {
-    rand = new Rand;
-  }
-
   public static void setRandSeed(long seed) {
+    if (!rand) {
+      rand = new Rand;
+    }
     rand.setSeed(seed);
   }
 
