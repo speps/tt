@@ -186,11 +186,10 @@ function maskInput(code, enable) {
   if (code in masks) {
     const mask = masks[code];
     if (enable) {
-      inputState |= mask; 
+      inputState |= mask;
     } else {
       inputState &= ~mask;
     }
-    console.log(inputState);
   }
 }
 
