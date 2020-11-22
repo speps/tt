@@ -11,7 +11,7 @@ extern (C) void wasm_abort();
 extern (C) uint wasm_inputState();
 
 version(X86) {
-  static const size_t SIZE = 10 * 1024 * 1024;
+  static const size_t SIZE = 2 * 1024 * 1024;
   static const auto newline = "\n";
 
   pragma(lib, "kernel32");
@@ -34,7 +34,7 @@ version(X86) {
     return SIZE;
   }
   extern (C) size_t wasm_growMemory(size_t by) {
-    assert(false, "growing memory not supported");
+    assert(false, "grow memory");
   }
   extern (C) void wasm_writeString(cstr_t msgptr, size_t msglen) {
     stdOut(msgptr, msglen);

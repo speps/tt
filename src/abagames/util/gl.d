@@ -1016,10 +1016,10 @@ version(WASM) {
       void glEnableVertexAttribArray(int) {}
       void glGenBuffers(int, uint*) {}
       void glGenVertexArrays(int, uint*) {}
-      void glGetProgramInfoLog(uint, int, int*, char*) {}
-      void glGetProgramiv(uint, uint, int* v) { *v = 0; }
-      void glGetShaderInfoLog(uint, int, int*, char*) {}
-      void glGetShaderiv(uint, uint, int* v) { *v = 0; }
+      void glGetProgramInfoLog(uint, int, int* n, char*) { *n = 0; }
+      void glGetProgramiv(uint, uint, int* v) { *v = 1; }
+      void glGetShaderInfoLog(uint, int, int* n, char*) { *n = 0; }
+      void glGetShaderiv(uint, uint, int* v) { *v = 1; }
       void glLineWidth(float) {}
       void glLinkProgram(uint) {}
       void glShaderSource(uint, int, const(char*)*, const(int)*) {}

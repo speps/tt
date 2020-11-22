@@ -42,7 +42,17 @@ public int main(string[] args) {
   prefManager = new PrefManager;
   mainLoop = new MainLoop(screen, pad, gameManager, prefManager);
   version(WASM) {
-    mainLoop.loopStart();
+    version(X86) {
+      mainLoop.loopStart();
+      int count = 0;
+      while (true) {
+        if (mainLoop.innerLoop(1)) {
+          break;
+        }
+      }
+    } else {
+      mainLoop.loopStart();
+    }
   } else {
     try {
       parseArgs(args);

@@ -190,21 +190,25 @@ function maskInput(code, enable) {
     } else {
       inputState &= ~mask;
     }
+    return true;
   }
+  return false;
 }
 
 window.addEventListener("keydown", function(event) {
   if (!event.defaultPrevented) {
-    maskInput(event.code, true);
+    if (maskInput(event.code, true)) {
+      event.preventDefault();
+    }
   }
-  event.preventDefault();
 }, true);
 
 window.addEventListener("keyup", function(event) {
   if (!event.defaultPrevented) {
-    maskInput(event.code, false);
+    if (maskInput(event.code, false)) {
+      event.preventDefault();
+    }
   }
-  event.preventDefault();
 }, true);
 
 WebAssembly.instantiateStreaming(fetch('./tt.wasm'), importObject)

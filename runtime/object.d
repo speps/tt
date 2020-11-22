@@ -465,7 +465,11 @@ ubyte[] malloc(size_t sz) {
   }
   auto ret = nextFree;
   nextFree += sz;
-  version(X86) {} else {
+  version(X86) {
+    if (cast(size_t)nextFree >= (cast(size_t)&__heap_base + memorySize)) {
+      memorySize = wasm.growMemory(sz);
+    }
+  } else {
     if (cast(size_t)nextFree >= memorySize) {
       memorySize = wasm.growMemory(sz);
     }
@@ -554,6 +558,13 @@ extern (C) void* _d_allocmemory(size_t sz) {
 }
 
 extern (C) void _d_callfinalizer(void* p) {
+}
+
+extern(C) bool _d_enter_cleanup(void* ptr) {
+    return true;
+}
+
+extern(C) void _d_leave_cleanup(void* ptr) {
 }
 
 extern (C) void* _d_interface_cast(void* p, TypeInfo_Class c) {

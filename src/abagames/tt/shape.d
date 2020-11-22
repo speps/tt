@@ -554,13 +554,13 @@ public class BulletShape: Drawable {
   }
 
   private void createTriangleShape(bool wireShape) {
-    auto cp = new Vector3;
-    auto p1 = new Vector3;
-    auto p2 = new Vector3;
-    auto p3 = new Vector3;
-    auto np1 = new Vector3;
-    auto np2 = new Vector3;
-    auto np3 = new Vector3;
+    scope auto cp = new Vector3;
+    scope auto p1 = new Vector3;
+    scope auto p2 = new Vector3;
+    scope auto p3 = new Vector3;
+    scope auto np1 = new Vector3;
+    scope auto np2 = new Vector3;
+    scope auto np3 = new Vector3;
     for (int i = 0; i < 3; i++) {
       float d = PI * 2 / 3 * i;
       p1.x = p1.y = 0;
@@ -601,9 +601,15 @@ public class BulletShape: Drawable {
   }
 
   private void createSquareShape(bool wireShape) {
-    auto cp = new Vector3;
-    auto p = new Vector3[4];
-    auto np = new Vector3[4];
+    scope auto cp = new Vector3;
+    scope auto p0 = new Vector3;
+    scope auto p1 = new Vector3;
+    scope auto p2 = new Vector3;
+    scope auto p3 = new Vector3;
+    scope auto np0 = new Vector3;
+    scope auto np1 = new Vector3;
+    scope auto np2 = new Vector3;
+    scope auto np3 = new Vector3;
     static const float[][][] POINT_DAT = [
       [[-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1], ],
       [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], ],
@@ -612,43 +618,61 @@ public class BulletShape: Drawable {
       [[1, -1, -1], [1, -1, 1], [1, 1, 1], [1, 1, -1], ],
       [[-1, -1, -1], [-1, -1, 1], [-1, 1, 1], [-1, 1, -1], ],
     ];
-    foreach (ref Vector3 ip; p)
-      ip = new Vector3;
-    foreach (ref Vector3 inp; np)
-      inp = new Vector3;
     for (int i = 0; i < 6; i++) {
       cp.x = cp.y = cp.z = 0;
-      for (int j = 0; j < 4; j++) {
-        p[j].x = POINT_DAT[i][j][0];
-        p[j].y = POINT_DAT[i][j][1];
-        p[j].z = POINT_DAT[i][j][2];
-        cp += p[j];
-      }
+      p0.x = POINT_DAT[i][0][0];
+      p0.y = POINT_DAT[i][0][1];
+      p0.z = POINT_DAT[i][0][2];
+      cp += p0;
+      p1.x = POINT_DAT[i][1][0];
+      p1.y = POINT_DAT[i][1][1];
+      p1.z = POINT_DAT[i][1][2];
+      cp += p1;
+      p2.x = POINT_DAT[i][2][0];
+      p2.y = POINT_DAT[i][2][1];
+      p2.z = POINT_DAT[i][2][2];
+      cp += p2;
+      p3.x = POINT_DAT[i][3][0];
+      p3.y = POINT_DAT[i][3][1];
+      p3.z = POINT_DAT[i][3][2];
+      cp += p3;
       cp /= 4;
-      for (int j = 0; j < 4; j++)
-        np[j].blend(p[j], cp, 0.6);
+      np0.blend(p0, cp, 0.6);
+      np1.blend(p1, cp, 0.6);
+      np2.blend(p2, cp, 0.6);
+      np3.blend(p3, cp, 0.6);
       if (!wireShape)
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
       else
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
       GL.begin(GL.LINE_LOOP);
-      for (int j = 0; j < 4; j++)
-        GL.vertex(np[j]);
+      GL.vertex(np0);
+      GL.vertex(np1);
+      GL.vertex(np2);
+      GL.vertex(np3);
       GL.end();
       if (!wireShape) {
         GL.begin(GL.TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
-        for (int j = 0; j < 4; j++)
-          GL.vertex(np[j]);
+        GL.vertex(np0);
+        GL.vertex(np1);
+        GL.vertex(np2);
+        GL.vertex(np3);
         GL.end();
       }
     }
   }
 
   private void createBarShape(bool wireShape) {
-    auto cp = new Vector3;
-    auto p = new Vector3[4];
-    auto np = new Vector3[4];
+    scope auto cp = new Vector3;
+    scope auto p0 = new Vector3;
+    scope auto p1 = new Vector3;
+    scope auto p2 = new Vector3;
+    scope auto p3 = new Vector3;
+    scope auto np0 = new Vector3;
+    scope auto np1 = new Vector3;
+    scope auto np2 = new Vector3;
+    scope auto np3 = new Vector3;
     static const float[][][] POINT_DAT = [
       [[-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1], ],
       //[[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], ],
@@ -657,34 +681,46 @@ public class BulletShape: Drawable {
       [[1, -1, -1], [1, -1, 1], [1, 1, 1], [1, 1, -1], ],
       [[-1, -1, -1], [-1, -1, 1], [-1, 1, 1], [-1, 1, -1], ],
     ];
-    foreach (ref Vector3 ip; p)
-      ip = new Vector3;
-    foreach (ref Vector3 inp; np)
-      inp = new Vector3;
     for (int i = 0; i < 5; i++) {
       cp.x = cp.y = cp.z = 0;
-      for (int j = 0; j < 4; j++) {
-        p[j].x = POINT_DAT[i][j][0] * 0.7f;
-        p[j].y = POINT_DAT[i][j][1] * 0.7f;
-        p[j].z = POINT_DAT[i][j][2] * 1.75f;
-        cp += p[j];
-      }
+      p0.x = POINT_DAT[i][0][0] * 0.7f;
+      p0.y = POINT_DAT[i][0][1] * 0.7f;
+      p0.z = POINT_DAT[i][0][2] * 1.75f;
+      cp += p0;
+      p1.x = POINT_DAT[i][1][0] * 0.7f;
+      p1.y = POINT_DAT[i][1][1] * 0.7f;
+      p1.z = POINT_DAT[i][1][2] * 1.75f;
+      cp += p1;
+      p2.x = POINT_DAT[i][2][0] * 0.7f;
+      p2.y = POINT_DAT[i][2][1] * 0.7f;
+      p2.z = POINT_DAT[i][2][2] * 1.75f;
+      cp += p2;
+      p3.x = POINT_DAT[i][3][0] * 0.7f;
+      p3.y = POINT_DAT[i][3][1] * 0.7f;
+      p3.z = POINT_DAT[i][3][2] * 1.75f;
+      cp += p3;
       cp /= 4;
-      for (int j = 0; j < 4; j++)
-        np[j].blend(p[j], cp, 0.6);
+      np0.blend(p0, cp, 0.6);
+      np1.blend(p1, cp, 0.6);
+      np2.blend(p2, cp, 0.6);
+      np3.blend(p3, cp, 0.6);
       if (!wireShape)
         Screen.setColor(COLOR_RGB[0], COLOR_RGB[1], COLOR_RGB[2]);
       else
         Screen.setColor(COLOR_RGB[0] * 0.6, COLOR_RGB[1], COLOR_RGB[2]);
       GL.begin(GL.LINE_LOOP);
-      for (int j = 0; j < 4; j++)
-        GL.vertex(np[j]);
+      GL.vertex(np0);
+      GL.vertex(np1);
+      GL.vertex(np2);
+      GL.vertex(np3);
       GL.end();
       if (!wireShape) {
         GL.begin(GL.TRIANGLE_FAN);
         Screen.setColor(COLOR_RGB[0] * 0.7, COLOR_RGB[1] * 0.7, COLOR_RGB[2] * 0.7);
-        for (int j = 0; j < 4; j++)
-          GL.vertex(np[j]);
+        GL.vertex(np0);
+        GL.vertex(np1);
+        GL.vertex(np2);
+        GL.vertex(np3);
         GL.end();
       }
     }
@@ -699,7 +735,7 @@ public class ShotShape: Collidable, Drawable {
  private:
   static const float[] COLOR_RGB = [0.8, 1, 0.7];
   bool _charge;
-  Vector _collision;
+  Vector _collision = new Vector();
 
   public void create(bool charge) {
     _charge = charge;
@@ -741,7 +777,8 @@ public class ShotShape: Collidable, Drawable {
         GL.end();
       }
     }
-    _collision = new Vector(0.15, 0.3);
+    _collision.x = 0.15;
+    _collision.y = 0.3;
   }
 
   public Vector collision() {
