@@ -74,6 +74,11 @@ public class MainLoop {
           event.type = SDL_USEREVENT;
         if (event.type == SDL_QUIT)
           breakLoop();
+        if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED) {
+          int w = event.window.data1;
+          int h = event.window.data2;
+          screen.resized(w, h);
+        }
 
         long nowTick = SDL_GetTicks();
         int frame = cast(int) (nowTick-prvTickCount) / interval;
@@ -102,6 +107,10 @@ public class MainLoop {
       screen.initWindow();
       initFirst();
       gameManager.start();
+    }
+
+    public void resized(int width, int height) {
+      screen.resized(width, height);
     }
   }
 

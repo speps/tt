@@ -179,7 +179,7 @@ public class Screen3D: Screen {
     GL.matrixMode(GL.MatrixMode.ModelView);
   }
 
-  public void resized(int width, int height) {
+  public override void resized(int width, int height) {
     this.width = width;
     this.height = height;
     screenResized();

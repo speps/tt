@@ -211,10 +211,21 @@ window.addEventListener("keyup", function(event) {
   }
 }, true);
 
+function onResize() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  canvas.width = w;
+  canvas.height = h;
+  console.log("resized to " + w + "x" + h);
+  exports._resized(w, h);
+}
+window.addEventListener("resize", onResize, true);
+
 WebAssembly.instantiateStreaming(fetch('./tt.wasm'), importObject)
   .then(function(obj) {
     memory = obj.instance.exports.memory;
     exports = obj.instance.exports;
     exports._start();
+    onResize();
     requestAnimationFrame(loop);
   });

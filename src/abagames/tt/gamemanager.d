@@ -172,14 +172,6 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
   }
 
   public override void draw() {
-    // TODO
-    // SDL_Event e = mainLoop.event;
-    // if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_RESIZED) {
-    //   int w = e.window.data1;
-    //   int h = e.window.data2;
-    //   if (w > 150 && h > 100)
-    //     screen.resized(w, h);
-    // }
     screen.clear();
     GL.pushMatrix();
     ship.setEyepos();

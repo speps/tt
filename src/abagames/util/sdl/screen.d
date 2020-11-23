@@ -11,6 +11,7 @@ module abagames.util.sdl.screen;
 public interface Screen {
   public void initWindow();
   public void closeWindow();
+  public void resized(int width, int height);
   public void flip();
   public void clear();
 }

@@ -33,6 +33,9 @@ version(WASM) {
   export extern (C) bool _loop() {
     return mainLoop.innerLoop(1);
   }
+  export extern (C) void _resized(int width, int height) {
+    mainLoop.resized(width, height);
+  }
 }
 
 public int main(string[] args) {
