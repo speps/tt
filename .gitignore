@@ -14,7 +14,6 @@ tt-test-*
 *.o
 *.a
 *.lib
-*.wasm
 *.obj
 *.lst
 *.sln

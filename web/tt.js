@@ -22,12 +22,6 @@ var glCreateId = function(obj) {
 
 var inputState = 0;
 
-/* Uncomment to log all WebGL calls */
-// function logGLCall(functionName, args) {
-//   console.log("gl." + functionName, Array.from(args));
-// }
-// gl = WebGLDebugUtils.makeDebugContext(gl, undefined, logGLCall);
-
 var importObject = {
   env: {
     wasm_memorySize: function() {
@@ -211,12 +205,26 @@ window.addEventListener("keyup", function(event) {
   }
 }, true);
 
+var resizeMsg = undefined;
 function onResize() {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+  const ratio = 4.0 / 3.0;
+  if (w < (h * ratio)) {
+    h = Math.round(w / ratio);
+  } else {
+    w = Math.round(h * ratio);
+  }
+  canvas.style.left = (window.innerWidth / 2 - w / 2) + "px";
+  canvas.style.top = (window.innerHeight / 2 - h / 2) + "px";
+  canvas.style.width = w + "px";
+  canvas.style.height = h + "px";
   canvas.width = w;
   canvas.height = h;
-  console.log("resized to " + w + "x" + h);
+  if (resizeMsg) {
+    clearTimeout(resizeMsg);
+  }
+  resizeMsg = setTimeout(() => { console.log("resized to " + w + "x" + h); }, 1000);
   exports._resized(w, h);
 }
 window.addEventListener("resize", onResize, true);

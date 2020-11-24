@@ -14,6 +14,7 @@
   "configurations": [
     {
       "name": "wasm_debug",
+      "targetPath": "web",
       "sourceFiles": [
         "src/**.d"
       ],
@@ -27,6 +28,7 @@
     },
     {
       "name": "wasm",
+      "targetPath": "web",
       "sourceFiles": [
         "src/**.d"
       ],
