@@ -23,6 +23,17 @@ string convString(int v) {
   return result;
 }
 
+string convString(const(char*) s) {
+  int index = 0;
+  while (true) {
+    if (s[index] == '\0') {
+      break;
+    }
+    index++;
+  }
+  return cast(immutable(char[])) s[0..index];
+}
+
 int convInt(string str) {
   bool isNegative = false;
   int i = 0;

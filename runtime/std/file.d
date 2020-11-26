@@ -1,6 +1,20 @@
 module std.file;
 
 ubyte[] read(string path) {
+  if (path == "sounds/chunks/boss_dest.wav") return cast(ubyte[]) import("sounds/chunks/boss_dest.wav");
+  if (path == "sounds/chunks/charge.wav") return cast(ubyte[]) import("sounds/chunks/charge.wav");
+  if (path == "sounds/chunks/charge_shot.wav") return cast(ubyte[]) import("sounds/chunks/charge_shot.wav");
+  if (path == "sounds/chunks/extend.wav") return cast(ubyte[]) import("sounds/chunks/extend.wav");
+  if (path == "sounds/chunks/hit.wav") return cast(ubyte[]) import("sounds/chunks/hit.wav");
+  if (path == "sounds/chunks/middle_dest.wav") return cast(ubyte[]) import("sounds/chunks/middle_dest.wav");
+  if (path == "sounds/chunks/myship_dest.wav") return cast(ubyte[]) import("sounds/chunks/myship_dest.wav");
+  if (path == "sounds/chunks/shot.wav") return cast(ubyte[]) import("sounds/chunks/shot.wav");
+  if (path == "sounds/chunks/small_dest.wav") return cast(ubyte[]) import("sounds/chunks/small_dest.wav");
+  if (path == "sounds/chunks/timeup_beep.wav") return cast(ubyte[]) import("sounds/chunks/timeup_beep.wav");
+  if (path == "sounds/musics/tt1.ogg") return cast(ubyte[]) import("sounds/musics/tt1.ogg");
+  if (path == "sounds/musics/tt2.ogg") return cast(ubyte[]) import("sounds/musics/tt2.ogg");
+  if (path == "sounds/musics/tt3.ogg") return cast(ubyte[]) import("sounds/musics/tt3.ogg");
+  if (path == "sounds/musics/tt4.ogg") return cast(ubyte[]) import("sounds/musics/tt4.ogg");
   return null;
 }
 

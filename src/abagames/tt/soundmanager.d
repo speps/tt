@@ -42,7 +42,6 @@ public class SoundManager: abagames.util.sdl.sound.SoundManager {
   }
 
   private static Music[] loadMusics() {
-  version(SDL_Mixer) {
     Music[] musics;
     import std.path;
     string[] files = listdir(Music.dir);
@@ -56,9 +55,6 @@ public class SoundManager: abagames.util.sdl.sound.SoundManager {
       Logger.info("Load bgm: " ~ fileName);
     }
     return musics;
-  } else {
-    return [new Music()];
-  }
   }
 
   private static Chunk[string] loadChunks() {
@@ -68,9 +64,7 @@ public class SoundManager: abagames.util.sdl.sound.SoundManager {
       Chunk chunk = new Chunk();
       chunk.load(fileName, seChannel[i]);
       chunks[fileName] = chunk;
-      version(SDL_Mixer) {
-        Logger.info("Load SE: " ~ fileName);
-      }
+      Logger.info("Load SE: " ~ fileName);
       i++;
     }
     return chunks;

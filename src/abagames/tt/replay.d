@@ -34,7 +34,11 @@ public class ReplayData {
   }
 
   public bool load(string fileName) {
-    auto buffer = cast(ubyte[])std.file.read(dir ~ "/" ~ fileName);
+    ubyte[] buffer = null;
+    try {
+      buffer = cast(ubyte[])std.file.read(dir ~ "/" ~ fileName);
+    } catch(Exception) {
+    }
     if (buffer is null) {
       return false;
     }

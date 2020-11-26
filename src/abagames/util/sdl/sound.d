@@ -5,6 +5,7 @@
  */
 module abagames.util.sdl.sound;
 
+import abagames.util.conv;
 import abagames.util.sdl.sdlexception;
 
 public interface Sound {
@@ -12,8 +13,6 @@ public interface Sound {
   public void load(string name, int ch);
   public void free();
   public void play();
-  public void fade();
-  public void halt();
 }
 
 version(SDL_Mixer) {
@@ -97,7 +96,6 @@ public class Music: Sound {
 
   public void free() {
     if (music) {
-      halt();
       Mix_FreeMusic(music);
     }
   }
@@ -106,20 +104,6 @@ public class Music: Sound {
     if (SoundManager.noSound)
       return;
     Mix_PlayMusic(music, -1);
-  }
-
-  public void playOnce() {
-    if (SoundManager.noSound)
-      return;
-    Mix_PlayMusic(music, 1);
-  }
-
-  public void fade() {
-    Music.fadeMusic();
-  }
-
-  public void halt() {
-    Music.haltMusic();
   }
 
   public static void fadeMusic() {
@@ -163,7 +147,6 @@ public class Chunk: Sound {
 
   public void free() {
     if (chunk) {
-      halt();
       Mix_FreeChunk(chunk);
     }
   }
@@ -173,19 +156,20 @@ public class Chunk: Sound {
       return;
     Mix_PlayChannel(chunkChannel, chunk, 0);
   }
-
-  public void halt() {
-    if (SoundManager.noSound)
-      return;
-    Mix_HaltChannel(chunkChannel);
-  }
-
-  public void fade() {
-    halt();
-  }
 }
 
-} else {
+}
+
+version (WASM) {
+
+import std.file;
+
+extern (C) {
+  uint wasm_sound_load(const(char*) nameptr, size_t namelen, const(ubyte*) bufptr, size_t buflen);
+  void wasm_sound_play(const(char*) nameptr, size_t namelen);
+  void wasm_sound_fadeMusic(uint ms);
+  void wasm_sound_haltMusic();
+}
 
 public class SoundManager {
 public:
@@ -194,28 +178,49 @@ public:
   static void close() {}
 }
 
-public class Music: Sound {
+public class Music : Sound {
 public:
-  public void load(string name) {}
-  public void load(string name, int ch) {}
+  static int fadeOutSpeed = 1280;
+  static string dir = "sounds/musics";
+private:
+  string _name;
+public:
+  public void load(string name) {
+    _name = dir ~ "/" ~ name;
+    ubyte[] data = std.file.read(_name);
+    wasm_sound_load(_name.ptr, _name.length, data.ptr, data.length);
+  }
+  public void load(string name, int ch) {
+    load(name);
+  }
   public void free() {}
-  public void play() {}
-  public void playOnce() {}
-  public void fade() {}
-  public void halt() {}
+  public void play() {
+    wasm_sound_play(_name.ptr, _name.length);
+  }
   public static void fadeMusic() {}
-  public static void haltMusic() {}
+  public static void haltMusic() {
+    wasm_sound_haltMusic();
+  }
 }
 
-public class Chunk: Sound {
+public class Chunk : Sound {
 public:
-  public void load(string name) {}
-  public void load(string name, int ch) {}
+  static string dir = "sounds/chunks";
+private:
+  string _name;
+public:
+  public void load(string name) {
+    _name = dir ~ "/" ~ name;
+    ubyte[] data = std.file.read(_name);
+    wasm_sound_load(_name.ptr, _name.length, data.ptr, data.length);
+  }
+  public void load(string name, int ch) {
+    load(name);
+  }
   public void free() {}
-  public void play() {}
-  public void playOnce() {}
-  public void fade() {}
-  public void halt() {}
+  public void play() {
+    wasm_sound_play(_name.ptr, _name.length);
+  }
 }
 
 }

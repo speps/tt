@@ -20,6 +20,11 @@ var glCreateId = function(obj) {
   return id;
 }
 
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+var ac = new AudioContext();
+var acData = {};
+var acMusic = null;
+
 var inputState = 0;
 
 var importObject = {
@@ -59,6 +64,49 @@ var importObject = {
     wasm_sqrt: Math.sqrt,
     wasm_pow: Math.pow,
     wasm_fmodf: function(x, y) { return x % y; },
+    wasm_sound_load: function(nameptr, namelen, bufptr, buflen) {
+      const name = decoder.decode(new Uint8Array(memory.buffer, nameptr, namelen));
+      const buffer = memory.buffer.slice(bufptr, bufptr + buflen);
+      ac.decodeAudioData(buffer,
+        function(data) {
+          acData[name] = data;
+        },
+        function(err) {
+          console.error(err);
+        }
+      );
+    },
+    wasm_sound_play: function(nameptr, namelen) {
+      const name = decoder.decode(new Uint8Array(memory.buffer, nameptr, namelen));
+      const isMusic = name.startsWith("sounds/musics");
+      const src = ac.createBufferSource();
+      src.buffer = acData[name];
+      if (isMusic) {
+        if (acMusic) {
+          acMusic.node.stop();
+          acMusic.gain.disconnect();
+          acMusic = null;
+        }
+        const gain = ac.createGain();
+        src.connect(gain);
+        src.loop = true;
+        gain.connect(ac.destination);
+        acMusic = { node: src, gain: gain };
+      } else {
+        src.connect(ac.destination);
+      }
+      src.start();
+    },
+    wasm_sound_fadeMusic: function(ms) {
+      if (acMusic) {
+        acMusic.gain.linearRampToValueAtTime(0, ac.currentTime + ms * 0.001);
+      }
+    },
+    wasm_sound_haltMusic: function() {
+      if (acMusic) {
+        acMusic.node.stop();
+      }
+    },
     glCreateProgram: function() {
       const id = glCreateId(gl.createProgram());
       return id;

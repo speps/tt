@@ -66,6 +66,7 @@
         "BindBC",
         "GL_32",
         "GL_Batching",
+        "SDL_Mixer",
         "InputBackendSDL"
       ],
       "subConfigurations": {
