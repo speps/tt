@@ -55,6 +55,9 @@ var importObject = {
     wasm_abort: function() {
       throw "abort";
     },
+    wasm_time: function() {
+      return (new Date().valueOf() / 1000) >> 0;
+    },
     wasm_inputState: function() {
       return inputState;
     },

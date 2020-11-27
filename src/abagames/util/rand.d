@@ -5,6 +5,10 @@
  */
 module abagames.util.rand;
 
+version(WASM) {
+  extern(C) uint wasm_time();
+}
+
 /**
  * Random number generator.
  */
@@ -12,7 +16,7 @@ public class Rand {
   
   public this() {
     version(WASM) {
-      init_genrand(0);
+      init_genrand(wasm_time());
     } else {
       import std.datetime.systime;
       init_genrand(cast(uint)Clock.currTime().toUnixTime!int);
