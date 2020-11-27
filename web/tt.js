@@ -297,7 +297,9 @@ function onResize() {
     clearTimeout(resizeMsg);
   }
   resizeMsg = setTimeout(() => { console.log("resized to " + w + "x" + h); }, 1000);
-  exports._resized(w, h);
+  if (exports) {
+    exports._resized(w, h);
+  }
 }
 window.addEventListener("resize", onResize, true);
 
