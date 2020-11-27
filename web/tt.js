@@ -211,10 +211,31 @@ var importObject = {
   }
 };
 
+const targetFrameRate = 1000.0 / 60.0;
+var frameAccumulator = 0.0;
+var previousTimestamp = null;
 function loop(timestamp) {
-  if (!exports._loop()) {
-    requestAnimationFrame(loop);
+  if (previousTimestamp == null) {
+    previousTimestamp = timestamp;
+  } else {
+    const diff = timestamp - previousTimestamp;
+    previousTimestamp = timestamp;
+    frameAccumulator += diff;
   }
+  var numUpdates = 0;
+  while (frameAccumulator >= targetFrameRate) {
+    frameAccumulator -= targetFrameRate;
+    if (!exports._update()) {
+      numUpdates++;
+    } else {
+      break;
+    }
+  }
+  if (numUpdates > 0) {
+    exports._draw();
+    numUpdates = 0;
+  }
+  requestAnimationFrame(loop);
 }
 
 function maskInput(code, enable) {

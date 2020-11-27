@@ -30,8 +30,11 @@ PrefManager prefManager;
 MainLoop mainLoop;
 
 version(WASM) {
-  export extern (C) bool _loop() {
-    return mainLoop.innerLoop(1);
+  export extern (C) bool _update() {
+    return mainLoop.update();
+  }
+  export extern (C) void _draw() {
+    mainLoop.draw();
   }
   export extern (C) void _resized(int width, int height) {
     mainLoop.resized(width, height);
@@ -49,9 +52,10 @@ public int main(string[] args) {
       mainLoop.loopStart();
       int count = 0;
       while (true) {
-        if (mainLoop.innerLoop(1)) {
+        if (mainLoop.update()) {
           break;
         }
+        mainLoop.draw();
       }
     } else {
       mainLoop.loopStart();

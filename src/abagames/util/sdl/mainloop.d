@@ -68,7 +68,7 @@ public class MainLoop {
       gameManager.start();
 
       long prvTickCount = 0;
-      while (true) {
+      loop: while (true) {
         SDL_Event event;
         if (SDL_PollEvent(&event) == 0)
           event.type = SDL_USEREVENT;
@@ -93,9 +93,12 @@ public class MainLoop {
           prvTickCount += frame * interval;
         }
 
-        if (innerLoop(frame)) {
-          break;
+        for (int i = 0; i < frame; i++) {
+          if (update()) {
+            break loop;
+          }
         }
+        draw();
       }
       quitLast();
     }
@@ -114,16 +117,17 @@ public class MainLoop {
     }
   }
 
-  public bool innerLoop(int frame) {
+  public bool update() {
     pad.update();
-    for (int i = 0; i < frame; i++) {
-      gameManager.move();
-    }
+    gameManager.move();
+    return done;
+  }
+
+  public void draw() {
     screen.clear();
     GL.frameStart();
     gameManager.draw();
     GL.frameEnd();
     screen.flip();
-    return done;
   }
 }
