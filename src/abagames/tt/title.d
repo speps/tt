@@ -210,8 +210,8 @@ public class TitleManager {
     GL.lineWidth(1);
     GL.popMatrix();
     Screen.setColor(1, 1, 1);
-    Letter.drawString("TORUS", 440, 370, 12);
-    Letter.drawString("TROOPER", 440, 410, 12);
+    Letter.drawString("TORUS", 440, 370, 12, Letter.Direction.TO_RIGHT, 1);
+    Letter.drawString("TROOPER", 440, 410, 12, Letter.Direction.TO_RIGHT, 1);
     float cx, cy;
     for (int i = 0; i < Ship.GRADE_NUM; i++) {
       GL.lineWidth(2);

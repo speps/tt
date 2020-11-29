@@ -1,7 +1,9 @@
 var decoder = new TextDecoder();
 var encoder = new TextEncoder();
-var memory;
+var memory = null;
+var exports = null;
 
+var loading = document.getElementById("loading");
 var canvas = document.getElementById("screen");
 var gl = canvas.getContext("webgl");
 var vaoExt = gl.getExtension('OES_vertex_array_object');
@@ -234,6 +236,7 @@ function loop(timestamp) {
   if (numUpdates > 0) {
     exports._draw();
     numUpdates = 0;
+    loading.style.display = "none";
   }
   requestAnimationFrame(loop);
 }
@@ -277,30 +280,6 @@ window.addEventListener("keyup", function(event) {
   }
 }, true);
 
-var resizeMsg = undefined;
-function onResize() {
-  var w = window.innerWidth;
-  var h = window.innerHeight;
-  const ratio = 4.0 / 3.0;
-  if (w < (h * ratio)) {
-    h = Math.round(w / ratio);
-  } else {
-    w = Math.round(h * ratio);
-  }
-  canvas.style.left = (window.innerWidth / 2 - w / 2) + "px";
-  canvas.style.top = (window.innerHeight / 2 - h / 2) + "px";
-  canvas.style.width = w + "px";
-  canvas.style.height = h + "px";
-  canvas.width = w;
-  canvas.height = h;
-  if (resizeMsg) {
-    clearTimeout(resizeMsg);
-  }
-  resizeMsg = setTimeout(() => { console.log("resized to " + w + "x" + h); }, 1000);
-  if (exports) {
-    exports._resized(w, h);
-  }
-}
 window.addEventListener("resize", onResize, true);
 
 WebAssembly.instantiateStreaming(fetch('./tt.wasm'), importObject)
