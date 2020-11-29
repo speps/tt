@@ -161,7 +161,9 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
         if (state is inGameState) {
           startTitle();
         } else {
-          mainLoop.breakLoop();
+          version (WASM) {} else {
+            mainLoop.breakLoop();
+          }
         }
         return;
       }
