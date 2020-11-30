@@ -1,7 +1,6 @@
 var decoder = new TextDecoder();
 var encoder = new TextEncoder();
 var memory = null;
-var exports = null;
 
 var loading = document.getElementById("loading");
 var canvas = document.getElementById("screen");
@@ -23,7 +22,7 @@ var glCreateId = function(obj) {
 }
 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
-var ac = new AudioContext();
+var ac = AudioContext ? new AudioContext() : null;
 var acData = {};
 var acMusic = null;
 
@@ -70,6 +69,7 @@ var importObject = {
     wasm_pow: Math.pow,
     wasm_fmodf: function(x, y) { return x % y; },
     wasm_sound_load: function(nameptr, namelen, bufptr, buflen) {
+      if (!ac) return;
       const name = decoder.decode(new Uint8Array(memory.buffer, nameptr, namelen));
       const buffer = memory.buffer.slice(bufptr, bufptr + buflen);
       ac.decodeAudioData(buffer,
@@ -82,6 +82,7 @@ var importObject = {
       );
     },
     wasm_sound_play: function(nameptr, namelen) {
+      if (!ac) return;
       const name = decoder.decode(new Uint8Array(memory.buffer, nameptr, namelen));
       const isMusic = name.startsWith("sounds/musics");
       const src = ac.createBufferSource();
@@ -270,7 +271,7 @@ window.addEventListener("keydown", function(event) {
       event.preventDefault();
     }
   }
-}, true);
+});
 
 window.addEventListener("keyup", function(event) {
   if (!event.defaultPrevented) {
@@ -278,7 +279,7 @@ window.addEventListener("keyup", function(event) {
       event.preventDefault();
     }
   }
-}, true);
+});
 
 window.addEventListener("resize", onResize, true);
 
