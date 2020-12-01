@@ -214,6 +214,7 @@ var importObject = {
   }
 };
 
+var started = false;
 const targetFrameRate = 1000.0 / 60.0;
 var frameAccumulator = 0.0;
 var previousTimestamp = null;
@@ -237,7 +238,6 @@ function loop(timestamp) {
   if (numUpdates > 0) {
     exports._draw();
     numUpdates = 0;
-    loading.style.display = "none";
   }
   requestAnimationFrame(loop);
 }
@@ -275,6 +275,9 @@ window.addEventListener("keydown", function(event) {
 
 window.addEventListener("keyup", function(event) {
   if (!event.defaultPrevented) {
+    if (started && (inputState & 0x10) != 0) {
+      onStart();
+    }
     if (maskInput(event.code, false)) {
       event.preventDefault();
     }
@@ -283,11 +286,34 @@ window.addEventListener("keyup", function(event) {
 
 window.addEventListener("resize", onResize, true);
 
-WebAssembly.instantiateStreaming(fetch('./tt.wasm'), importObject)
-  .then(function(obj) {
-    memory = obj.instance.exports.memory;
-    exports = obj.instance.exports;
-    exports._start();
-    onResize();
-    requestAnimationFrame(loop);
-  });
+const expectedBufferLength = 8032124;
+fetch('./tt.wasm').then(function(response) {
+  const reader = response.body.getReader();
+  var chunks = [];
+  var total = 0;
+  function add(result) {
+    if (result.done) {
+      var buffer = new Uint8Array(total);
+      var offset = 0;
+      for (const chunk of chunks) {
+        buffer.set(chunk, offset);
+        offset += chunk.length;
+      }
+      WebAssembly.instantiate(buffer, importObject)
+        .then(function(obj) {
+          memory = obj.instance.exports.memory;
+          exports = obj.instance.exports;
+          exports._start();
+          onResize();
+          onLoad();
+          started = true;
+        });
+    } else {
+      chunks.push(result.value);
+      total += result.value.length;
+      onProgress(total / expectedBufferLength);
+      reader.read().then(add);
+    }
+  }
+  reader.read().then(add);
+});
