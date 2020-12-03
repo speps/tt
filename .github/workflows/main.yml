@@ -11,7 +11,7 @@ jobs:
       - name: Sync 'master'
         uses: actions/checkout@v2
       - name: Update SHA
-        run: sed -i .orig "s/GITHUB_SHA/$GITHUB_SHA/" web/index.htm
+        run: sed -i "s/GITHUB_SHA/$GITHUB_SHA/" web/index.htm
       - name: FTP upload
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
