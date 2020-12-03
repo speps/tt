@@ -17,7 +17,7 @@
     <meta property="twitter:description" content="Game where you shoot enemies while flying inside an infinite tunnel">
     <meta property="twitter:image" content="https://tt.speps.fr/tt.jpg">
     <style>
-      body, html { margin:0px; }
+      body, html { margin:0px; background-color:#202020; }
       #screen { position:absolute; top:0px; left:0px; }
       #loading { position:absolute; top:0px; left:0px; width:100%; height:100%; }
       .svg-bg { stroke:#ffffff; stroke-opacity:1; fill:#ffffff; fill-opacity:0.3; stroke-width:1px; }
@@ -27,6 +27,7 @@
       .svg-start { stroke:#e5b27f; stroke-opacity:1; fill:#e5b27f; fill-opacity:0.5; stroke-width:1px; animation: blink 0.6s infinite; }
       .svg-title { stroke:#e5b27f; stroke-opacity:1; fill:#e5b27f; fill-opacity:0.5; stroke-width:1px; }
       .text { font-family:monospace; font-size:12px; color:white; }
+      .text-small, .text-small a { font-family:monospace; font-size:8px; color:#aaaaaa; }
       @keyframes blink { 100%, 0% { fill-opacity:0.5; } 60% { fill-opacity:0; } }
     </style>
   </head>
@@ -200,6 +201,11 @@
               P <i>pause</i><br/>
             </p>
             <p id="checks">JavaScript disabled :(</p>
+          </div>
+        </foreignObject>
+        <foreignObject x="10" y="4" width="600" height="60">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="text-small">
+            <p>Copyright &copy; 2004 Kenta Cho, 2020 Remi Gillig - Sources, contribute, report issues: <a href="https://github.com/speps/tt">https://github.com/speps/tt</a></p>
           </div>
         </foreignObject>
       </svg>
