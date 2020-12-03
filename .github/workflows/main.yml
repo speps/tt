@@ -1,0 +1,20 @@
+name: Torus Trooper
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Upload Content
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync 'master'
+        uses: actions/checkout@v2
+      - name: FTP upload
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ftp.cluster029.hosting.ovh.net
+          username: ctgzfyp
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./web/
+          server-dir: ./www/
