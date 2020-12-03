@@ -12,8 +12,3 @@ Click image to open the playable online version:
 * [Part 2 - Running the game for the first time](https://speps.fr/articles/torus-trooper-part2)
 * [Part 3 - Porting to WebAssembly](https://speps.fr/articles/torus-trooper-part3)
 * [Part 4 - Final steps](https://speps.fr/articles/torus-trooper-part4)
-
-## TODO
-
-- alignment of ship shots during replay
-- investigate time added broken

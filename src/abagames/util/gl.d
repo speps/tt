@@ -764,6 +764,7 @@ public:
   }
 
   static void viewport(int left, int right, int width, int height) {
+    flush();
     glViewport(left, right, width, height);
   }
 
