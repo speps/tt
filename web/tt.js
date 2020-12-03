@@ -1,5 +1,18 @@
 var decoder = new TextDecoder();
 var encoder = new TextEncoder();
+
+function bin2hex(buf) {
+  return buf.reduce(function(hexstr, byte) {
+    return hexstr + ('0' + (byte & 0xFF).toString(16)).slice(-2);
+  }, "");
+}
+function hex2bin(hexstr) {
+  return Uint8Array.from(hexstr.match(/../g).reduce(function(bytes, hex) {
+    bytes.push(parseInt(hex, 16));
+    return bytes;
+  }, []));
+}
+
 var memory = null;
 
 var loading = document.getElementById("loading");
@@ -47,6 +60,41 @@ var importObject = {
     },
     wasm_writeInt: function(n) {
       console.log(n);
+    },
+    wasm_readFileSize: function(nameptr, namelen, sizeptr) {
+      const name = decoder.decode(new Uint8Array(memory.buffer, nameptr, namelen));
+      const size = new Uint32Array(memory.buffer, sizeptr, 4);
+      const str = localStorage.getItem(name);
+      if (str) {
+        const data = hex2bin(str);
+        size.set([data.length]);
+        return true;
+      }
+      return false;
+    },
+    wasm_readFile: function(nameptr, namelen, dataptr, datalen) {
+      const name = decoder.decode(new Uint8Array(memory.buffer, nameptr, namelen));
+      const output = new Uint8Array(memory.buffer, dataptr, datalen);
+      const str = localStorage.getItem(name);
+      if (str) {
+        const data = hex2bin(str);
+        if (data.length == output.length) {
+          console.log("read " + name + " with " + data.length + " bytes");
+          output.set(data);
+          return true;
+        } else {
+          console.error("data read was " + data.length + " while expected was " + output.length);
+        }
+      } else {
+        console.error("calling readFile without checking return value of readFileSize");
+      }
+    },
+    wasm_writeFile: function(nameptr, namelen, dataptr, datalen) {
+      const name = decoder.decode(new Uint8Array(memory.buffer, nameptr, namelen));
+      const data = new Uint8Array(memory.buffer, dataptr, datalen);
+      const str = bin2hex(data);
+      localStorage.setItem(name, str);
+      console.log("saved " + name + " with " + data.length + " bytes");
     },
     wasm_assert: function(msgptr, msglen, fileptr, filelen, line) {
       var msg = decoder.decode(new Uint8Array(memory.buffer, msgptr, msglen));
@@ -286,7 +334,7 @@ window.addEventListener("keyup", function(event) {
 
 window.addEventListener("resize", onResize, true);
 
-const expectedBufferLength = 8032124;
+const expectedBufferLength = 8032937;
 fetch('./tt.wasm').then(function(response) {
   const reader = response.body.getReader();
   var chunks = [];

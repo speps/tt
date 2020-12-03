@@ -44,6 +44,8 @@ public class TitleManager {
   }
 
   public void start() {
+    // save on start so it saves when we go back to the menu
+    prefManager.save();
     cnt = 0;
     grade = prefManager.prefData.selectedGrade;
     level = prefManager.prefData.selectedLevel;

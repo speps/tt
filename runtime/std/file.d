@@ -1,5 +1,7 @@
 module std.file;
 
+import wasm;
+
 ubyte[] read(string path) {
   if (path == "sounds/chunks/boss_dest.wav") return cast(ubyte[]) import("sounds/chunks/boss_dest.wav");
   if (path == "sounds/chunks/charge.wav") return cast(ubyte[]) import("sounds/chunks/charge.wav");
@@ -15,6 +17,12 @@ ubyte[] read(string path) {
   if (path == "sounds/musics/tt2.ogg") return cast(ubyte[]) import("sounds/musics/tt2.ogg");
   if (path == "sounds/musics/tt3.ogg") return cast(ubyte[]) import("sounds/musics/tt3.ogg");
   if (path == "sounds/musics/tt4.ogg") return cast(ubyte[]) import("sounds/musics/tt4.ogg");
+  size_t size = 0;
+  if (wasm.readFileSize(path, &size)) {
+    ubyte[] buffer = new ubyte[size];
+    wasm.readFile(path, buffer);
+    return buffer;
+  }
   return null;
 }
 
@@ -51,5 +59,5 @@ string readText(string path) {
 }
 
 void write(string path, const(ubyte[]) data) {
-
+  wasm.writeFile(path, data);
 }
