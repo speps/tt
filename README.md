@@ -17,4 +17,3 @@ Click image to open the playable online version:
 
 - alignment of ship shots during replay
 - investigate time added broken
-- add commit number
