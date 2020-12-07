@@ -39,7 +39,8 @@ var ac = AudioContext ? new AudioContext() : null;
 var acData = {};
 var acMusic = null;
 
-var inputState = 0;
+var keyInputState = 0;
+var touchInputState = 0;
 
 var importObject = {
   env: {
@@ -108,7 +109,7 @@ var importObject = {
       return (new Date().valueOf() / 1000) >> 0;
     },
     wasm_inputState: function() {
-      return inputState;
+      return keyInputState | touchInputState;
     },
     wasm_cos: Math.cos,
     wasm_sin: Math.sin,
@@ -290,47 +291,92 @@ function loop(timestamp) {
   requestAnimationFrame(loop);
 }
 
-function maskInput(code, enable) {
-  const masks = {
-    ArrowUp: 0x1,
-    ArrowDown: 0x2,
-    ArrowLeft: 0x4,
-    ArrowRight: 0x8,
-    ControlLeft: 0x10,
-    ShiftLeft: 0x20,
-    Escape: 0x40,
-    KeyP: 0x80
-  };
-  if (code in masks) {
-    const mask = masks[code];
+function updateInput() {
+  if (started && ((keyInputState | touchInputState) & 0x10) != 0) {
+    onStart();
+  }
+}
+
+const keyMap = {
+  ArrowUp: 0x1,
+  ArrowDown: 0x2,
+  ArrowLeft: 0x4,
+  ArrowRight: 0x8,
+  ControlLeft: 0x10,
+  ShiftLeft: 0x20,
+  Escape: 0x40,
+  KeyP: 0x80
+};
+function keyInput(code, enable) {
+  if (code in keyMap) {
+    const mask = keyMap[code];
     if (enable) {
-      inputState |= mask;
+      keyInputState |= mask;
     } else {
-      inputState &= ~mask;
+      keyInputState &= ~mask;
     }
     return true;
   }
   return false;
 }
-
 window.addEventListener("keydown", function(event) {
-  if (!event.defaultPrevented) {
-    if (maskInput(event.code, true)) {
-      event.preventDefault();
-    }
+  if (keyInput(event.code, true)) {
+    updateInput();
+    event.preventDefault();
+  }
+});
+window.addEventListener("keyup", function(event) {
+  if (keyInput(event.code, false)) {
+    updateInput();
+    event.preventDefault();
   }
 });
 
-window.addEventListener("keyup", function(event) {
-  if (!event.defaultPrevented) {
-    if (started && (inputState & 0x10) != 0) {
-      onStart();
+const uiMap = {
+  uiA: 0x10,
+  uiB: 0x20,
+  uiDirR: 0x8,
+  uiDirBR: 0xA,
+  uiDirB: 0x2,
+  uiDirBL: 0x6,
+  uiDirL: 0x4,
+  uiDirTL: 0x5,
+  uiDirT: 0x1,
+  uiDirTR: 0x9
+};
+function uiID(element) {
+  if (element) {
+    if (element.id) {
+      return element.id;
     }
-    if (maskInput(event.code, false)) {
-      event.preventDefault();
+    if (element.parentNode) {
+      return element.parentNode.id;
     }
   }
-});
+  return null;
+}
+function registerTouchEvent(name, state) {
+  window.addEventListener(name, function(event) {
+    var ids = [];
+    for (const touch of event.touches) {
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      const id = uiID(element);
+      if (id in uiMap) {
+        ids.push(id);
+      }
+    }
+    touchInputState = 0;
+    for (id of ids) {
+      touchInputState |= uiMap[id];
+    }
+    updateInput();
+    event.preventDefault();
+  }, false);
+}
+registerTouchEvent("touchstart");
+registerTouchEvent("touchend");
+registerTouchEvent("touchmove");
+registerTouchEvent("touchcancel");
 
 window.addEventListener("resize", onResize, true);
 

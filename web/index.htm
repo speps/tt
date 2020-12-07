@@ -18,24 +18,26 @@
     <meta property="twitter:image" content="https://tt.speps.fr/tt.jpg" />
     <meta property="github:sha" content="GITHUB_SHA" />
     <style>
-      body, html { margin:0px; background-color:#202020; }
+      body, html { margin:0px; background-color:#202020; touch-action:none; }
       #screen { position:absolute; top:0px; left:0px; }
       #loading { position:absolute; top:0px; left:0px; width:100%; height:100%; }
+      #ui { position:absolute; top:0px; left:0px; width:100%; height:100%; }
       .svg-bg { stroke:#ffffff; stroke-opacity:1; fill:#ffffff; fill-opacity:0.3; stroke-width:1px; }
       .svg-loading { stroke:#ffffff; stroke-opacity:1; fill:#ffffff; fill-opacity:0.5; stroke-width:1px; animation: blink 0.2s infinite; }
       .svg-progress-bg { stroke:#ffffff; stroke-opacity:1; fill:#ffffff; fill-opacity:0.5; }
       .svg-progress-bar { fill: #ffffff; }
       .svg-start { stroke:#e5b27f; stroke-opacity:1; fill:#e5b27f; fill-opacity:0.5; stroke-width:1px; animation: blink 0.6s infinite; }
       .svg-title { stroke:#e5b27f; stroke-opacity:1; fill:#e5b27f; fill-opacity:0.5; stroke-width:1px; }
-      .text { font-family:monospace; font-size:12px; color:white; }
+      .text { font-family:monospace; font-size:10px; color:white; }
       .text-small, .text-small a { font-family:monospace; font-size:8px; color:#aaaaaa; }
+      .controls { stroke:#ffffff; stroke-opacity:1; fill:#ffffff; fill-opacity:0.1; stroke-width:1px; }
       @keyframes blink { 100%, 0% { fill-opacity:0.5; } 60% { fill-opacity:0; } }
     </style>
   </head>
   <body>
     <canvas id="screen"></canvas>
     <div id="loading">
-      <svg id="loading" viewBox="0 0 640 480" width="100%" height="100%">
+      <svg viewBox="0 0 640 480" width="100%" height="100%">
         <rect fill="#000" x="0" y="0" width="640" height="480" />
         <path class="svg-title" d="
           M 437.36 373.69 L 438.90 371.80 L 445.06 371.80 L 446.60 373.69 L 445.06 375.58 L 438.90 375.58 Z
@@ -102,7 +104,7 @@
           M 593.84 426.11 L 595.10 424.22 L 600.14 424.22 L 601.40 426.11 L 600.14 428.00 L 595.10 428.00 Z
           M 590.54 426.59 L 592.43 428.41 L 592.43 435.69 L 590.54 437.51 L 588.65 435.69 L 588.65 428.41 Z
           M 602.79 426.67 L 604.97 428.14 L 606.23 435.31 L 604.69 437.43 L 602.51 435.96 L 601.25 428.79 Z" />
-        <g transform="translate(-77.68 -12.85)" visibility="hidden" id="txt-loading">
+        <g transform="translate(-77.68 -12.85)" visibility="hidden" id="txtLoading">
           <rect class="svg-progress-bg" x="316.45" y="275.42" width="172.7" height="10" />
           <g transform="translate(316.45,275.42)"><g id="progress" transform="scale(0,1)"><rect class="svg-progress-bar" x="0" y="0" width="172.7" height="10" /></g></g>
           <path class="svg-loading" d="
@@ -141,7 +143,7 @@
             M 486.14 256.59 L 488.03 258.41 L 488.03 265.69 L 486.14 267.51 L 484.25 265.69 L 484.25 258.41 Z
             M 472.88 268.53 L 474.70 266.64 L 481.98 266.64 L 483.80 268.53 L 481.98 270.42 L 474.70 270.42 Z" />
         </g>
-        <g transform="translate(-52.79 -12.85)" visibility="hidden" id="txt-start">
+        <g transform="translate(-52.79 -12.85)" visibility="hidden" id="txtStart">
           <path class="svg-start" d="
             M 321.68 243.69 L 323.50 241.80 L 330.78 241.80 L 332.60 243.69 L 330.78 245.58 L 323.50 245.58 Z
             M 319.34 244.71 L 321.23 246.53 L 321.23 253.81 L 319.34 255.63 L 317.45 253.81 L 317.45 246.53 Z
@@ -192,23 +194,60 @@
           L 448.62 474.26 L 453.93 474.38 L 459.38 474.33 L 464.94 474.09 L 470.60 473.68 L 476.36 473.08
           L 482.19 472.32 L 488.09 471.37 L 494.03 470.26 L 500.01 468.98 L 506.00 467.53 L 512.00 465.91
           L 517.99 464.14 L 523.96 462.22 Z" />
-        <foreignObject x="50" y="300" width="300" height="150">
+        <foreignObject x="60" y="370" width="300" height="150">
           <div xmlns="http://www.w3.org/1999/xhtml" class="text">
             <p>
-              LEFT CTRL <i>main fire / start</i><br/>
-              LEFT SHIFT <i>powered shot</i><br/>
-              ARROW KEYS <i>move ship</i><br/>
-              ESC <i>exit to menu</i><br/>
+              A or LEFT CTRL <i>main fire / start</i><br/>
+              B or LEFT SHIFT <i>powered shot</i><br/>
+              ARROWS or ARROW KEYS <i>move ship</i><br/>
+              BACK or ESC <i>exit to menu</i><br/>
               P <i>pause</i><br/>
             </p>
             <p id="checks">JavaScript disabled :(</p>
           </div>
         </foreignObject>
-        <foreignObject x="10" y="4" width="600" height="60">
+        <foreignObject x="6" y="0" width="600" height="60">
           <div xmlns="http://www.w3.org/1999/xhtml" class="text-small">
             <p>Copyright &copy; 2004 Kenta Cho, 2020 Remi Gillig - Sources, contribute, report issues: <a href="https://github.com/speps/tt">https://github.com/speps/tt</a></p>
           </div>
         </foreignObject>
+      </svg>
+    </div>
+    <div id="ui">
+      <svg viewBox="0 0 640 480" width="100%" height="100%">
+        <defs>
+          <path id="arrow" style="fill:none;" d="M -5.06531,-14.1079 9.0467,0.0041161 -5.06531,14.1161 Z" />
+          <path id="wedge" style="fill:transparent;stroke:none;" d="M 18.47759 -7.65366 L 36.95518 -15.30734 A 40 40 0 0 1 36.95518 15.30734 L 18.47759 7.65366 Z" />
+        </defs>
+        <g id="uiFullscreen" transform="translate(0 458)" fill="#ffffff">
+          <rect x="0" y="0" width="22" height="22" />
+          <g transform="matrix(.58303 0 0 .58303 2.73 2.728)" fill="#4d4d4d">
+            <path d="m28.36 19.595c0-.868-.665-1.57-1.491-1.57-.819.002-1.492.702-1.492 1.57v3.25l-6.02-6.02c-.582-.583-1.524-.583-2.106 0-.582.582-.582 1.527 0 2.109l5.989 5.987h-3.235c-.881.002-1.591.669-1.591 1.491 0 .824.71 1.49 1.591 1.49h6.761c.881 0 1.59-.665 1.593-1.49-.003-.022-.006-.039-.009-.061.003-.028.009-.058.009-.087v-6.668h-.0001"/><path d="m9 16.824l-6.01 6.02v-3.25c0-.868-.672-1.568-1.493-1.57-.824 0-1.49.702-1.49 1.57l-.002 6.669c0 .029.008.059.001.087-.002.021-.006.038-.008.061.002.825.712 1.49 1.592 1.49h6.762c.879 0 1.59-.666 1.59-1.49 0-.822-.711-1.489-1.59-1.491h-3.235l5.989-5.987c.58-.582.58-1.527 0-2.109-.583-.584-1.526-.584-2.11-.0001"/><path d="m19.359 11.535l6.02-6.02v3.25c0 .865.673 1.565 1.492 1.568.826 0 1.491-.703 1.491-1.568v-6.671c0-.029-.006-.059-.009-.085.003-.021.006-.041.009-.062-.003-.826-.712-1.491-1.592-1.491h-6.761c-.881 0-1.591.665-1.591 1.491 0 .821.71 1.49 1.591 1.492h3.235l-5.989 5.987c-.582.581-.582 1.524 0 2.105.582.586 1.524.586 2.106.0001"/><path d="m5.121 3.442h3.234c.879-.002 1.59-.671 1.59-1.492 0-.826-.711-1.491-1.59-1.491h-6.761c-.88 0-1.59.665-1.592 1.491.002.021.006.041.008.062-.002.026-.001.055-.001.085l.002 6.672c0 .865.666 1.568 1.49 1.568.821-.003 1.493-.703 1.493-1.568v-3.25l6.01 6.02c.584.585 1.527.585 2.11 0 .58-.581.58-1.524 0-2.105l-5.989-5.988"/>
+          </g>
+        </g>
+        <g id="uiA" class="controls" transform="translate(150, 330)">
+          <circle r="40" cx="0" cy="0" />
+          <path style="fill:transparent" d="m -13.0412,0.18807 c 0,-3.1656 0.5708,-6.09676 1.7125,-8.79341 1.171,-2.69656 2.75188,-4.82166 4.74259,-6.37516 2.01996,-1.5829 4.20095,-2.3742 6.5429333,-2.3742 2.3419767,0 4.5083267,0.7913 6.4990367,2.3742 1.99066,1.5535 3.57154,3.6786 4.74254,6.37516 1.171,2.69665 1.7564,5.62781 1.7565,8.79341 V 15.7085 c -10e-5,0.5568 -0.2049,1.0259 -0.6148,1.407 -0.3806,0.3516 -0.8343,0.5275 -1.3613,0.5275 -0.5269,0 -0.98068,-0.1759 -1.36129,-0.5275 C 9.23695,16.7344 9.04667,16.2653 9.04667,15.7085 V 3.35371 H -9.13302 V 15.7085 c 0,0.5568 -0.20493,1.0259 -0.61479,1.407 -0.38059,0.3516 -0.84899,0.5275 -1.40519,0.5275 -0.5269,0 -0.9807,-0.1759 -1.3612,-0.5275 -0.3514,-0.3811 -0.527,-0.8502 -0.527,-1.407 z M 6.19238,-9.6605 c -1.72723,-2.5208 -3.80574,-3.7812 -6.2355567,-3.7812 -2.4298133,0 -4.5229733,1.2604 -6.2794633,3.7812 -1.75652,2.49146 -2.69329,5.53981 -2.81038,9.145109 H 9.04667 C 8.90028,-4.12069 7.94887,-7.16904 6.19238,-9.6605 Z" />
+        </g>
+        <g id="uiB" class="controls" transform="translate(90, 280) scale(0.7)">
+          <circle r="40" cx="0" cy="0" />
+          <path style="fill:transparent" d="m -12.9647,-11.761 c 0,-1.7169 0.5423,-3.0934 1.627,-4.1295 1.0847,-1.0361 2.29788,-1.5541 3.63949,-1.5541 h 8.135261 c 2.426309,0.0296 4.495809,0.9472 6.208489,2.753 1.74123,1.7762 2.61185,3.9223 2.61185,6.43855 0,2.63463 -0.89916,4.84002 -2.69748,6.61617 L 5.14694,-0.215958 C 7.23071,0.19848 8.9434,1.26417 10.285,2.98112 c 1.3702,1.68734 2.0552,3.64111 2.0552,5.8613 0,2.51618 -0.842,4.67718 -2.52619,6.48298 -1.68414,1.8057 -3.72509,2.7086 -6.12285,2.7086 h -11.2181 c -1.48433,0 -2.76886,-0.5476 -3.85356,-1.6429 -1.0561,-1.0953 -1.5842,-2.4126 -1.5842,-3.952 z m 5.43776,-1.7317 c -0.42817,0 -0.81353,0.1628 -1.15606,0.4884 -0.314,0.2961 -0.471,0.7253 -0.471,1.2878 v 11.36733 h 9.0772473 L 3.99088,-4.52313 c 0.97052,-1.03609 1.45578,-2.27939 1.45578,-3.72992 0,-1.45052 -0.49953,-2.67905 -1.4986,-3.68555 -0.97052,-1.0361 -2.15513,-1.5541 -3.553825,-1.5541 H 0.222979 c -0.65653,0 -1.641329,0 -2.954389,0 -1.28451,0 -2.39776,0 -3.33973,0 H -7.48411 Z M 3.43425,14.0821 c 1.48433,0 2.71176,-0.5181 3.68228,-1.5542 C 8.08705,11.4919 8.57231,10.2633 8.57231,8.84242 8.57231,7.3919 8.07278,6.16339 7.07372,5.15691 6.10319,4.12082 4.91858,3.60277 3.51989,3.60277 H 3.47709 -9.15398 v 8.79193 c 0,0.4441 0.14272,0.8437 0.42817,1.1989 0.31399,0.3257 0.72789,0.4885 1.2417,0.4885 z" />
+        </g>
+        <g class="controls" transform="translate(490, 330)">
+          <use xlink:href="#arrow" transform="translate(0, -30) rotate(-90)" />
+          <use xlink:href="#arrow" transform="translate(30, 0) rotate(0)" />
+          <use xlink:href="#arrow" transform="translate(0, 30) rotate(90)" />
+          <use xlink:href="#arrow" transform="translate(-30, 0) rotate(180)" />
+          <circle r="40" cx="0" cy="0" />
+          <use xlink:href="#wedge" id="uiDirR" transform="rotate(0)" />
+          <use xlink:href="#wedge" id="uiDirBR" transform="rotate(45)" />
+          <use xlink:href="#wedge" id="uiDirB" transform="rotate(90)" />
+          <use xlink:href="#wedge" id="uiDirBL" transform="rotate(135)" />
+          <use xlink:href="#wedge" id="uiDirL" transform="rotate(180)" />
+          <use xlink:href="#wedge" id="uiDirTL" transform="rotate(225)" />
+          <use xlink:href="#wedge" id="uiDirT" transform="rotate(270)" />
+          <use xlink:href="#wedge" id="uiDirTR" transform="rotate(315)" />
+        </g>
       </svg>
     </div>
     <script type="text/javascript">
@@ -233,6 +272,7 @@
         }
         applySize(document.getElementById("screen"));
         applySize(document.getElementById("loading"));
+        applySize(document.getElementById("ui"));
         if (resizeMsg) {
           clearTimeout(resizeMsg);
         }
@@ -244,8 +284,8 @@
       onResize();
 
       function onLoad() {
-        document.getElementById("txt-loading").setAttributeNS(null, "visibility", "hidden");
-        document.getElementById("txt-start").setAttributeNS(null, "visibility", "visible");
+        document.getElementById("txtLoading").setAttributeNS(null, "visibility", "hidden");
+        document.getElementById("txtStart").setAttributeNS(null, "visibility", "visible");
         onProgress(1);
       }
 
@@ -267,21 +307,33 @@
         var canvas = document.getElementById("screen");
         var gl = canvas.getContext("webgl");
         if (!gl) {
-          checks.innerHTML = "WebGL1 not supported :(";
+          checks.innerHTML += "WebGL1 not supported :(<br/>";
         } else {
           var vaoExt = gl.getExtension('OES_vertex_array_object');
           if (!vaoExt) {
-            checks.innerHTML = "WebGL extension 'OES_vertex_array_object' not supported :(";
+            checks.innerHTML += "WebGL extension 'OES_vertex_array_object' not supported :(<br/>";
           }
         }
         // webaudio?
         var AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) {
-          checks.innerHTML = "WebAudio not supported, sound disabled :(";
+          checks.innerHTML += "WebAudio not supported, sound disabled :(<br/>";
+        }
+        // localStorage
+        if (!localStorage) {
+          checks.innerHTML += "LocalStorage not supported, saves disabled :(<br/>";
         }
       }
 
-      document.getElementById("txt-loading").setAttributeNS(null, "visibility", "visible");
+      document.getElementById("txtLoading").setAttributeNS(null, "visibility", "visible");
+
+      document.getElementById("uiFullscreen").addEventListener("click", function(event) {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          document.body.requestFullscreen();
+        }
+      });
     </script>
     <script src="./tt.js"></script>
   </body>
