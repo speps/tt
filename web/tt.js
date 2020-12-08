@@ -291,9 +291,21 @@ function loop(timestamp) {
   requestAnimationFrame(loop);
 }
 
+const highlightMap = {
+  uiHighlightA: 0x10,
+  uiHighlightB: 0x20,
+  uiHighlightDirT: 0x1,
+  uiHighlightDirB: 0x2,
+  uiHighlightDirL: 0x4,
+  uiHighlightDirR: 0x8,
+};
 function updateInput() {
-  if (started && ((keyInputState | touchInputState) & 0x10) != 0) {
+  const state = keyInputState | touchInputState;
+  if (started && (state & 0x10) != 0) {
     onStart();
+  }
+  for (id in highlightMap) {
+    document.getElementById(id).style.fillOpacity = (state & highlightMap[id]) != 0 ? 1 : 0;
   }
 }
 
@@ -380,7 +392,7 @@ registerTouchEvent("touchcancel");
 
 window.addEventListener("resize", onResize, true);
 
-const expectedBufferLength = 8032937;
+const expectedBufferLength = 8033025;
 fetch('./tt.wasm').then(function(response) {
   const reader = response.body.getReader();
   var chunks = [];
