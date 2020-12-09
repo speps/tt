@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="initial-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="black" />
     <meta name="description" content="Game where you shoot enemies while flying inside an infinite tunnel" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://torustrooper.xyz/" />
@@ -28,8 +29,8 @@
       .svg-progress-bar { fill: #ffffff; }
       .svg-start { stroke:#e5b27f; stroke-opacity:1; fill:#e5b27f; fill-opacity:0.5; stroke-width:1px; animation: blink 0.6s infinite; }
       .svg-title { stroke:#e5b27f; stroke-opacity:1; fill:#e5b27f; fill-opacity:0.5; stroke-width:1px; }
-      .text { font-family:monospace; font-size:10px; color:white; }
-      .text-small, .text-small a { font-family:monospace; font-size:6px; color:#777777; }
+      .text { font-family:'Courier New',Courier,monospace; font-size:10px; color:white; }
+      .text-small, .text-small a { font-family:'Courier New',Courier,monospace; font-size:6px; color:#777777; }
       .controls { stroke:#ffffff; stroke-opacity:1; fill:#ffffff; fill-opacity:0.1; stroke-width:1px; }
       @keyframes blink { 100%, 0% { fill-opacity:0.5; } 60% { fill-opacity:0; } }
     </style>
@@ -194,17 +195,24 @@
           L 448.62 474.26 L 453.93 474.38 L 459.38 474.33 L 464.94 474.09 L 470.60 473.68 L 476.36 473.08
           L 482.19 472.32 L 488.09 471.37 L 494.03 470.26 L 500.01 468.98 L 506.00 467.53 L 512.00 465.91
           L 517.99 464.14 L 523.96 462.22 Z" />
-        <foreignObject x="60" y="370" width="300" height="150">
+        <foreignObject x="70" y="280" width="500" height="150">
+          <div xmlns="http://www.w3.org/1999/xhtml" id="checks" class="text" style="text-align:center;">JavaScript disabled :(</div>
+        </foreignObject>
+        <foreignObject x="60" y="60" width="500" height="150" id="uiControlsKeyboard">
           <div xmlns="http://www.w3.org/1999/xhtml" class="text">
-            <p>
-              A or LEFT CTRL <i>main fire / start</i><br/>
-              B or LEFT SHIFT <i>powered shot</i><br/>
-              ARROWS or ARROW KEYS <i>move ship</i><br/>
-              BACK or ESC <i>exit to menu</i><br/>
-              P <i>pause</i><br/>
-            </p>
-            <p id="checks">JavaScript disabled :(</p>
+            <b>Keyboard controls</b><br/>
+            X <i>main fire / start</i><br/>
+            C <i>powered shot</i><br/>
+            ARROW KEYS <i>move ship</i><br/>
+            ESC <i>exit to menu</i><br/>
+            P <i>pause</i><br/>
           </div>
+        </foreignObject>
+        <foreignObject width="150" height="50" transform="translate(50 425) rotate(-30)">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="text">Touch toggle</div>
+        </foreignObject>
+        <foreignObject width="150" height="50" transform="translate(10 425) rotate(-30)">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="text">Fullscreen toggle</div>
         </foreignObject>
       </svg>
     </div>
@@ -219,36 +227,44 @@
           <path id="arrow" d="M -5.06531,-14.1079 9.0467,0.0041161 -5.06531,14.1161 Z" />
           <path id="wedge" style="fill:transparent;stroke:none;" d="M 18.47759 -7.65366 L 129.34313 -53.57568 A 140 140 0 0 1 129.34313 53.57568 L 18.47759 7.65366 Z" />
         </defs>
-        <g id="uiFullscreen" transform="translate(0 458)" fill="#ffffff">
-          <rect x="0" y="0" width="22" height="22" />
-          <g transform="matrix(.58303 0 0 .58303 2.73 2.728)" fill="#4d4d4d">
+        <g id="uiFullscreen" class="controls" transform="translate(0 445)">
+          <rect x="0" y="0" width="35" height="35" style="fill:transparent;stroke-opacity:0;" />
+          <g transform="translate(2.73 2.728)">
             <path d="m28.36 19.595c0-.868-.665-1.57-1.491-1.57-.819.002-1.492.702-1.492 1.57v3.25l-6.02-6.02c-.582-.583-1.524-.583-2.106 0-.582.582-.582 1.527 0 2.109l5.989 5.987h-3.235c-.881.002-1.591.669-1.591 1.491 0 .824.71 1.49 1.591 1.49h6.761c.881 0 1.59-.665 1.593-1.49-.003-.022-.006-.039-.009-.061.003-.028.009-.058.009-.087v-6.668h-.0001"/><path d="m9 16.824l-6.01 6.02v-3.25c0-.868-.672-1.568-1.493-1.57-.824 0-1.49.702-1.49 1.57l-.002 6.669c0 .029.008.059.001.087-.002.021-.006.038-.008.061.002.825.712 1.49 1.592 1.49h6.762c.879 0 1.59-.666 1.59-1.49 0-.822-.711-1.489-1.59-1.491h-3.235l5.989-5.987c.58-.582.58-1.527 0-2.109-.583-.584-1.526-.584-2.11-.0001"/><path d="m19.359 11.535l6.02-6.02v3.25c0 .865.673 1.565 1.492 1.568.826 0 1.491-.703 1.491-1.568v-6.671c0-.029-.006-.059-.009-.085.003-.021.006-.041.009-.062-.003-.826-.712-1.491-1.592-1.491h-6.761c-.881 0-1.591.665-1.591 1.491 0 .821.71 1.49 1.591 1.492h3.235l-5.989 5.987c-.582.581-.582 1.524 0 2.105.582.586 1.524.586 2.106.0001"/><path d="m5.121 3.442h3.234c.879-.002 1.59-.671 1.59-1.492 0-.826-.711-1.491-1.59-1.491h-6.761c-.88 0-1.59.665-1.592 1.491.002.021.006.041.008.062-.002.026-.001.055-.001.085l.002 6.672c0 .865.666 1.568 1.49 1.568.821-.003 1.493-.703 1.493-1.568v-3.25l6.01 6.02c.584.585 1.527.585 2.11 0 .58-.581.58-1.524 0-2.105l-5.989-5.988"/>
           </g>
         </g>
-        <g id="uiA" class="controls" transform="translate(490, 330)">
-          <circle r="40" cx="0" cy="0" />
-          <path id="uiHighlightA" style="fill-opacity:0;" d="m -13.0412,0.18807 c 0,-3.1656 0.5708,-6.09676 1.7125,-8.79341 1.171,-2.69656 2.75188,-4.82166 4.74259,-6.37516 2.01996,-1.5829 4.20095,-2.3742 6.5429333,-2.3742 2.3419767,0 4.5083267,0.7913 6.4990367,2.3742 1.99066,1.5535 3.57154,3.6786 4.74254,6.37516 1.171,2.69665 1.7564,5.62781 1.7565,8.79341 V 15.7085 c -10e-5,0.5568 -0.2049,1.0259 -0.6148,1.407 -0.3806,0.3516 -0.8343,0.5275 -1.3613,0.5275 -0.5269,0 -0.98068,-0.1759 -1.36129,-0.5275 C 9.23695,16.7344 9.04667,16.2653 9.04667,15.7085 V 3.35371 H -9.13302 V 15.7085 c 0,0.5568 -0.20493,1.0259 -0.61479,1.407 -0.38059,0.3516 -0.84899,0.5275 -1.40519,0.5275 -0.5269,0 -0.9807,-0.1759 -1.3612,-0.5275 -0.3514,-0.3811 -0.527,-0.8502 -0.527,-1.407 z M 6.19238,-9.6605 c -1.72723,-2.5208 -3.80574,-3.7812 -6.2355567,-3.7812 -2.4298133,0 -4.5229733,1.2604 -6.2794633,3.7812 -1.75652,2.49146 -2.69329,5.53981 -2.81038,9.145109 H 9.04667 C 8.90028,-4.12069 7.94887,-7.16904 6.19238,-9.6605 Z" />
+        <g id="uiTouch" class="controls" transform="translate(35 445)">
+          <rect x="0" y="0" width="35" height="35" style="fill:transparent;stroke-opacity:0;" />
+          <g transform="translate(3 0)">
+            <path d="M 6.90945,11.8317 6.69053,11.6949 C 5.58267,10.9907 4.7141,9.8553 4.31088,8.56959 4.09874,7.89245 4.05088,6.7028 4.2016,5.93673 4.41374,4.89744 4.84445,4.05602 5.56231,3.2903 6.99874,1.75816 9.02981,1.14959 11.1291,1.6353 c 1.86,0.42393 3.4054,1.81214 4.0211,3.61072 0.766,2.26357 -0.0343,4.77998 -1.9832,6.21608 l -0.4104,0.3011 M 10.5137,5.44423 c 0.3283,0.17107 0.5336,0.38964 0.67,0.71107 0.089,0.21893 0.1025,0.85464 0.1025,4.8075 0,5.0671 -0.0203,4.8689 0.4583,5.0671 0.4853,0.205 0.9164,-0.0889 1.0053,-0.6975 0.1847,-1.3607 1.8807,-1.7778 2.6739,-0.6564 0.205,0.2939 0.205,0.3079 0.2393,1.395 l 0.0343,1.0943 0.2257,0.1982 c 0.3282,0.2939 0.7661,0.2532 1.0532,-0.1025 0.0686,-0.0753 0.1233,-0.2189 0.1233,-0.3146 0.0067,-0.5332 0.3417,-1.0532 0.841,-1.3129 0.219,-0.1093 0.3693,-0.13 0.7386,-0.1093 0.5675,0.0275 0.9575,0.2668 1.2036,0.7318 0.1435,0.2736 0.1571,0.39 0.1571,1.2582 0,1.0325 0.0614,1.2582 0.3897,1.4086 0.5403,0.2461 0.9914,-0.0479 1.0735,-0.6975 0.1572,-1.2446 1.7232,-1.7232 2.5507,-0.7796 0.1233,0.1367 0.2533,0.3692 0.294,0.506 0.0546,0.1847 0.0682,1.614 0.0546,4.8075 l -0.0275,4.5475 -0.1778,0.6497 c -0.2258,0.8343 -0.5129,1.4636 -0.9847,2.1678 -0.7864,1.1761 -2.1403,2.3729 -3.5082,3.0911 l -0.67,0.3486 h -4.0686 c -4.6228,0 -4.561,0.0068 -5.34069,-0.5264 C 8.14767,32.0392 6.69803,29.7207 4.34553,24.6125 3.29231,22.3146 2.54695,20.8239 2.04767,20.0375 1.61695,19.3467 1.4391,18.9228 1.4391,18.5603 c 0,-1.0121 1.1625,-1.73 2.03785,-1.2582 0.15715,0.0889 1.01215,0.9164 1.96965,1.9011 0.92964,0.9575 1.75714,1.7778 1.8325,1.826 0.24607,0.1436 0.62928,0.1093 0.84107,-0.0753 L 8.3116,20.79 8.34588,13.5478 c 0.04108,-8.02143 0,-7.3925 0.48572,-7.87107 0.43071,-0.42393 1.12107,-0.51964 1.6821,-0.2325 z" />
+          </g>
         </g>
-        <g id="uiB" class="controls" transform="translate(550, 280) scale(0.7)">
-          <circle r="40" cx="0" cy="0" />
-          <path id="uiHighlightB" style="fill-opacity:0;" d="m -12.9647,-11.761 c 0,-1.7169 0.5423,-3.0934 1.627,-4.1295 1.0847,-1.0361 2.29788,-1.5541 3.63949,-1.5541 h 8.135261 c 2.426309,0.0296 4.495809,0.9472 6.208489,2.753 1.74123,1.7762 2.61185,3.9223 2.61185,6.43855 0,2.63463 -0.89916,4.84002 -2.69748,6.61617 L 5.14694,-0.215958 C 7.23071,0.19848 8.9434,1.26417 10.285,2.98112 c 1.3702,1.68734 2.0552,3.64111 2.0552,5.8613 0,2.51618 -0.842,4.67718 -2.52619,6.48298 -1.68414,1.8057 -3.72509,2.7086 -6.12285,2.7086 h -11.2181 c -1.48433,0 -2.76886,-0.5476 -3.85356,-1.6429 -1.0561,-1.0953 -1.5842,-2.4126 -1.5842,-3.952 z m 5.43776,-1.7317 c -0.42817,0 -0.81353,0.1628 -1.15606,0.4884 -0.314,0.2961 -0.471,0.7253 -0.471,1.2878 v 11.36733 h 9.0772473 L 3.99088,-4.52313 c 0.97052,-1.03609 1.45578,-2.27939 1.45578,-3.72992 0,-1.45052 -0.49953,-2.67905 -1.4986,-3.68555 -0.97052,-1.0361 -2.15513,-1.5541 -3.553825,-1.5541 H 0.222979 c -0.65653,0 -1.641329,0 -2.954389,0 -1.28451,0 -2.39776,0 -3.33973,0 H -7.48411 Z M 3.43425,14.0821 c 1.48433,0 2.71176,-0.5181 3.68228,-1.5542 C 8.08705,11.4919 8.57231,10.2633 8.57231,8.84242 8.57231,7.3919 8.07278,6.16339 7.07372,5.15691 6.10319,4.12082 4.91858,3.60277 3.51989,3.60277 H 3.47709 -9.15398 v 8.79193 c 0,0.4441 0.14272,0.8437 0.42817,1.1989 0.31399,0.3257 0.72789,0.4885 1.2417,0.4885 z" />
-        </g>
-        <g class="controls" transform="translate(150, 330)">
-          <use xlink:href="#arrow" id="uiHighlightDirT" style="fill-opacity:0;" transform="translate(0, -30) rotate(-90)" />
-          <use xlink:href="#arrow" id="uiHighlightDirR" style="fill-opacity:0;" transform="translate(30, 0) rotate(0)" />
-          <use xlink:href="#arrow" id="uiHighlightDirB" style="fill-opacity:0;" transform="translate(0, 30) rotate(90)" />
-          <use xlink:href="#arrow" id="uiHighlightDirL" style="fill-opacity:0;" transform="translate(-30, 0) rotate(180)" />
-          <circle r="40" cx="0" cy="0" />
-          <circle r="140" cx="0" cy="0" style="fill:none;stroke-opacity:0.1;" />
-          <g>
-            <use xlink:href="#wedge" id="uiDirR" transform="rotate(0)" />
-            <use xlink:href="#wedge" id="uiDirBR" transform="rotate(45)" />
-            <use xlink:href="#wedge" id="uiDirB" transform="rotate(90)" />
-            <use xlink:href="#wedge" id="uiDirBL" transform="rotate(135)" />
-            <use xlink:href="#wedge" id="uiDirL" transform="rotate(180)" />
-            <use xlink:href="#wedge" id="uiDirTL" transform="rotate(225)" />
-            <use xlink:href="#wedge" id="uiDirT" transform="rotate(270)" />
-            <use xlink:href="#wedge" id="uiDirTR" transform="rotate(315)" />
+        <g id="uiControlsTouch" visibility="hidden">
+          <g id="uiA" class="controls" transform="translate(490, 330)">
+            <circle r="40" cx="0" cy="0" />
+            <path id="uiHighlightA" style="fill-opacity:0;" d="m -13.0412,0.18807 c 0,-3.1656 0.5708,-6.09676 1.7125,-8.79341 1.171,-2.69656 2.75188,-4.82166 4.74259,-6.37516 2.01996,-1.5829 4.20095,-2.3742 6.5429333,-2.3742 2.3419767,0 4.5083267,0.7913 6.4990367,2.3742 1.99066,1.5535 3.57154,3.6786 4.74254,6.37516 1.171,2.69665 1.7564,5.62781 1.7565,8.79341 V 15.7085 c -10e-5,0.5568 -0.2049,1.0259 -0.6148,1.407 -0.3806,0.3516 -0.8343,0.5275 -1.3613,0.5275 -0.5269,0 -0.98068,-0.1759 -1.36129,-0.5275 C 9.23695,16.7344 9.04667,16.2653 9.04667,15.7085 V 3.35371 H -9.13302 V 15.7085 c 0,0.5568 -0.20493,1.0259 -0.61479,1.407 -0.38059,0.3516 -0.84899,0.5275 -1.40519,0.5275 -0.5269,0 -0.9807,-0.1759 -1.3612,-0.5275 -0.3514,-0.3811 -0.527,-0.8502 -0.527,-1.407 z M 6.19238,-9.6605 c -1.72723,-2.5208 -3.80574,-3.7812 -6.2355567,-3.7812 -2.4298133,0 -4.5229733,1.2604 -6.2794633,3.7812 -1.75652,2.49146 -2.69329,5.53981 -2.81038,9.145109 H 9.04667 C 8.90028,-4.12069 7.94887,-7.16904 6.19238,-9.6605 Z" />
+          </g>
+          <g id="uiB" class="controls" transform="translate(550, 280) scale(0.7)">
+            <circle r="40" cx="0" cy="0" />
+            <path id="uiHighlightB" style="fill-opacity:0;" d="m -12.9647,-11.761 c 0,-1.7169 0.5423,-3.0934 1.627,-4.1295 1.0847,-1.0361 2.29788,-1.5541 3.63949,-1.5541 h 8.135261 c 2.426309,0.0296 4.495809,0.9472 6.208489,2.753 1.74123,1.7762 2.61185,3.9223 2.61185,6.43855 0,2.63463 -0.89916,4.84002 -2.69748,6.61617 L 5.14694,-0.215958 C 7.23071,0.19848 8.9434,1.26417 10.285,2.98112 c 1.3702,1.68734 2.0552,3.64111 2.0552,5.8613 0,2.51618 -0.842,4.67718 -2.52619,6.48298 -1.68414,1.8057 -3.72509,2.7086 -6.12285,2.7086 h -11.2181 c -1.48433,0 -2.76886,-0.5476 -3.85356,-1.6429 -1.0561,-1.0953 -1.5842,-2.4126 -1.5842,-3.952 z m 5.43776,-1.7317 c -0.42817,0 -0.81353,0.1628 -1.15606,0.4884 -0.314,0.2961 -0.471,0.7253 -0.471,1.2878 v 11.36733 h 9.0772473 L 3.99088,-4.52313 c 0.97052,-1.03609 1.45578,-2.27939 1.45578,-3.72992 0,-1.45052 -0.49953,-2.67905 -1.4986,-3.68555 -0.97052,-1.0361 -2.15513,-1.5541 -3.553825,-1.5541 H 0.222979 c -0.65653,0 -1.641329,0 -2.954389,0 -1.28451,0 -2.39776,0 -3.33973,0 H -7.48411 Z M 3.43425,14.0821 c 1.48433,0 2.71176,-0.5181 3.68228,-1.5542 C 8.08705,11.4919 8.57231,10.2633 8.57231,8.84242 8.57231,7.3919 8.07278,6.16339 7.07372,5.15691 6.10319,4.12082 4.91858,3.60277 3.51989,3.60277 H 3.47709 -9.15398 v 8.79193 c 0,0.4441 0.14272,0.8437 0.42817,1.1989 0.31399,0.3257 0.72789,0.4885 1.2417,0.4885 z" />
+          </g>
+          <g class="controls" transform="translate(150, 330)">
+            <use xlink:href="#arrow" id="uiHighlightDirT" style="fill-opacity:0;" transform="translate(0, -30) rotate(-90)" />
+            <use xlink:href="#arrow" id="uiHighlightDirR" style="fill-opacity:0;" transform="translate(30, 0) rotate(0)" />
+            <use xlink:href="#arrow" id="uiHighlightDirB" style="fill-opacity:0;" transform="translate(0, 30) rotate(90)" />
+            <use xlink:href="#arrow" id="uiHighlightDirL" style="fill-opacity:0;" transform="translate(-30, 0) rotate(180)" />
+            <circle r="40" cx="0" cy="0" />
+            <circle r="140" cx="0" cy="0" style="fill:none;stroke-opacity:0.1;" />
+            <g>
+              <use xlink:href="#wedge" id="uiDirR" transform="rotate(0)" />
+              <use xlink:href="#wedge" id="uiDirBR" transform="rotate(45)" />
+              <use xlink:href="#wedge" id="uiDirB" transform="rotate(90)" />
+              <use xlink:href="#wedge" id="uiDirBL" transform="rotate(135)" />
+              <use xlink:href="#wedge" id="uiDirL" transform="rotate(180)" />
+              <use xlink:href="#wedge" id="uiDirTL" transform="rotate(225)" />
+              <use xlink:href="#wedge" id="uiDirT" transform="rotate(270)" />
+              <use xlink:href="#wedge" id="uiDirTR" transform="rotate(315)" />
+            </g>
           </g>
         </g>
       </svg>
@@ -306,6 +322,10 @@
       const checks = document.getElementById("checks");
       checks.innerHTML = "";
       {
+        // wasm?
+        if (!WebAssembly) {
+          checks.innerHTML += "WebAssembly not supported :(<br/>";
+        }
         // webgl?
         var canvas = document.getElementById("screen");
         var gl = canvas.getContext("webgl");
@@ -336,6 +356,18 @@
         } else {
           document.body.requestFullscreen();
         }
+      });
+      function toggleSVGElement(element) {
+        const currentVisibility = element.getAttributeNS(null, "visibility");
+        if (currentVisibility == "hidden") {
+          element.setAttributeNS(null, "visibility", "visible");
+        } else {
+          element.setAttributeNS(null, "visibility", "hidden");
+        }
+      }
+      document.getElementById("uiTouch").addEventListener("click", function(event) {
+        toggleSVGElement(document.getElementById("uiControlsTouch"));
+        toggleSVGElement(document.getElementById("uiControlsKeyboard"));
       });
     </script>
     <script src="./tt.js"></script>

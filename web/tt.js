@@ -314,8 +314,8 @@ const keyMap = {
   ArrowDown: 0x2,
   ArrowLeft: 0x4,
   ArrowRight: 0x8,
-  ControlLeft: 0x10,
-  ShiftLeft: 0x20,
+  KeyX: 0x10,
+  KeyC: 0x20,
   Escape: 0x40,
   KeyP: 0x80
 };
