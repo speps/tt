@@ -423,3 +423,8 @@ fetch('./tt.wasm').then(function(response) {
   }
   reader.read().then(add);
 });
+
+// PWA service worker
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register('./sw.js');
+}
