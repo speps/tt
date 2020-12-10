@@ -382,7 +382,9 @@ function registerTouchEvent(name, state) {
       touchInputState |= uiMap[id];
     }
     updateInput();
-    event.preventDefault();
+    if (ids.length > 0) {
+      event.preventDefault();
+    }
   }, false);
 }
 registerTouchEvent("touchstart");
