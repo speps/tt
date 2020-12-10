@@ -18,6 +18,8 @@
     <meta property="twitter:description" content="Game where you shoot enemies while flying inside an infinite tunnel" />
     <meta property="twitter:image" content="https://torustrooper.xyz/tt.jpg" />
     <meta property="github:sha" content="GITHUB_SHA" />
+    <link rel="manifest" href="/manifest.json"/>
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
     <style>
       body, html { margin:0px; background-color:#202020; touch-action:none; overflow:hidden; }
       #screen { position:absolute; top:0px; left:0px; }
@@ -346,6 +348,13 @@
         if (!localStorage) {
           checks.innerHTML += "LocalStorage not supported, saves disabled :(<br/>";
         }
+      }
+
+      // PWA service worker
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('./sw.js').then(function(sw) {
+          console.log("PWA listener ok");
+        });
       }
 
       document.getElementById("txtLoading").setAttributeNS(null, "visibility", "visible");
