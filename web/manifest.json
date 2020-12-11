@@ -2,6 +2,7 @@
     "theme_color": "#000000",
     "background_color": "#000000",
     "display": "fullscreen",
+    "orientation": "landscape",
     "scope": "/",
     "start_url": "/index.htm",
     "name": "Torus Trooper",
