@@ -347,6 +347,7 @@ window.addEventListener("keyup", function(event) {
 const uiMap = {
   uiA: 0x10,
   uiB: 0x20,
+  uiBack: 0x40,
   uiDirR: 0x8,
   uiDirBR: 0xA,
   uiDirB: 0x2,

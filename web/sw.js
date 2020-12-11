@@ -1,4 +1,4 @@
-var cacheName = 'torus-trooper';
+var cacheName = 'torus-trooper-' + 'GITHUB_SHA';
 var filesToCache = [
   '/',
   '/index.htm',
@@ -14,10 +14,30 @@ self.addEventListener('install', function(e) {
   );
 });
 
-self.addEventListener('fetch', function(e) {
-  e.respondWith(
-    caches.match(e.request).then(function(response) {
-      return response || fetch(e.request);
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          return caches.delete(cacheName);
+        })
+      );
     })
   );
+});
+
+self.addEventListener('fetch', function(e) {
+  if (navigator.onLine) {
+    e.respondWith(
+      fetch(e.request).catch(function() {
+        return caches.match(e.request);
+      })
+    );
+  } else {
+    e.respondWith(
+      caches.match(e.request).then(function(response) {
+        return response || fetch(e.request);
+      })
+    );
+  }
 });
