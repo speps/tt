@@ -1,6 +1,6 @@
 # Torus Trooper (Reboot)
 
-This is a reboot of the original Torus Trooper by Kenta Cho (circa 2004), all from original source code and assets into a WebAssembly version. Originally written in D v0.0110, recompiled for D v2.093 using LDC 1.23 targeting the WASM backend.
+This is a reboot of the original Torus Trooper by Kenta Cho (circa 2004), all from original source code and assets into a WebAssembly version. Originally written in D v0.110, recompiled for D v2.093 using LDC 1.23 targeting the WASM backend.
 
 Click image to open the playable online version:
 
