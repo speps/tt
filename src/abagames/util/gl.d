@@ -1,7 +1,12 @@
 module abagames.util.gl;
 
 import std.stdio;
-version(BindBC) { import bindbc.opengl; }
+
+version(BindBC)
+{
+    version(IOS) { version = STATIC_GL; }
+    else { import bindbc.opengl; }
+}
 
 import abagames.util.conv;
 import abagames.util.math;
@@ -996,7 +1001,7 @@ version(GL_Batching) {
 }
 }
 
-version(WASM) {
+version(STATIC_GL) {
   extern (C) {
     version(X86) {
       int glGetAttribLocation(uint, const(char)*) { return 0; }
@@ -1030,13 +1035,21 @@ version(WASM) {
       void glVertexAttribPointer(uint, int, uint, ubyte, int, const(void)*) {}
       void glViewport(int, int, int, int) {}
     } else {
-      int glGetAttribLocationWithLen(uint, const(char*), uint);
-      int glGetAttribLocation(uint p, string n) {
-        return glGetAttribLocationWithLen(p, n.ptr, n.length);
+      version(IOS)
+      {
+        int glGetAttribLocation(uint, const(char*));
+        int glGetUniformLocation(uint, const(char*));
       }
-      int glGetUniformLocationWithLen(uint, const(char*), uint);
-      int glGetUniformLocation(uint p, string n) {
-        return glGetUniformLocationWithLen(p, n.ptr, n.length);
+      else
+      {
+        int glGetAttribLocationWithLen(uint, const(char*), uint);
+        int glGetAttribLocation(uint p, string n) {
+          return glGetAttribLocationWithLen(p, n.ptr, n.length);
+        }
+        int glGetUniformLocationWithLen(uint, const(char*), uint);
+        int glGetUniformLocation(uint p, string n) {
+          return glGetUniformLocationWithLen(p, n.ptr, n.length);
+        }
       }
       uint glCreateProgram();
       uint glCreateShader(uint);

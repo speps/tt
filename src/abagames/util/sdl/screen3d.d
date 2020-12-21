@@ -10,7 +10,9 @@ version(BindBC) {
   import std.stdio;
   import std.string;
   import bindbc.sdl;
-  import bindbc.opengl;
+
+  version(IOS) {}
+  else { import bindbc.opengl; }
 }
 import abagames.util.gl;
 import abagames.util.vector;
