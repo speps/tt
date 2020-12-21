@@ -1,7 +1,16 @@
 module abagames.util.gl;
 
 import std.stdio;
-version(BindBC) { import bindbc.opengl; }
+
+version(BindBC)
+{
+    version(BindGL_Static) { version = staticGL; }
+    else { import bindbc.opengl; }
+}
+else version(WASM)
+{
+    version = staticGL;
+}
 
 import abagames.util.conv;
 import abagames.util.math;
@@ -438,7 +447,7 @@ version(GL_Batching) {
     auto vsIndex = glCreateShader(GL.VERTEX_SHADER);
     {
       auto sourcePtr = cast(char*)vsSource.ptr;
-      int sourceLen = vsSource.length;
+      int sourceLen = cast(int) vsSource.length;
       glShaderSource(vsIndex, 1, &sourcePtr, &sourceLen);
       glCompileShader(vsIndex);
       glGetShaderiv(vsIndex, GL.COMPILE_STATUS, &status);
@@ -451,7 +460,7 @@ version(GL_Batching) {
     auto fsIndex = glCreateShader(GL.FRAGMENT_SHADER);
     {
       auto sourcePtr = cast(char*)fsSource.ptr;
-      int sourceLen = fsSource.length;
+      int sourceLen = cast(int) fsSource.length;
       glShaderSource(fsIndex, 1, &sourcePtr, &sourceLen);
       glCompileShader(fsIndex);
       glGetShaderiv(fsIndex, GL.COMPILE_STATUS, &status);
@@ -921,7 +930,7 @@ version(GL_Batching) {
       glBindVertexArray(triArrayIndex);
 
       glBindBuffer(GL.ARRAY_BUFFER, triBufferIndex);
-      int size = currentTriCount * Vertex.sizeof;
+      int size = cast(int)(currentTriCount * Vertex.sizeof);
       glBufferData(GL.ARRAY_BUFFER, size, null, GL.STREAM_DRAW);
       glBufferData(GL.ARRAY_BUFFER, size, triangles.ptr, GL.STREAM_DRAW);
     
@@ -939,7 +948,7 @@ version(GL_Batching) {
       glBindVertexArray(lineArrayIndex);
 
       glBindBuffer(GL.ARRAY_BUFFER, lineBufferIndex);
-      int size = currentLineCount * Vertex.sizeof;
+      int size = cast(int)(currentLineCount * Vertex.sizeof);
       glBufferData(GL.ARRAY_BUFFER, size, null, GL.STREAM_DRAW);
       glBufferData(GL.ARRAY_BUFFER, size, lines.ptr, GL.STREAM_DRAW);
     
@@ -996,7 +1005,7 @@ version(GL_Batching) {
 }
 }
 
-version(WASM) {
+version(staticGL) {
   extern (C) {
     version(X86) {
       int glGetAttribLocation(uint, const(char)*) { return 0; }
@@ -1030,13 +1039,21 @@ version(WASM) {
       void glVertexAttribPointer(uint, int, uint, ubyte, int, const(void)*) {}
       void glViewport(int, int, int, int) {}
     } else {
-      int glGetAttribLocationWithLen(uint, const(char*), uint);
-      int glGetAttribLocation(uint p, string n) {
-        return glGetAttribLocationWithLen(p, n.ptr, n.length);
+      version(IOS)
+      {
+        int glGetAttribLocation(uint, const(char*));
+        int glGetUniformLocation(uint, const(char*));
       }
-      int glGetUniformLocationWithLen(uint, const(char*), uint);
-      int glGetUniformLocation(uint p, string n) {
-        return glGetUniformLocationWithLen(p, n.ptr, n.length);
+      else
+      {
+        int glGetAttribLocationWithLen(uint, const(char*), uint);
+        int glGetAttribLocation(uint p, string n) {
+          return glGetAttribLocationWithLen(p, n.ptr, n.length);
+        }
+        int glGetUniformLocationWithLen(uint, const(char*), uint);
+        int glGetUniformLocation(uint p, string n) {
+          return glGetUniformLocationWithLen(p, n.ptr, n.length);
+        }
       }
       uint glCreateProgram();
       uint glCreateShader(uint);
