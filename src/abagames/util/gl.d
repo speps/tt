@@ -4,8 +4,12 @@ import std.stdio;
 
 version(BindBC)
 {
-    version(IOS) { version = STATIC_GL; }
+    version(BindGL_Static) { version = staticGL; }
     else { import bindbc.opengl; }
+}
+else version(WASM)
+{
+    version = staticGL;
 }
 
 import abagames.util.conv;
@@ -443,7 +447,7 @@ version(GL_Batching) {
     auto vsIndex = glCreateShader(GL.VERTEX_SHADER);
     {
       auto sourcePtr = cast(char*)vsSource.ptr;
-      int sourceLen = vsSource.length;
+      int sourceLen = cast(int) vsSource.length;
       glShaderSource(vsIndex, 1, &sourcePtr, &sourceLen);
       glCompileShader(vsIndex);
       glGetShaderiv(vsIndex, GL.COMPILE_STATUS, &status);
@@ -456,7 +460,7 @@ version(GL_Batching) {
     auto fsIndex = glCreateShader(GL.FRAGMENT_SHADER);
     {
       auto sourcePtr = cast(char*)fsSource.ptr;
-      int sourceLen = fsSource.length;
+      int sourceLen = cast(int) fsSource.length;
       glShaderSource(fsIndex, 1, &sourcePtr, &sourceLen);
       glCompileShader(fsIndex);
       glGetShaderiv(fsIndex, GL.COMPILE_STATUS, &status);
@@ -926,7 +930,7 @@ version(GL_Batching) {
       glBindVertexArray(triArrayIndex);
 
       glBindBuffer(GL.ARRAY_BUFFER, triBufferIndex);
-      int size = currentTriCount * Vertex.sizeof;
+      int size = cast(int)(currentTriCount * Vertex.sizeof);
       glBufferData(GL.ARRAY_BUFFER, size, null, GL.STREAM_DRAW);
       glBufferData(GL.ARRAY_BUFFER, size, triangles.ptr, GL.STREAM_DRAW);
     
@@ -944,7 +948,7 @@ version(GL_Batching) {
       glBindVertexArray(lineArrayIndex);
 
       glBindBuffer(GL.ARRAY_BUFFER, lineBufferIndex);
-      int size = currentLineCount * Vertex.sizeof;
+      int size = cast(int)(currentLineCount * Vertex.sizeof);
       glBufferData(GL.ARRAY_BUFFER, size, null, GL.STREAM_DRAW);
       glBufferData(GL.ARRAY_BUFFER, size, lines.ptr, GL.STREAM_DRAW);
     
@@ -1001,7 +1005,7 @@ version(GL_Batching) {
 }
 }
 
-version(STATIC_GL) {
+version(staticGL) {
   extern (C) {
     version(X86) {
       int glGetAttribLocation(uint, const(char)*) { return 0; }

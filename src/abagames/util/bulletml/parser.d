@@ -59,7 +59,7 @@ protected:
           return false;
         }
         if (c != v) {
-          backup(idx + 1);
+          backup(cast(int)(idx + 1));
           return false;
         }
       }

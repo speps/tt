@@ -86,7 +86,8 @@
         "GL_32",
         "GL_Batching",
         "SDL_Mixer",
-        "InputBackendSDL"
+        "InputBackendSDL",
+	"BindGL_Static"
       ],
       "subConfigurations": {
         "bindbc-sdl": "staticBC"

@@ -47,7 +47,7 @@ Element[] parseXML(string s) {
       search: foreach (idx, c; value) {
         foreach (sc; space) {
           if (sc == c) {
-            spaceIndex = idx;
+            spaceIndex = cast(int) idx;
             break search;
           }
         }
