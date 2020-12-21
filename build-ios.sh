@@ -2,9 +2,11 @@
 
 dub build --arch=arm64-apple-ios --config=iOS
 mv dist/libtt.a dist/libtt-ios-arm64.a
+libtool -static -o dist/libtt-ios-arm64.a ios-libs/*-arm64.a
 
 dub build --arch=x86_64-apple-ios --config=iOS
 mv dist/libtt.a dist/libtt-ios-x86_64.a
+libtool -static -o dist/libtt-ios-x86_64.a ios-libs/*-x86_64.a
 
 xcrun -sdk iphoneos lipo -create \
     dist/libtt-ios-arm64.a \

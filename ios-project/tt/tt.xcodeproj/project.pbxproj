@@ -9,6 +9,20 @@
 /* Begin PBXBuildFile section */
 		A577D0972590F611008D5F5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A577D0962590F611008D5F5E /* Assets.xcassets */; };
 		A577D09D2590F611008D5F5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A577D09C2590F611008D5F5E /* main.m */; };
+		A577D0A82590FA58008D5F5E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0A72590FA58008D5F5E /* UIKit.framework */; };
+		A577D0AA2590FA61008D5F5E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0A92590FA61008D5F5E /* QuartzCore.framework */; };
+		A577D0AC2590FA68008D5F5E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0AB2590FA68008D5F5E /* OpenGLES.framework */; };
+		A577D0AE2590FA6F008D5F5E /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0AD2590FA6F008D5F5E /* Metal.framework */; };
+		A577D0B02590FA7A008D5F5E /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0AF2590FA7A008D5F5E /* GameController.framework */; };
+		A577D0B22590FA83008D5F5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B12590FA83008D5F5E /* Foundation.framework */; };
+		A577D0B42590FA8C008D5F5E /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B32590FA8C008D5F5E /* CoreServices.framework */; };
+		A577D0B62590FA94008D5F5E /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B52590FA94008D5F5E /* CoreMotion.framework */; };
+		A577D0B82590FA9B008D5F5E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B72590FA9B008D5F5E /* CoreGraphics.framework */; };
+		A577D0BA2590FAA3008D5F5E /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B92590FAA3008D5F5E /* CoreBluetooth.framework */; };
+		A577D0BC2590FAAD008D5F5E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0BB2590FAAD008D5F5E /* AVFoundation.framework */; };
+		A577D0BE2590FAB5008D5F5E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0BD2590FAB5008D5F5E /* AudioToolbox.framework */; };
+		A577D0C02590FAD7008D5F5E /* libtt-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0BF2590FAD7008D5F5E /* libtt-ios.a */; };
+		A577D0C22590FB1B008D5F5E /* dist in Resources */ = {isa = PBXBuildFile; fileRef = A577D0C12590FB1B008D5F5E /* dist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,6 +30,20 @@
 		A577D0962590F611008D5F5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A577D09B2590F611008D5F5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A577D09C2590F611008D5F5E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A577D0A72590FA58008D5F5E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A577D0A92590FA61008D5F5E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A577D0AB2590FA68008D5F5E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		A577D0AD2590FA6F008D5F5E /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		A577D0AF2590FA7A008D5F5E /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
+		A577D0B12590FA83008D5F5E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A577D0B32590FA8C008D5F5E /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		A577D0B52590FA94008D5F5E /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		A577D0B72590FA9B008D5F5E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A577D0B92590FAA3008D5F5E /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		A577D0BB2590FAAD008D5F5E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A577D0BD2590FAB5008D5F5E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		A577D0BF2590FAD7008D5F5E /* libtt-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libtt-ios.a"; path = "../../dist/libtt-ios.a"; sourceTree = "<group>"; };
+		A577D0C12590FB1B008D5F5E /* dist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dist; path = ../../dist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -23,6 +51,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A577D0C02590FAD7008D5F5E /* libtt-ios.a in Frameworks */,
+				A577D0BE2590FAB5008D5F5E /* AudioToolbox.framework in Frameworks */,
+				A577D0BC2590FAAD008D5F5E /* AVFoundation.framework in Frameworks */,
+				A577D0BA2590FAA3008D5F5E /* CoreBluetooth.framework in Frameworks */,
+				A577D0B82590FA9B008D5F5E /* CoreGraphics.framework in Frameworks */,
+				A577D0B62590FA94008D5F5E /* CoreMotion.framework in Frameworks */,
+				A577D0B42590FA8C008D5F5E /* CoreServices.framework in Frameworks */,
+				A577D0B22590FA83008D5F5E /* Foundation.framework in Frameworks */,
+				A577D0B02590FA7A008D5F5E /* GameController.framework in Frameworks */,
+				A577D0AE2590FA6F008D5F5E /* Metal.framework in Frameworks */,
+				A577D0AC2590FA68008D5F5E /* OpenGLES.framework in Frameworks */,
+				A577D0AA2590FA61008D5F5E /* QuartzCore.framework in Frameworks */,
+				A577D0A82590FA58008D5F5E /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,8 +73,10 @@
 		A577D07E2590F60F008D5F5E = {
 			isa = PBXGroup;
 			children = (
+				A577D0C12590FB1B008D5F5E /* dist */,
 				A577D0892590F610008D5F5E /* tt */,
 				A577D0882590F610008D5F5E /* Products */,
+				A577D0A62590FA58008D5F5E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -53,6 +96,26 @@
 				A577D09C2590F611008D5F5E /* main.m */,
 			);
 			path = tt;
+			sourceTree = "<group>";
+		};
+		A577D0A62590FA58008D5F5E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A577D0BF2590FAD7008D5F5E /* libtt-ios.a */,
+				A577D0BD2590FAB5008D5F5E /* AudioToolbox.framework */,
+				A577D0BB2590FAAD008D5F5E /* AVFoundation.framework */,
+				A577D0B92590FAA3008D5F5E /* CoreBluetooth.framework */,
+				A577D0B72590FA9B008D5F5E /* CoreGraphics.framework */,
+				A577D0B52590FA94008D5F5E /* CoreMotion.framework */,
+				A577D0B32590FA8C008D5F5E /* CoreServices.framework */,
+				A577D0B12590FA83008D5F5E /* Foundation.framework */,
+				A577D0AF2590FA7A008D5F5E /* GameController.framework */,
+				A577D0AD2590FA6F008D5F5E /* Metal.framework */,
+				A577D0AB2590FA68008D5F5E /* OpenGLES.framework */,
+				A577D0A92590FA61008D5F5E /* QuartzCore.framework */,
+				A577D0A72590FA58008D5F5E /* UIKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,6 +174,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A577D0C22590FB1B008D5F5E /* dist in Resources */,
 				A577D0972590F611008D5F5E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,7 +244,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "../../ios-libs/SDL/include";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LIBRARY_SEARCH_PATHS = ../../dist;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -233,7 +299,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "../../ios-libs/SDL/include";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LIBRARY_SEARCH_PATHS = ../../dist;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
