@@ -31,8 +31,3 @@ xcodebuild \
     ONLY_ACTIVE_ARCH=NO
 mv ${LIBS_DIR}/libSDL2_mixer.a ${LIBS_DIR}/libSDL2_mixer-x86_64.a
 
-xcrun -sdk iphoneos lipo -create \
-        ${LIBS_DIR}/libSDL2_mixer-arm64.a \
-        ${LIBS_DIR}/libSDL2_mixer-x86_64.a \
-	-output ${LIBS_DIR}/libSDL2_mixer-ios.a
-

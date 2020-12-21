@@ -30,11 +30,6 @@ xcodebuild \
     ONLY_ACTIVE_ARCH=NO
 mv ${LIBS_DIR}/libSDL2.a ${LIBS_DIR}/libSDL2-x86_64.a
 
-xcrun -sdk iphoneos lipo -create \
-        ${LIBS_DIR}/libSDL2-arm64.a \
-        ${LIBS_DIR}/libSDL2-x86_64.a \
-	-output ${LIBS_DIR}/libSDL2-ios.a
-
 mkdir -p ./SDL/include
 cp -r ./${SDL2_BASE_NAME}/include/* ./SDL/include
 
