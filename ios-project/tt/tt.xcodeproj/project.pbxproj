@@ -22,7 +22,8 @@
 		A577D0BC2590FAAD008D5F5E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0BB2590FAAD008D5F5E /* AVFoundation.framework */; };
 		A577D0BE2590FAB5008D5F5E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0BD2590FAB5008D5F5E /* AudioToolbox.framework */; };
 		A577D0C02590FAD7008D5F5E /* libtt-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0BF2590FAD7008D5F5E /* libtt-ios.a */; };
-		A577D0C22590FB1B008D5F5E /* dist in Resources */ = {isa = PBXBuildFile; fileRef = A577D0C12590FB1B008D5F5E /* dist */; };
+		A577D0C82590FD7C008D5F5E /* barrage in Resources */ = {isa = PBXBuildFile; fileRef = A577D0C72590FD7C008D5F5E /* barrage */; };
+		A577D0CB2590FD90008D5F5E /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = A577D0CA2590FD90008D5F5E /* sounds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +44,8 @@
 		A577D0BB2590FAAD008D5F5E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		A577D0BD2590FAB5008D5F5E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A577D0BF2590FAD7008D5F5E /* libtt-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libtt-ios.a"; path = "../../dist/libtt-ios.a"; sourceTree = "<group>"; };
-		A577D0C12590FB1B008D5F5E /* dist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dist; path = ../../dist; sourceTree = "<group>"; };
+		A577D0C72590FD7C008D5F5E /* barrage */ = {isa = PBXFileReference; lastKnownFileType = folder; name = barrage; path = ../../dist/barrage; sourceTree = "<group>"; };
+		A577D0CA2590FD90008D5F5E /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sounds; path = ../../dist/sounds; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +75,8 @@
 		A577D07E2590F60F008D5F5E = {
 			isa = PBXGroup;
 			children = (
-				A577D0C12590FB1B008D5F5E /* dist */,
+				A577D0CA2590FD90008D5F5E /* sounds */,
+				A577D0C72590FD7C008D5F5E /* barrage */,
 				A577D0892590F610008D5F5E /* tt */,
 				A577D0882590F610008D5F5E /* Products */,
 				A577D0A62590FA58008D5F5E /* Frameworks */,
@@ -174,7 +177,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A577D0C22590FB1B008D5F5E /* dist in Resources */,
+				A577D0CB2590FD90008D5F5E /* sounds in Resources */,
+				A577D0C82590FD7C008D5F5E /* barrage in Resources */,
 				A577D0972590F611008D5F5E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
