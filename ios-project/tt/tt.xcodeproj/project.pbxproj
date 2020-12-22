@@ -1,0 +1,376 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A577D0972590F611008D5F5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A577D0962590F611008D5F5E /* Assets.xcassets */; };
+		A577D09D2590F611008D5F5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A577D09C2590F611008D5F5E /* main.m */; };
+		A577D0A82590FA58008D5F5E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0A72590FA58008D5F5E /* UIKit.framework */; };
+		A577D0AA2590FA61008D5F5E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0A92590FA61008D5F5E /* QuartzCore.framework */; };
+		A577D0AC2590FA68008D5F5E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0AB2590FA68008D5F5E /* OpenGLES.framework */; };
+		A577D0AE2590FA6F008D5F5E /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0AD2590FA6F008D5F5E /* Metal.framework */; };
+		A577D0B02590FA7A008D5F5E /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0AF2590FA7A008D5F5E /* GameController.framework */; };
+		A577D0B22590FA83008D5F5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B12590FA83008D5F5E /* Foundation.framework */; };
+		A577D0B42590FA8C008D5F5E /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B32590FA8C008D5F5E /* CoreServices.framework */; };
+		A577D0B62590FA94008D5F5E /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B52590FA94008D5F5E /* CoreMotion.framework */; };
+		A577D0B82590FA9B008D5F5E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B72590FA9B008D5F5E /* CoreGraphics.framework */; };
+		A577D0BA2590FAA3008D5F5E /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0B92590FAA3008D5F5E /* CoreBluetooth.framework */; };
+		A577D0BC2590FAAD008D5F5E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0BB2590FAAD008D5F5E /* AVFoundation.framework */; };
+		A577D0BE2590FAB5008D5F5E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0BD2590FAB5008D5F5E /* AudioToolbox.framework */; };
+		A577D0C02590FAD7008D5F5E /* libtt-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A577D0BF2590FAD7008D5F5E /* libtt-ios.a */; };
+		A577D0C82590FD7C008D5F5E /* barrage in Resources */ = {isa = PBXBuildFile; fileRef = A577D0C72590FD7C008D5F5E /* barrage */; };
+		A577D0CB2590FD90008D5F5E /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = A577D0CA2590FD90008D5F5E /* sounds */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A577D0872590F610008D5F5E /* tt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tt.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A577D0962590F611008D5F5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A577D09B2590F611008D5F5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A577D09C2590F611008D5F5E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A577D0A72590FA58008D5F5E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A577D0A92590FA61008D5F5E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A577D0AB2590FA68008D5F5E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		A577D0AD2590FA6F008D5F5E /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		A577D0AF2590FA7A008D5F5E /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
+		A577D0B12590FA83008D5F5E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A577D0B32590FA8C008D5F5E /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		A577D0B52590FA94008D5F5E /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		A577D0B72590FA9B008D5F5E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A577D0B92590FAA3008D5F5E /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		A577D0BB2590FAAD008D5F5E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A577D0BD2590FAB5008D5F5E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		A577D0BF2590FAD7008D5F5E /* libtt-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libtt-ios.a"; path = "../../dist/libtt-ios.a"; sourceTree = "<group>"; };
+		A577D0C72590FD7C008D5F5E /* barrage */ = {isa = PBXFileReference; lastKnownFileType = folder; name = barrage; path = ../../dist/barrage; sourceTree = "<group>"; };
+		A577D0CA2590FD90008D5F5E /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sounds; path = ../../dist/sounds; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A577D0842590F610008D5F5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A577D0C02590FAD7008D5F5E /* libtt-ios.a in Frameworks */,
+				A577D0BE2590FAB5008D5F5E /* AudioToolbox.framework in Frameworks */,
+				A577D0BC2590FAAD008D5F5E /* AVFoundation.framework in Frameworks */,
+				A577D0BA2590FAA3008D5F5E /* CoreBluetooth.framework in Frameworks */,
+				A577D0B82590FA9B008D5F5E /* CoreGraphics.framework in Frameworks */,
+				A577D0B62590FA94008D5F5E /* CoreMotion.framework in Frameworks */,
+				A577D0B42590FA8C008D5F5E /* CoreServices.framework in Frameworks */,
+				A577D0B22590FA83008D5F5E /* Foundation.framework in Frameworks */,
+				A577D0B02590FA7A008D5F5E /* GameController.framework in Frameworks */,
+				A577D0AE2590FA6F008D5F5E /* Metal.framework in Frameworks */,
+				A577D0AC2590FA68008D5F5E /* OpenGLES.framework in Frameworks */,
+				A577D0AA2590FA61008D5F5E /* QuartzCore.framework in Frameworks */,
+				A577D0A82590FA58008D5F5E /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A577D07E2590F60F008D5F5E = {
+			isa = PBXGroup;
+			children = (
+				A577D0CA2590FD90008D5F5E /* sounds */,
+				A577D0C72590FD7C008D5F5E /* barrage */,
+				A577D0892590F610008D5F5E /* tt */,
+				A577D0882590F610008D5F5E /* Products */,
+				A577D0A62590FA58008D5F5E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A577D0882590F610008D5F5E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A577D0872590F610008D5F5E /* tt.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A577D0892590F610008D5F5E /* tt */ = {
+			isa = PBXGroup;
+			children = (
+				A577D0962590F611008D5F5E /* Assets.xcassets */,
+				A577D09B2590F611008D5F5E /* Info.plist */,
+				A577D09C2590F611008D5F5E /* main.m */,
+			);
+			path = tt;
+			sourceTree = "<group>";
+		};
+		A577D0A62590FA58008D5F5E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A577D0BF2590FAD7008D5F5E /* libtt-ios.a */,
+				A577D0BD2590FAB5008D5F5E /* AudioToolbox.framework */,
+				A577D0BB2590FAAD008D5F5E /* AVFoundation.framework */,
+				A577D0B92590FAA3008D5F5E /* CoreBluetooth.framework */,
+				A577D0B72590FA9B008D5F5E /* CoreGraphics.framework */,
+				A577D0B52590FA94008D5F5E /* CoreMotion.framework */,
+				A577D0B32590FA8C008D5F5E /* CoreServices.framework */,
+				A577D0B12590FA83008D5F5E /* Foundation.framework */,
+				A577D0AF2590FA7A008D5F5E /* GameController.framework */,
+				A577D0AD2590FA6F008D5F5E /* Metal.framework */,
+				A577D0AB2590FA68008D5F5E /* OpenGLES.framework */,
+				A577D0A92590FA61008D5F5E /* QuartzCore.framework */,
+				A577D0A72590FA58008D5F5E /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A577D0862590F610008D5F5E /* tt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A577D0A02590F611008D5F5E /* Build configuration list for PBXNativeTarget "tt" */;
+			buildPhases = (
+				A577D0832590F610008D5F5E /* Sources */,
+				A577D0842590F610008D5F5E /* Frameworks */,
+				A577D0852590F610008D5F5E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tt;
+			productName = tt;
+			productReference = A577D0872590F610008D5F5E /* tt.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A577D07F2590F610008D5F5E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1230;
+				TargetAttributes = {
+					A577D0862590F610008D5F5E = {
+						CreatedOnToolsVersion = 12.3;
+					};
+				};
+			};
+			buildConfigurationList = A577D0822590F610008D5F5E /* Build configuration list for PBXProject "tt" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A577D07E2590F60F008D5F5E;
+			productRefGroup = A577D0882590F610008D5F5E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A577D0862590F610008D5F5E /* tt */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A577D0852590F610008D5F5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A577D0CB2590FD90008D5F5E /* sounds in Resources */,
+				A577D0C82590FD7C008D5F5E /* barrage in Resources */,
+				A577D0972590F611008D5F5E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A577D0832590F610008D5F5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A577D09D2590F611008D5F5E /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A577D09E2590F611008D5F5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "../../ios-libs/SDL/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LIBRARY_SEARCH_PATHS = ../../dist;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lc++";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A577D09F2590F611008D5F5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "../../ios-libs/SDL/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LIBRARY_SEARCH_PATHS = ../../dist;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-lc++";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A577D0A12590F611008D5F5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = tt/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.tt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A577D0A22590F611008D5F5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = tt/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.tt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A577D0822590F610008D5F5E /* Build configuration list for PBXProject "tt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A577D09E2590F611008D5F5E /* Debug */,
+				A577D09F2590F611008D5F5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A577D0A02590F611008D5F5E /* Build configuration list for PBXNativeTarget "tt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A577D0A12590F611008D5F5E /* Debug */,
+				A577D0A22590F611008D5F5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A577D07F2590F610008D5F5E /* Project object */;
+}
