@@ -41,7 +41,28 @@ version(WASM) {
   }
 }
 
-public int main(string[] args) {
+version(IOS) {
+    import std.algorithm : map;
+    import std.array : array;
+
+    alias extern(C) int function(char[][] args) MainFunc;
+    extern (C) int _d_run_main(int argc, char** argv, MainFunc mainFunc);
+
+    extern(C) int ttStartup(int argc, char** argv) {
+        return _d_run_main(argc, argv, &ttMainFunc);
+    }
+
+    extern(C) int ttMainFunc(char[][] args) {
+        return ttMain(args.map!((s) => s.idup).array);
+    }
+
+} else {
+    public int main(string[] args) {
+        return ttMain(args);
+    }
+}
+
+private int ttMain(string[] args) {
   screen = new Screen;
   pad = new RecordablePad(new InputBackendImpl());
   gameManager = new GameManager;
