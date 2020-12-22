@@ -12,6 +12,15 @@ else version(WASM)
     version = staticGL;
 }
 
+version(WASM)
+{
+    version = GL_ES;
+}
+else version(IOS)
+{
+    version = GL_ES;
+}
+
 import abagames.util.conv;
 import abagames.util.math;
 import abagames.util.vector;
@@ -525,7 +534,7 @@ version(GL_Batching) {
 public:
   
   static void init() {
-    version(WASM) {
+    version(GL_ES) {
       program = compileProgram(
         `
           precision mediump float;
