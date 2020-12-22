@@ -80,6 +80,10 @@ version(GL_32) {
       writeln("OpenGL Status: ", glStatus);
     }
 
+    version(IOS) {
+        SDL_GetWindowSize(window, &width, &height);
+    }
+
     GL.init();
     GL.viewport(0, 0, width, height);
     GL.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
