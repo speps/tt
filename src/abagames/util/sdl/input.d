@@ -169,6 +169,11 @@ version(InputBackendSDLTouch) {
         BUTTON_SIZE,
         BUTTON_SIZE);
 
+      immutable EXIT_BUTTON_RECT = ButtonRect(
+        20.0, 20.0, 30.0, 30.0);
+
+      enum EXIT_BUTTON_BIT = 1024;
+
       immutable BUTTONS = [
           Button(LEFT_WEDGE_RECT, Input.Dir.LEFT),
           Button(UP_WEDGE_RECT, Input.Dir.UP),
@@ -176,6 +181,7 @@ version(InputBackendSDLTouch) {
           Button(DOWN_WEDGE_RECT, Input.Dir.DOWN),
           Button(A_BUTTON_RECT, Input.Button.A),
           Button(B_BUTTON_RECT, Input.Button.B),
+          Button(EXIT_BUTTON_RECT, EXIT_BUTTON_BIT),
       ];
     }
 
@@ -215,7 +221,7 @@ version(InputBackendSDLTouch) {
     }
 
     public override bool getExitState() {
-        return false;
+        return (state & EXIT_BUTTON_BIT) != 0;
     }
 
     public override bool getPauseState() {

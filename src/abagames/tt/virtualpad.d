@@ -35,6 +35,7 @@ public class VirtualPad {
 
       drawA();
       drawB();
+      drawExit();
   
       GL.lineWidth(1);
       GL.popMatrix();
@@ -105,6 +106,18 @@ public class VirtualPad {
       GL.vertex(-0.5,   0.0, 0);
       GL.vertex(-0.5,   0.0, 0);
       GL.vertex( 0.5,   0.5, 0);
+      GL.vertex(-0.5,   0.5, 0);
+      GL.end();
+      GL.popMatrix();
+    }
+  
+    void drawExit() {
+      GL.pushMatrix();
+      scaling(Backend.EXIT_BUTTON_RECT);
+      GL.begin(GL.LINES);
+      GL.vertex(-0.5,  -0.5, 0);
+      GL.vertex( 0.5,   0.5, 0);
+      GL.vertex( 0.5,  -0.5, 0);
       GL.vertex(-0.5,   0.5, 0);
       GL.end();
       GL.popMatrix();
