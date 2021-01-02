@@ -9,7 +9,7 @@ git submodule update
 cat >> ${LIBS_DIR}/bindbc-sdl/dub.sdl <<EOS
 configuration "staticBCwithMixer" {
     dflags "-betterC"
-    versions "BindSDL_Static" "SDL_Mixer"
+    versions "BindSDL_Static" "SDL_2012" "SDL_Mixer"
     excludedSourceFiles "source/bindbc/sdl/dynload.d"
 }
 EOS

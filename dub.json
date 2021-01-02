@@ -85,9 +85,10 @@
         "BindBC",
         "GL_32",
         "GL_Batching",
+        "SDL_2012",
         "SDL_Mixer",
         "InputBackendSDLTouch",
-	    "BindGL_Static"
+	"BindGL_Static"
       ],
       "subConfigurations": {
         "bindbc-sdl": "staticBC"

@@ -101,32 +101,90 @@ version(InputBackendWASM) {
 
 version(InputBackendSDLTouch) {
   public class InputBackendSDLTouch : InputBackend {
+    struct ButtonRect {
+        float x;
+        float y;
+        float width;
+        float height;
+
+        bool isIn(float positionX, float positionY) const {
+            return (x <= positionX && positionX < x + width)
+                && (y <= positionY && positionY < y + height);
+        }
+    }
+
+    struct Button {
+        ButtonRect rect;
+        int state;
+    }
+  
+    static {
+      immutable WEDGES_POSITION_X = 0.0;
+      immutable WEDGES_POSITION_Y = 0.0;
+      immutable WEDGE_SIZE = 40.0;
+    
+      immutable LEFT_WEDGE_RECT = ButtonRect(
+        WEDGES_POSITION_X,
+        WEDGES_POSITION_Y + WEDGE_SIZE,
+        WEDGE_SIZE,
+        WEDGE_SIZE);
+    
+      immutable RIGHT_WEDGE_RECT = ButtonRect(
+        WEDGES_POSITION_X + WEDGE_SIZE * 2.0,
+        WEDGES_POSITION_Y + WEDGE_SIZE,
+        WEDGE_SIZE,
+        WEDGE_SIZE);
+    
+      immutable UP_WEDGE_RECT = ButtonRect(
+        WEDGES_POSITION_X + WEDGE_SIZE,
+        WEDGES_POSITION_Y,
+        WEDGE_SIZE,
+        WEDGE_SIZE);
+    
+      immutable DOWN_WEDGE_RECT = ButtonRect(
+        WEDGES_POSITION_X + WEDGE_SIZE,
+        WEDGES_POSITION_Y + WEDGE_SIZE * 2.0,
+        WEDGE_SIZE,
+        WEDGE_SIZE);
+
+      immutable BUTTONS = [
+          Button(LEFT_WEDGE_RECT, Input.Dir.LEFT),
+          Button(UP_WEDGE_RECT, Input.Dir.UP),
+          Button(RIGHT_WEDGE_RECT, Input.Dir.RIGHT),
+          Button(DOWN_WEDGE_RECT, Input.Dir.DOWN),
+      ];
+    }
+
     uint state = 0;
 
     public override void update() {
+        auto window = SDL_GL_GetCurrentWindow();
+        if (!window) return;
+        int width;
+        int height;
+        SDL_GL_GetDrawableSize(window, &width, &height);
+
         state = 0;
         foreach (i; 0 .. SDL_GetNumTouchDevices()) {
             immutable touchID = SDL_GetTouchDevice(i);
             foreach (f; 0 .. SDL_GetNumTouchFingers(touchID)) {
                 const finger = SDL_GetTouchFinger(touchID, f);
                 if (!finger) continue;
-                state |= positionToButton(finger.x, finger.y);
+                state |= positionToButton(finger.x, finger.y, width, height);
             }
         }
     }
 
-    private static int positionToButton(float x, float y) {
-        if (x < 0.2) {
-            if (y < 0.2) return Input.Dir.UP;
-            if (0.2 <= y && y < 0.4) return Input.Dir.LEFT;
-            if (0.4 <= y && y < 0.6) return Input.Dir.RIGHT;
-            if (0.6 <= y && y < 0.8) return Input.Dir.DOWN;
-        } else if (0.2 <= x && x < 0.4) {
-            if (y < 0.5) return Input.Button.A;
-            if (0.5 <= y) return Input.Button.B;
+    private static int positionToButton(float x, float y, int width, int height) {
+        immutable positionX = width * x;
+        immutable positionY = height * y;
+        int state = 0;
+        foreach (button; BUTTONS) {
+            if (button.rect.isIn(positionX, positionY)) {
+                state |= button.state;
+            }
         }
-
-        return 0;
+        return state;
     }
 
     public override int getDirState() {
