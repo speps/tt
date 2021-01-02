@@ -35,6 +35,7 @@ public class VirtualPad {
 
       drawA();
       drawB();
+      drawPause();
   
       GL.lineWidth(1);
       GL.popMatrix();
@@ -107,6 +108,29 @@ public class VirtualPad {
       GL.vertex( 0.5,   0.5, 0);
       GL.vertex(-0.5,   0.5, 0);
       GL.end();
+      GL.popMatrix();
+    }
+  
+    void drawPause() {
+      GL.pushMatrix();
+      scaling(Backend.PAUSE_BUTTON_RECT);
+      if (pad.getPauseState()) {
+        GL.begin(GL.TRIANGLES);
+        GL.vertex(-0.5,  -0.5, 0);
+        GL.vertex( 0.5,  -0.5, 0);
+        GL.vertex( 0.5,   0.5, 0);
+        GL.vertex(-0.5,  -0.5, 0);
+        GL.vertex( 0.5,   0.5, 0);
+        GL.vertex(-0.5,   0.5, 0);
+        GL.end();
+      } else {
+        GL.begin(GL.LINE_LOOP);
+        GL.vertex(-0.5,  -0.5, 0);
+        GL.vertex( 0.5,  -0.5, 0);
+        GL.vertex( 0.5,   0.5, 0);
+        GL.vertex(-0.5,   0.5, 0);
+        GL.end();
+      }
       GL.popMatrix();
     }
   
