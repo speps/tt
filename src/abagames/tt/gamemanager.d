@@ -110,7 +110,7 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
     inGameState.seed = rand.nextInt32();
     ship.setGameState(inGameState);
 
-    virtualPad = new VirtualPad();
+    virtualPad = new VirtualPad(pad);
   }
 
   public override void start() {

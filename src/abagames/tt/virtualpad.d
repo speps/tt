@@ -8,13 +8,20 @@
 module abagames.tt.virtualpad;
 
 import abagames.util.gl : GL;
+import abagames.util.sdl.pad : Pad;
 import abagames.tt.screen : Screen;
 
 public class VirtualPad {
 
+  private Pad pad;
+
+  this(Pad pad) {
+    this.pad = pad;
+  }
+
   version(InputBackendSDLTouch) {
 
-    import abagames.util.sdl.input : Input = InputBackendSDLTouch;
+    import abagames.util.sdl.input : Input, Backend = InputBackendSDLTouch;
   
     void draw() {
       GL.pushMatrix();
@@ -29,11 +36,13 @@ public class VirtualPad {
       GL.lineWidth(1);
       GL.popMatrix();
     }
+
+  private:
   
     void drawLeftWedge() {
       GL.pushMatrix();
-      scaling(Input.LEFT_WEDGE_RECT);
-      GL.begin(GL.LINE_LOOP);
+      scaling(Backend.LEFT_WEDGE_RECT);
+      GL.begin(isDirPressing(Input.Dir.LEFT) ? GL.TRIANGLES : GL.LINE_LOOP);
       GL.vertex( 0.5,  0.5, 0);
       GL.vertex(-0.5,  0.0, 0);
       GL.vertex( 0.5, -0.5, 0);
@@ -43,8 +52,8 @@ public class VirtualPad {
   
     void drawUpWedge() {
       GL.pushMatrix();
-      GL.begin(GL.LINE_LOOP);
-      scaling(Input.UP_WEDGE_RECT);
+      GL.begin(isDirPressing(Input.Dir.UP) ? GL.TRIANGLES : GL.LINE_LOOP);
+      scaling(Backend.UP_WEDGE_RECT);
       GL.vertex( 0.0,  -0.5, 0);
       GL.vertex( 0.5,   0.5, 0); GL.vertex(-0.5,   0.5, 0);
       GL.end();
@@ -53,8 +62,8 @@ public class VirtualPad {
   
     void drawRightWedge() {
       GL.pushMatrix();
-      scaling(Input.RIGHT_WEDGE_RECT);
-      GL.begin(GL.LINE_LOOP);
+      scaling(Backend.RIGHT_WEDGE_RECT);
+      GL.begin(isDirPressing(Input.Dir.RIGHT) ? GL.TRIANGLES : GL.LINE_LOOP);
       GL.vertex(-0.5,  0.5, 0);
       GL.vertex( 0.5,  0.0, 0);
       GL.vertex(-0.5, -0.5, 0);
@@ -64,8 +73,8 @@ public class VirtualPad {
   
     void drawDownWedge() {
       GL.pushMatrix();
-      scaling(Input.DOWN_WEDGE_RECT);
-      GL.begin(GL.LINE_LOOP);
+      scaling(Backend.DOWN_WEDGE_RECT);
+      GL.begin(isDirPressing(Input.Dir.DOWN) ? GL.TRIANGLES : GL.LINE_LOOP);
       GL.vertex(-0.5,  -0.5, 0);
       GL.vertex( 0.5,  -0.5, 0);
       GL.vertex( 0.0,   0.5, 0);
@@ -73,9 +82,13 @@ public class VirtualPad {
       GL.popMatrix();
     }
   
-    void scaling(ref const(Input.ButtonRect) rect) {
+    void scaling(ref const(Backend.ButtonRect) rect) {
         GL.translate(rect.x + rect.width / 2.0, rect.y + rect.height / 2.0, 0);
         GL.scale(rect.width, rect.height, 1.0);
+    }
+
+    bool isDirPressing(Input.Dir dir) {
+        return (pad.getDirState() & dir) != 0;
     }
   
   } else {
