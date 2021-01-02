@@ -98,3 +98,54 @@ version(InputBackendWASM) {
 
   alias InputBackendImpl = InputBackendWASM;
 }
+
+version(InputBackendSDLTouch) {
+  public class InputBackendSDLTouch : InputBackend {
+    uint state = 0;
+
+    public override void update() {
+        state = 0;
+        foreach (i; 0 .. SDL_GetNumTouchDevices()) {
+            immutable touchID = SDL_GetTouchDevice(i);
+            foreach (f; 0 .. SDL_GetNumTouchFingers(touchID)) {
+                const finger = SDL_GetTouchFinger(touchID, f);
+                if (!finger) continue;
+                state |= positionToButton(finger.x, finger.y);
+            }
+        }
+    }
+
+    private static int positionToButton(float x, float y) {
+        if (x < 0.2) {
+            if (y < 0.2) return Input.Dir.UP;
+            if (0.2 <= y && y < 0.4) return Input.Dir.LEFT;
+            if (0.4 <= y && y < 0.6) return Input.Dir.RIGHT;
+            if (0.6 <= y && y < 0.8) return Input.Dir.DOWN;
+        } else if (0.2 <= x && x < 0.4) {
+            if (y < 0.5) return Input.Button.A;
+            if (0.5 <= y) return Input.Button.B;
+        }
+
+        return 0;
+    }
+
+    public override int getDirState() {
+        return state & 0xF;
+    }
+
+    public override int getButtonState() {
+        return state & 0x30;
+    }
+
+    public override bool getExitState() {
+        return false;
+    }
+
+    public override bool getPauseState() {
+        return false;
+    }
+  }
+
+  alias InputBackendImpl = InputBackendSDLTouch;
+}
+
