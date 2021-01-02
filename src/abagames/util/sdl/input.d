@@ -123,9 +123,9 @@ version(InputBackendSDLTouch) {
       immutable SCREEN_WIDTH = 640;
       immutable SCREEN_HEIGHT = 480;
 
-      immutable WEDGES_POSITION_X = 0.0;
-      immutable WEDGES_POSITION_Y = 0.0;
-      immutable WEDGE_SIZE = 40.0;
+      immutable WEDGES_POSITION_X = 15.0;
+      immutable WEDGES_POSITION_Y = 300.0;
+      immutable WEDGE_SIZE = 50.0;
     
       immutable LEFT_WEDGE_RECT = ButtonRect(
         WEDGES_POSITION_X,
@@ -151,11 +151,31 @@ version(InputBackendSDLTouch) {
         WEDGE_SIZE,
         WEDGE_SIZE);
 
+      immutable BUTTON_SIZE = 60.0;
+      immutable A_BUTTON_POSITION_X = 580.0;
+      immutable A_BUTTON_POSITION_Y = 300.0;
+      immutable B_BUTTON_POSITION_X = 580.0;
+      immutable B_BUTTON_POSITION_Y = A_BUTTON_POSITION_Y + BUTTON_SIZE + 20.0;
+
+      immutable A_BUTTON_RECT = ButtonRect(
+        A_BUTTON_POSITION_X,
+        A_BUTTON_POSITION_Y,
+        BUTTON_SIZE,
+        BUTTON_SIZE);
+
+      immutable B_BUTTON_RECT = ButtonRect(
+        B_BUTTON_POSITION_X,
+        B_BUTTON_POSITION_Y,
+        BUTTON_SIZE,
+        BUTTON_SIZE);
+
       immutable BUTTONS = [
           Button(LEFT_WEDGE_RECT, Input.Dir.LEFT),
           Button(UP_WEDGE_RECT, Input.Dir.UP),
           Button(RIGHT_WEDGE_RECT, Input.Dir.RIGHT),
           Button(DOWN_WEDGE_RECT, Input.Dir.DOWN),
+          Button(A_BUTTON_RECT, Input.Button.A),
+          Button(B_BUTTON_RECT, Input.Button.B),
       ];
     }
 

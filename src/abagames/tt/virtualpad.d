@@ -32,6 +32,9 @@ public class VirtualPad {
       drawRightWedge();
       drawUpWedge();
       drawDownWedge();
+
+      drawA();
+      drawB();
   
       GL.lineWidth(1);
       GL.popMatrix();
@@ -81,6 +84,31 @@ public class VirtualPad {
       GL.end();
       GL.popMatrix();
     }
+
+    void drawA() {
+      GL.pushMatrix();
+      scaling(Backend.A_BUTTON_RECT);
+      GL.begin(isButtonPressing(Input.Button.A) ? GL.TRIANGLES : GL.LINE_LOOP);
+      GL.vertex(-0.5,  -0.5, 0);
+      GL.vertex( 0.5,   0.5, 0);
+      GL.vertex(-0.5,   0.5, 0);
+      GL.end();
+      GL.popMatrix();
+    }
+  
+    void drawB() {
+      GL.pushMatrix();
+      scaling(Backend.B_BUTTON_RECT);
+      GL.begin(isButtonPressing(Input.Button.B) ? GL.TRIANGLES : GL.LINE_LOOP);
+      GL.vertex(-0.5,  -0.5, 0);
+      GL.vertex( 0.5,   0.0, 0);
+      GL.vertex(-0.5,   0.0, 0);
+      GL.vertex(-0.5,   0.0, 0);
+      GL.vertex( 0.5,   0.5, 0);
+      GL.vertex(-0.5,   0.5, 0);
+      GL.end();
+      GL.popMatrix();
+    }
   
     void scaling(ref const(Backend.ButtonRect) rect) {
         GL.translate(rect.x + rect.width / 2.0, rect.y + rect.height / 2.0, 0);
@@ -89,6 +117,10 @@ public class VirtualPad {
 
     bool isDirPressing(Input.Dir dir) {
         return (pad.getDirState() & dir) != 0;
+    }
+
+    bool isButtonPressing(Input.Button button) {
+        return (pad.getButtonState() & button) != 0;
     }
   
   } else {
