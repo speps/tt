@@ -119,6 +119,10 @@ version(InputBackendSDLTouch) {
     }
   
     static {
+      // ortho screen is fixed size.
+      immutable SCREEN_WIDTH = 640;
+      immutable SCREEN_HEIGHT = 480;
+
       immutable WEDGES_POSITION_X = 0.0;
       immutable WEDGES_POSITION_Y = 0.0;
       immutable WEDGE_SIZE = 40.0;
@@ -158,19 +162,14 @@ version(InputBackendSDLTouch) {
     uint state = 0;
 
     public override void update() {
-        auto window = SDL_GL_GetCurrentWindow();
-        if (!window) return;
-        int width;
-        int height;
-        SDL_GL_GetDrawableSize(window, &width, &height);
-
         state = 0;
         foreach (i; 0 .. SDL_GetNumTouchDevices()) {
             immutable touchID = SDL_GetTouchDevice(i);
             foreach (f; 0 .. SDL_GetNumTouchFingers(touchID)) {
                 const finger = SDL_GetTouchFinger(touchID, f);
                 if (!finger) continue;
-                state |= positionToButton(finger.x, finger.y, width, height);
+                state |= positionToButton(
+                  finger.x, finger.y, SCREEN_WIDTH, SCREEN_HEIGHT);
             }
         }
     }
