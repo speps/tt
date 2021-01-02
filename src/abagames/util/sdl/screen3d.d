@@ -10,7 +10,9 @@ version(BindBC) {
   import std.stdio;
   import std.string;
   import bindbc.sdl;
-  import bindbc.opengl;
+
+  version(BindGL_Static) { }
+  else { import bindbc.opengl; }
 }
 import abagames.util.gl;
 import abagames.util.vector;
@@ -39,9 +41,13 @@ public class Screen3D: Screen {
   protected abstract void init();
 
   public void initWindow() {
-    if (loadSDL() != sdlSupport) {
-      throw new SDLInitFailedException("Unable to load SDL");
+    version (BindSDL_Static) {}
+    else {
+      if (loadSDL() != sdlSupport) {
+        throw new SDLInitFailedException("Unable to load SDL");
+      }
     }
+
     // Initialize SDL.
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
       throw new SDLInitFailedException("Unable to initialize SDL: " ~ to!string(SDL_GetError()));
@@ -64,11 +70,20 @@ version(GL_32) {
       throw new SDLInitFailedException("Unable to create SDL screen: " ~ to!string(SDL_GetError()));
     }
     context = SDL_GL_CreateContext(window);
-    auto glStatus = loadOpenGL();
-    if (!isOpenGLLoaded) {
-      throw new SDLInitFailedException("Unable to load OpenGL");
+
+    version(BindGL_Static) {}
+    else {
+      auto glStatus = loadOpenGL();
+      if (!isOpenGLLoaded) {
+        throw new SDLInitFailedException("Unable to load OpenGL");
+      }
+      writeln("OpenGL Status: ", glStatus);
     }
-    writeln("OpenGL Status: ", glStatus);
+
+    version(IOS) {
+        SDL_GetWindowSize(window, &width, &height);
+    }
+
     GL.init();
     GL.viewport(0, 0, width, height);
     GL.clearColor(0.0f, 0.0f, 0.0f, 0.0f);

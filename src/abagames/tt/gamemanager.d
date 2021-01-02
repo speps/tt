@@ -32,6 +32,8 @@ import abagames.tt.title;
 import abagames.tt.soundmanager;
 import abagames.tt.replay;
 
+import abagames.tt.virtualpad : VirtualPad;
+
 /**
  * Manage the game state and actor pools.
  */
@@ -55,6 +57,7 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
   TitleState titleState;
   InGameState inGameState;
   bool escPressed;
+  VirtualPad virtualPad;
 
   public override void init() {
     BarrageManager.load();
@@ -106,6 +109,8 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
                                 pad, titleManager, passedEnemies, inGameState);
     inGameState.seed = rand.nextInt32();
     ship.setGameState(inGameState);
+
+    virtualPad = new VirtualPad(pad);
   }
 
   public override void start() {
@@ -181,6 +186,7 @@ public class GameManager: abagames.util.sdl.gamemanager.GameManager {
     GL.popMatrix();
     screen.viewOrthoFixed();
     state.drawFront();
+    virtualPad.draw();
     screen.viewPerspective();
   }
 }

@@ -73,6 +73,26 @@
         "bindbc-opengl": "dynamicBC",
         "bindbc-sdl": "dynamicBC"
       }
+    },
+    {
+      "name": "iOS",
+      "targetType": "staticLibrary",
+      "dependencies": {
+        "bindbc-sdl": "~>0.19.0"
+      },
+      "versions": [
+        "IOS",
+        "BindBC",
+        "GL_32",
+        "GL_Batching",
+        "SDL_2012",
+        "SDL_Mixer",
+        "InputBackendSDLTouch",
+	"BindGL_Static"
+      ],
+      "subConfigurations": {
+        "bindbc-sdl": "staticBC"
+      }
     }
   ]
 }
