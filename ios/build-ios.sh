@@ -4,7 +4,7 @@ cd `dirname $0`
 
 IOS_DIR=`pwd`
 LIBS_DIR=${IOS_DIR}/libs
-BUILD_DIR=${IOS_DIR}/build
+BUILD_DIR=${IOS_DIR}/project/build
 
 cd ../
 
