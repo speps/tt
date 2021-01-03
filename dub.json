@@ -15,8 +15,8 @@
     {
       "name": "wasm_debug",
       "targetPath": "web",
-      "sourceFiles": [
-        "src/**.d"
+      "sourcePaths": [
+        "src"
       ],
       "dependencies": {"runtime": {"path": "runtime"}},
       "dflags": ["-i=.", "-i=std"],
@@ -29,8 +29,8 @@
     {
       "name": "wasm",
       "targetPath": "web",
-      "sourceFiles": [
-        "src/**.d"
+      "sourcePaths": [
+        "src"
       ],
       "dependencies": {"runtime": {"path": "runtime"}},
       "dflags": ["-i=.", "-i=std", "-L=-allow-undefined"],
@@ -43,8 +43,10 @@
     {
       "name": "win32",
       "platforms": ["windows-x86"],
+      "sourcePaths": [
+        "src"
+      ],
       "sourceFiles": [
-        "src/**.d",
         "resource/tt.res"
       ],
       "importPaths": [
@@ -77,6 +79,9 @@
     {
       "name": "iOS",
       "targetType": "staticLibrary",
+      "sourcePaths": [
+        "src"
+      ],
       "dependencies": {
         "bindbc-sdl": "~>0.19.0"
       },
