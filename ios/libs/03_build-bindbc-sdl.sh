@@ -15,10 +15,10 @@ configuration "staticBCwithMixer" {
 EOS
 
 cd ${LIBS_DIR}/bindbc-sdl
-dub build --arch=arm64-apple-ios --config=staticBCwithMixer
+dub build --compiler=ldc2 --arch=arm64-apple-ios --config=staticBCwithMixer
 mv lib/libBindBC_SDL.a ${LIBS_DIR}/libBindBC_SDL-arm64.a
 
-dub build --arch=x86_64-apple-ios --config=staticBCwithMixer
+dub build --compiler=ldc2 --arch=x86_64-apple-ios --config=staticBCwithMixer
 mv lib/libBindBC_SDL.a ${LIBS_DIR}/libBindBC_SDL-x86_64.a
 
 cd ${LIBS_DIR}/bindbc-sdl && git reset --hard

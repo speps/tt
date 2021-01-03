@@ -10,10 +10,10 @@ cd ../
 
 DIST_DIR=`pwd`/dist
 
-dub build --arch=arm64-apple-ios --config=iOS || exit $?
+dub build --compiler=ldc2 --arch=arm64-apple-ios --config=iOS || exit $?
 libtool -static -o ${LIBS_DIR}/libtt-ios-arm64.a ${DIST_DIR}/libtt.a ${LIBS_DIR}/*-arm64.a &> /dev/null || exit $?
 
-dub build --arch=x86_64-apple-ios --config=iOS || exit $?
+dub build --compiler=ldc2 --arch=x86_64-apple-ios --config=iOS || exit $?
 libtool -static -o ${LIBS_DIR}/libtt-ios-x86_64.a ${DIST_DIR}/libtt.a ${LIBS_DIR}/*-x86_64.a &> /dev/null || exit $?
 
 xcrun -sdk iphoneos lipo -create \
