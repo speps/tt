@@ -77,6 +77,42 @@
       }
     },
     {
+      "name": "win64",
+      "platforms": ["windows-x86_64"],
+      "sourcePaths": [
+        "src"
+      ],
+      "sourceFiles": [
+        "resource/tt.res"
+      ],
+      "importPaths": [
+        "lib"
+      ],
+      "copyFiles": [
+        "lib/SDL2-2.0.12/lib/x64/SDL2.dll",
+        "lib/SDL2-2.0.12/README-SDL.txt",
+        "lib/SDL2_mixer-2.0.4/lib/x64/SDL2_mixer.dll",
+        "lib/SDL2_mixer-2.0.4/lib/x64/libvorbis-0.dll",
+        "lib/SDL2_mixer-2.0.4/lib/x64/libvorbisfile-3.dll",
+        "lib/SDL2_mixer-2.0.4/lib/x64/libogg-0.dll"
+      ],
+      "dependencies": {
+        "bindbc-opengl": "~>0.13.0",
+        "bindbc-sdl": "~>0.19.0"
+      },
+      "versions": [
+        "BindBC",
+        "GL_32",
+        "GL_Batching",
+        "SDL_Mixer",
+        "InputBackendSDL"
+      ],
+      "subConfigurations": {
+        "bindbc-opengl": "dynamicBC",
+        "bindbc-sdl": "dynamicBC"
+      }
+    },
+    {
       "name": "iOS",
       "targetType": "staticLibrary",
       "sourcePaths": [
