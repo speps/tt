@@ -98,3 +98,137 @@ version(InputBackendWASM) {
 
   alias InputBackendImpl = InputBackendWASM;
 }
+
+version(InputBackendSDLTouch) {
+  public class InputBackendSDLTouch : InputBackend {
+    struct ButtonRect {
+        float x;
+        float y;
+        float width;
+        float height;
+
+        bool isIn(float positionX, float positionY) const {
+            return (x <= positionX && positionX < x + width)
+                && (y <= positionY && positionY < y + height);
+        }
+    }
+
+    struct Button {
+        ButtonRect rect;
+        int state;
+    }
+  
+    static {
+      // ortho screen is fixed size.
+      immutable SCREEN_WIDTH = 640;
+      immutable SCREEN_HEIGHT = 480;
+
+      immutable WEDGES_POSITION_X = 15.0;
+      immutable WEDGES_POSITION_Y = 300.0;
+      immutable WEDGE_SIZE = 50.0;
+    
+      immutable LEFT_WEDGE_RECT = ButtonRect(
+        WEDGES_POSITION_X,
+        WEDGES_POSITION_Y + WEDGE_SIZE,
+        WEDGE_SIZE,
+        WEDGE_SIZE);
+    
+      immutable RIGHT_WEDGE_RECT = ButtonRect(
+        WEDGES_POSITION_X + WEDGE_SIZE * 2.0,
+        WEDGES_POSITION_Y + WEDGE_SIZE,
+        WEDGE_SIZE,
+        WEDGE_SIZE);
+    
+      immutable UP_WEDGE_RECT = ButtonRect(
+        WEDGES_POSITION_X + WEDGE_SIZE,
+        WEDGES_POSITION_Y,
+        WEDGE_SIZE,
+        WEDGE_SIZE);
+    
+      immutable DOWN_WEDGE_RECT = ButtonRect(
+        WEDGES_POSITION_X + WEDGE_SIZE,
+        WEDGES_POSITION_Y + WEDGE_SIZE * 2.0,
+        WEDGE_SIZE,
+        WEDGE_SIZE);
+
+      immutable BUTTON_SIZE = 60.0;
+      immutable A_BUTTON_POSITION_X = 580.0;
+      immutable A_BUTTON_POSITION_Y = 300.0;
+      immutable B_BUTTON_POSITION_X = 580.0;
+      immutable B_BUTTON_POSITION_Y = A_BUTTON_POSITION_Y + BUTTON_SIZE + 20.0;
+
+      immutable A_BUTTON_RECT = ButtonRect(
+        A_BUTTON_POSITION_X,
+        A_BUTTON_POSITION_Y,
+        BUTTON_SIZE,
+        BUTTON_SIZE);
+
+      immutable B_BUTTON_RECT = ButtonRect(
+        B_BUTTON_POSITION_X,
+        B_BUTTON_POSITION_Y,
+        BUTTON_SIZE,
+        BUTTON_SIZE);
+
+      immutable PAUSE_BUTTON_RECT = ButtonRect(
+        20.0, 20.0, 30.0, 30.0);
+
+      enum PAUSE_BUTTON_BIT = 1024;
+
+      immutable BUTTONS = [
+          Button(LEFT_WEDGE_RECT, Input.Dir.LEFT),
+          Button(UP_WEDGE_RECT, Input.Dir.UP),
+          Button(RIGHT_WEDGE_RECT, Input.Dir.RIGHT),
+          Button(DOWN_WEDGE_RECT, Input.Dir.DOWN),
+          Button(A_BUTTON_RECT, Input.Button.A),
+          Button(B_BUTTON_RECT, Input.Button.B),
+          Button(PAUSE_BUTTON_RECT, PAUSE_BUTTON_BIT),
+      ];
+    }
+
+    uint state = 0;
+
+    public override void update() {
+        state = 0;
+        foreach (i; 0 .. SDL_GetNumTouchDevices()) {
+            immutable touchID = SDL_GetTouchDevice(i);
+            foreach (f; 0 .. SDL_GetNumTouchFingers(touchID)) {
+                const finger = SDL_GetTouchFinger(touchID, f);
+                if (!finger) continue;
+                state |= positionToButton(
+                  finger.x, finger.y, SCREEN_WIDTH, SCREEN_HEIGHT);
+            }
+        }
+    }
+
+    private static int positionToButton(float x, float y, int width, int height) {
+        immutable positionX = width * x;
+        immutable positionY = height * y;
+        int state = 0;
+        foreach (button; BUTTONS) {
+            if (button.rect.isIn(positionX, positionY)) {
+                state |= button.state;
+            }
+        }
+        return state;
+    }
+
+    public override int getDirState() {
+        return state & 0xF;
+    }
+
+    public override int getButtonState() {
+        return state & 0x30;
+    }
+
+    public override bool getExitState() {
+        return false;
+    }
+
+    public override bool getPauseState() {
+        return (state & PAUSE_BUTTON_BIT) != 0;
+    }
+  }
+
+  alias InputBackendImpl = InputBackendSDLTouch;
+}
+

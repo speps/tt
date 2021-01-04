@@ -17,3 +17,6 @@ tt-test-*
 *.obj
 *.lst
 *.sln
+
+.DS_Store
+

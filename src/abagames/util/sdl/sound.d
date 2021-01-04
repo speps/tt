@@ -32,19 +32,29 @@ public class SoundManager {
   public static void init() {
     if (noSound)
       return;
-    if (loadSDL() != sdlSupport) {
-      noSound = true;
-      return;
+
+    version (BindSDL_Static) {}
+    else {
+      if (loadSDL() != sdlSupport) {
+        noSound = true;
+        return;
+      }
     }
+
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
       noSound = true;
       throw new SDLInitFailedException
         ("Unable to initialize SDL_AUDIO: " ~ convString(SDL_GetError()));
     }
-    if (loadSDLMixer() != sdlMixerSupport) {
-      noSound = true;
-      return;
+
+    version (BindSDL_Static) {}
+    else {
+      if (loadSDLMixer() != sdlMixerSupport) {
+        noSound = true;
+        return;
+      }
     }
+
     int audio_rate = 44100;
     Uint16 audio_format = AUDIO_S16;
     int audio_channels = 1;
